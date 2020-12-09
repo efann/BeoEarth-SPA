@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+
+    postgis:
+        build: .
+        container_name: postgis
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASS: ${POSTGRES_PASS}
+            POSTGRES_DBNAME: ${POSTGRES_DBNAME}
+        volumes:
+            - ./geocalc.sql:/docker-entrypoint-initdb.d/geocalc.sql
+        ports:
+            - "5432:5432"
+        restart: always
