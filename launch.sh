@@ -36,6 +36,8 @@ echo "Postgres Database: ${POSTGRES_DBNAME}"
 
 sudo docker stop postgis
 sudo docker rm postgis
+sudo docker stop tomcat
+sudo docker rm tomcat
 
 sudo docker volume prune -f
 
@@ -51,4 +53,13 @@ sudo docker-compose logs -t
 
 popd
 
-sudo docker exec -it postgis bash
+pushd ./server
+
+echo "docker up"
+
+mvn clean install
+sudo docker-compose up -d
+
+popd
+
+sudo docker exec -it tomcat bash
