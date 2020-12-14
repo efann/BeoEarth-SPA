@@ -62,4 +62,4 @@ sudo docker-compose up -d
 
 popd
 
-sudo docker exec -it tomcat bash
+# sudo docker exec -it tomcat bash

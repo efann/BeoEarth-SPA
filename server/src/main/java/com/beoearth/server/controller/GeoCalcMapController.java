@@ -25,7 +25,7 @@ public class GeoCalcMapController
   @RequestMapping(value = "/projections")
   public String getProjections()
   {
-    JsonArray laProjections = new JsonArray();
+    final JsonArray laProjections = new JsonArray();
 
     JsonObject loProjection;
 
@@ -47,7 +47,7 @@ public class GeoCalcMapController
     loProjection.addProperty("url", "https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system");
     laProjections.add(loProjection);
 
-    return (loProjection.toString());
+    return (laProjections.toString());
   }
   // ---------------------------------------------------------------------------------------------------------------------
 
