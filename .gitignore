@@ -17,6 +17,7 @@ target/
 **/.env
 
 ### IntelliJ IDEA ###
+.gradle
 .idea
 *.iws
 *.iml
