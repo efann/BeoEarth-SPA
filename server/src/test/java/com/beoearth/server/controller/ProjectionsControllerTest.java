@@ -10,7 +10,6 @@ package com.beoearth.server.controller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,29 +17,40 @@ import org.springframework.boot.test.context.SpringBootTest;
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
-
 @SpringBootTest
-public class ProjectionsControllerTest
+class ProjectionsControllerTest
 {
-  @Test
-  // ---------------------------------------------------------------------------------------------------------------------
-  public void getProjectionsTest()
-  {
-    ProjectionsController loProjects = new ProjectionsController();
 
-    JsonElement loElement;
+  // ---------------------------------------------------------------------------------------------------------------------
+  @Test
+  void getProjectionsConvert()
+  {
+    final ProjectionsController loProjections = new ProjectionsController();
 
     // By the way, JsonParser.parseString will throw a com.google.gson.JsonSyntaxException on error.
     // From https://stackoverflow.com/questions/36832289/how-to-make-a-junit-test-case-fail-if-there-is-any-exception-in-the-code
     // any exception will cause a test to fail. So below should work.
 
-    loElement = JsonParser.parseString(loProjects.getProjectionsConvert());
-    assert ((loElement != null) && (loElement instanceof JsonArray));
-
-    loElement = JsonParser.parseString(loProjects.getProjectionsOriginal());
+    final JsonElement loElement = JsonParser.parseString(loProjections.getProjectionsConvert());
     assert ((loElement != null) && (loElement instanceof JsonArray));
   }
+
   // ---------------------------------------------------------------------------------------------------------------------
+  @Test
+  void getProjectionsOriginal()
+  {
+    final ProjectionsController loProjections = new ProjectionsController();
+
+    // By the way, JsonParser.parseString will throw a com.google.gson.JsonSyntaxException on error.
+    // From https://stackoverflow.com/questions/36832289/how-to-make-a-junit-test-case-fail-if-there-is-any-exception-in-the-code
+    // any exception will cause a test to fail. So below should work.
+
+    final JsonElement loElement = JsonParser.parseString(loProjections.getProjectionsOriginal());
+    assert ((loElement != null) && (loElement instanceof JsonArray));
+
+  }
+  // ---------------------------------------------------------------------------------------------------------------------
+
 }
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
