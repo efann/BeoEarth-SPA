@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 // ---------------------------------------------------------------------------------------------------------------------
 @RestController
 @SpringBootApplication
-public class Projections
+public class ProjectionsController
 {
   final private JsonObject foOriginalProjection = new JsonObject();
 
   // ---------------------------------------------------------------------------------------------------------------------
-  public Projections()
+  public ProjectionsController()
   {
     this.foOriginalProjection.addProperty("key", "WGS84");
     this.foOriginalProjection.addProperty("projection", 4326);

@@ -1,0 +1,47 @@
+/*
+ * BeoEarth
+ * Copyright(c) 2009-2020, Beowurks
+ * Original Author: Eddie Fann
+ * License: Eclipse Public License - v 2.0 (https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html)
+ *
+ */
+
+package com.beoearth.server.controller;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
+
+@SpringBootTest
+public class ProjectionsControllerTest
+{
+  @Test
+  // ---------------------------------------------------------------------------------------------------------------------
+  public void getProjectionsTest()
+  {
+    ProjectionsController loProjects = new ProjectionsController();
+
+    JsonElement loElement;
+
+    // By the way, JsonParser.parseString will throw a com.google.gson.JsonSyntaxException on error.
+    // From https://stackoverflow.com/questions/36832289/how-to-make-a-junit-test-case-fail-if-there-is-any-exception-in-the-code
+    // any exception will cause a test to fail. So below should work.
+
+    loElement = JsonParser.parseString(loProjects.getProjectionsConvert());
+    assert ((loElement != null) && (loElement instanceof JsonArray));
+
+    loElement = JsonParser.parseString(loProjects.getProjectionsOriginal());
+    assert ((loElement != null) && (loElement instanceof JsonArray));
+  }
+  // ---------------------------------------------------------------------------------------------------------------------
+}
+// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
