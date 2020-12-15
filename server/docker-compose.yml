@@ -1,11 +1,11 @@
 version: "3.8"
 services:
 
-    tomcat:
-        image: library/tomcat:9.0.36-jdk8
-        container_name: tomcat
-        volumes:
-            - ./target/tomcat-server-1.0.0-SNAPSHOT.war:/usr/local/tomcat/webapps/server.war
-        ports:
-            - "8999:8080"
-        restart: always
+  tomcat:
+    image: library/tomcat:9.0.36-jdk8
+    container_name: tomcat
+    volumes:
+      - ./target/tomcat-server-1.0.0-SNAPSHOT.war:/usr/local/tomcat/webapps/server.war
+    ports:
+      - "8999:8080"
+    restart: always

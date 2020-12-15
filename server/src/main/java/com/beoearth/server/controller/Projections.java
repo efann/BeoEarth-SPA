@@ -19,11 +19,21 @@ import org.springframework.web.bind.annotation.RestController;
 // ---------------------------------------------------------------------------------------------------------------------
 @RestController
 @SpringBootApplication
-public class GeoCalcMapController
+public class Projections
 {
+  final private JsonObject foOriginalProjection = new JsonObject();
+
   // ---------------------------------------------------------------------------------------------------------------------
-  @RequestMapping(value = "/projections")
-  public String getProjections()
+  public Projections()
+  {
+    this.foOriginalProjection.addProperty("key", "WGS84");
+    this.foOriginalProjection.addProperty("projection", 4326);
+    this.foOriginalProjection.addProperty("url", "https://en.wikipedia.org/wiki/World_Geodetic_System");
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  @RequestMapping(value = "/projections/convert")
+  public String getProjectionsConvert()
   {
     final JsonArray laProjections = new JsonArray();
 
@@ -35,17 +45,24 @@ public class GeoCalcMapController
     loProjection.addProperty("url", "https://en.wikipedia.org/wiki/North_American_Datum");
     laProjections.add(loProjection);
 
-    loProjection = new JsonObject();
-    loProjection.addProperty("key", "WGS84");
-    loProjection.addProperty("projection", 4326);
-    loProjection.addProperty("url", "https://en.wikipedia.org/wiki/World_Geodetic_System");
-    laProjections.add(loProjection);
+    laProjections.add(this.foOriginalProjection);
 
     loProjection = new JsonObject();
     loProjection.addProperty("key", "UTM");
     loProjection.addProperty("projection", -1);
     loProjection.addProperty("url", "https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system");
     laProjections.add(loProjection);
+
+    return (laProjections.toString());
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  @RequestMapping(value = "/projections/original")
+  public String getProjectionsOriginal()
+  {
+    final JsonArray laProjections = new JsonArray();
+
+    laProjections.add(this.foOriginalProjection);
 
     return (laProjections.toString());
   }
