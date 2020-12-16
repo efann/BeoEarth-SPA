@@ -17,7 +17,7 @@ pushd ./containers/postgresql
 
 POSTGRES_USER=$1
 POSTGRES_PASS=$2
-POSTGRES_DBNAME=$3
+POSTGRES_DBNAME=${POSTGRES_USER}
 ENV_FILE=../config/.env
 
 cp ../config/.env-template "${ENV_FILE}"

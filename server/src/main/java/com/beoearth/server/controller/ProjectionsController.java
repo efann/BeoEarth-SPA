@@ -12,16 +12,19 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
+// Launch path for Swagger UI: http://localhost:8999/server/swagger-ui/
 @RestController
 @SpringBootApplication
+@RequestMapping(value = {"/projections"}, method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 public class ProjectionsController
 {
-  final private JsonObject foOriginalProjection = new JsonObject();
+  private final JsonObject foOriginalProjection = new JsonObject();
 
   // ---------------------------------------------------------------------------------------------------------------------
   public ProjectionsController()
@@ -32,8 +35,8 @@ public class ProjectionsController
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
-  @RequestMapping(value = "/projections/convert")
-  public String getProjectionsConvert()
+  @RequestMapping(value = {"/list-all"}, method = RequestMethod.GET)
+  public String getProjectionsListAll()
   {
     final JsonArray laProjections = new JsonArray();
 
@@ -57,8 +60,8 @@ public class ProjectionsController
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
-  @RequestMapping(value = "/projections/original")
-  public String getProjectionsOriginal()
+  @RequestMapping(value = {"/list-first"}, method = RequestMethod.GET)
+  public String getProjectionsListFirst()
   {
     final JsonArray laProjections = new JsonArray();
 

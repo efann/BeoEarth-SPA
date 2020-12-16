@@ -23,21 +23,21 @@ class ProjectionsControllerTest
 
   // ---------------------------------------------------------------------------------------------------------------------
   @Test
-  void getProjectionsConvert()
+  void getProjectionsListAll()
   {
-    final ProjectionsController loProjections = new ProjectionsController();
+    ProjectionsController loProjections = new ProjectionsController();
 
     // By the way, JsonParser.parseString will throw a com.google.gson.JsonSyntaxException on error.
     // From https://stackoverflow.com/questions/36832289/how-to-make-a-junit-test-case-fail-if-there-is-any-exception-in-the-code
     // any exception will cause a test to fail. So below should work.
 
-    final JsonElement loElement = JsonParser.parseString(loProjections.getProjectionsConvert());
+    JsonElement loElement = JsonParser.parseString(loProjections.getProjectionsListAll());
     assert ((loElement != null) && (loElement instanceof JsonArray));
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
   @Test
-  void getProjectionsOriginal()
+  void getProjectionsListFirst()
   {
     final ProjectionsController loProjections = new ProjectionsController();
 
@@ -45,9 +45,8 @@ class ProjectionsControllerTest
     // From https://stackoverflow.com/questions/36832289/how-to-make-a-junit-test-case-fail-if-there-is-any-exception-in-the-code
     // any exception will cause a test to fail. So below should work.
 
-    final JsonElement loElement = JsonParser.parseString(loProjections.getProjectionsOriginal());
+    final JsonElement loElement = JsonParser.parseString(loProjections.getProjectionsListFirst());
     assert ((loElement != null) && (loElement instanceof JsonArray));
-
   }
   // ---------------------------------------------------------------------------------------------------------------------
 
