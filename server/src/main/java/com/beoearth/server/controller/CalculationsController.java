@@ -8,12 +8,12 @@
 
 package com.beoearth.server.controller;
 
+import com.beoearth.server.model.DataUTM;
 import com.google.gson.JsonArray;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-//import org.springframework.data.jpa.repository.Query;
 
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -28,8 +28,8 @@ public class CalculationsController
   @RequestMapping(value = {"/calc"}, method = RequestMethod.GET)
   public String getCalculationsGeoCode()
   {
-
-    //@Query("SELECT b FROM study.Board b WHERE b.title like %?1% ORDER BY b.seq DESC", nativeQuery = true)
+    DataUTM loData = new DataUTM();
+    //    @Query("SELECT b FROM study.Board b WHERE b.title like %?1% ORDER BY b.seq DESC", nativeQuery = true);
 
     final JsonArray laProjections = new JsonArray();
 
