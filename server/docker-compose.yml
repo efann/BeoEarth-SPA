@@ -1,7 +1,7 @@
 version: "3.8"
 services:
     tomcat:
-        container_name: tomcat
+        container_name: tomcat-gis
         image: library/tomcat:9.0.36-jdk8
         environment:
             POSTGRES_USER: ${POSTGRES_USER}

@@ -25,8 +25,8 @@ echo "Current folder is $(pwd)"
 
 sudo docker stop postgis
 sudo docker rm postgis
-sudo docker stop tomcat
-sudo docker rm tomcat
+sudo docker stop tomcat-gis
+sudo docker rm tomcat-gis
 
 sudo docker volume prune -f
 
