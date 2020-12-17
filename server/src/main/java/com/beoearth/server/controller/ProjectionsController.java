@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 // ---------------------------------------------------------------------------------------------------------------------
 // Launch path for Swagger UI: http://localhost:8999/server/swagger-ui/
 @RestController
-@SpringBootApplication
 @RequestMapping(value = {"/projections"}, method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 public class ProjectionsController
 {

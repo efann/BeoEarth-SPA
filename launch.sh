@@ -13,26 +13,15 @@ if [[ ! $(sudo echo 0) ]]; then
   exit;
 fi
 
-pushd ./containers/postgresql
-
 POSTGRES_USER=$1
 POSTGRES_PASS=$2
 POSTGRES_DBNAME=${POSTGRES_USER}
-ENV_FILE=../config/.env
+CONFIG_DIR="./containers/config"
+ENV_FILE=".env"
 
-cp ../config/.env-template "${ENV_FILE}"
-
-sed -i "s/<user>/${POSTGRES_USER}/g" "${ENV_FILE}"
-sed -i "s/<password>/${POSTGRES_PASS}/g" "${ENV_FILE}"
-sed -i "s/<database>/${POSTGRES_DBNAME}/g" "${ENV_FILE}"
-
-# From https://stackoverflow.com/questions/48495663/docker-compose-env-file-not-working
-# It appears env_file is ignored when you add environment after it.
-cp "${ENV_FILE}" .env
-
-echo "Postgres User: ${POSTGRES_USER}"
-echo "Postgres Password: ${POSTGRES_PASS}"
-echo "Postgres Database: ${POSTGRES_DBNAME}"
+# ------------------------------------------------
+# Stop & remove all
+echo "Current folder is $(pwd)"
 
 sudo docker stop postgis
 sudo docker rm postgis
@@ -41,25 +30,52 @@ sudo docker rm tomcat
 
 sudo docker volume prune -f
 
-sudo docker-compose -v
+# ------------------------------------------------
+# Config
+pushd "${CONFIG_DIR}"
+echo "Current folder is $(pwd)"
 
-echo "docker build"
-sudo docker-compose build --force-rm
+cp -v .env-template "${ENV_FILE}"
 
-echo "docker up"
-sudo docker-compose up -d
-
-sudo docker-compose logs -t
+sed -i "s/<user>/${POSTGRES_USER}/g" "${ENV_FILE}"
+sed -i "s/<password>/${POSTGRES_PASS}/g" "${ENV_FILE}"
+sed -i "s/<database>/${POSTGRES_DBNAME}/g" "${ENV_FILE}"
 
 popd
 
-pushd ./server
+echo "Current folder is $(pwd)"
 
-echo "docker up"
+# From https://stackoverflow.com/questions/48495663/docker-compose-env-file-not-working
+# It appears env_file is ignored when you add environment after it.
+cp -v "${CONFIG_DIR}/${ENV_FILE}" ./containers/postgresql
+cp -v "${CONFIG_DIR}/${ENV_FILE}" ./server
+
+# ------------------------------------------------
+# PostGIS Container
+pushd ./containers/postgresql
+echo "Current folder is $(pwd)"
+
+echo "Postgres User: ${POSTGRES_USER}"
+echo "Postgres Password: ${POSTGRES_PASS}"
+echo "Postgres Database: ${POSTGRES_DBNAME}"
+
+sudo docker-compose build
+sudo docker-compose up -d
+
+# sudo docker-compose logs -t
+
+popd
+
+# ------------------------------------------------
+# Tomcat Container
+
+pushd ./server
+echo "Current folder is $(pwd)"
 
 mvn clean install
 sudo docker-compose up -d
 
 popd
+# ------------------------------------------------
 
 # sudo docker exec -it tomcat bash
