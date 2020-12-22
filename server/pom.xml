@@ -25,7 +25,7 @@
   <description>Spring Boot for PostGIS</description>
 
   <properties>
-    <java.version>8</java.version>
+    <java.version>11</java.version>
     <surefire.version>2.4.3</surefire.version>
     <!-- Getting strange characters on links for the Swagger UI: â€‹ -->
     <swagger.version>3.0.0</swagger.version>
