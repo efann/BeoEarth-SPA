@@ -11,6 +11,7 @@ package com.beoearth.server.controller;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,18 +36,32 @@ public class CalculationsController
 
   // ---------------------------------------------------------------------------------------------------------------------
   @RequestMapping(value = {"/UTM"}, method = RequestMethod.GET)
-  public String getCalculationsGeoCode()
+  public String getCalculationsGeoCode(
+    @PathVariable("longitudex") double tnLongitudeX,
+    @PathVariable("latitudey") double tnLatitudeY,
+    @PathVariable("srid") int tnSRID
+  )
   {
     this.setDataSource();
 
-    final String lcSQL = "SELECT data.\"UTMZoneSRID\"(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326)) As SRID, "
+    final var lcSQL1 = "SELECT data.\"UTMZoneSRID\"(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326)) As SRID, "
       + "data.\"UTMZone\"(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326)) As Zone, "
       + "st_x(ST_Transform(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326), "
       + "data.\"UTMZoneSRID\"(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326)))) As X, "
       + "st_y(ST_Transform(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326), "
       + "data.\"UTMZoneSRID\"(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326)))) As Y LIMIT 1;";
 
-    final JsonObject loProjection = new JsonObject();
+    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(%f, %f), %d)", tnLongitudeX, tnLatitudeY, tnSRID);
+    // From https://stackoverflow.com/questions/6891175/reuse-a-parameter-in-string-format
+    // Reuse parameter
+    final var lcSQL = String.format("SELECT data.\"UTMZoneSRID\"(%1$s) As SRID, data.\"UTMZone\"(%1$s) As Zone, st_x(ST_Transform(%1$s, data.\"UTMZoneSRID\"(%1$s))) As x, st_y(ST_Transform(%1$s, data.\"UTMZoneSRID\"(%1$s))) As y LIMIT 1;", lcGeometry);
+
+    final var loProjection = new JsonObject();
+
+    loProjection.addProperty("SQL", lcSQL);
+    loProjection.addProperty("LongitudeX", tnLongitudeX);
+    loProjection.addProperty("LatitudeY", tnLatitudeY);
+    loProjection.addProperty("SRID", tnSRID);
 
     try
     {
