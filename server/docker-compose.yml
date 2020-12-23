@@ -1,14 +1,15 @@
 version: "3.8"
 services:
-  tomcat:
-    container_name: tomcat-gis
-    image: library/tomcat:9.0.36-jdk8
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASS: ${POSTGRES_PASS}
-      POSTGRES_DBNAME: ${POSTGRES_DBNAME}
-    volumes:
-      - ./target/tomcat-server-1.0.0-SNAPSHOT.war:/usr/local/tomcat/webapps/server.war
-    ports:
-      - "8999:8080"
-    restart: always
+    tomcat:
+        container_name: tomcat-gis
+        image: library/tomcat:9.0.36-jdk11
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASS: ${POSTGRES_PASS}
+            POSTGRES_DBNAME: ${POSTGRES_DBNAME}
+            POSTGIS_ADDRESS: ${POSTGIS_ADDRESS}
+        volumes:
+            - ./target/server-1.0.0-SNAPSHOT.war:/usr/local/tomcat/webapps/server.war
+        ports:
+            - "8999:8080"
+        restart: always

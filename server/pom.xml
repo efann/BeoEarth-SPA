@@ -17,8 +17,8 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
-  <groupId>com.beoearth.server</groupId>
-  <artifactId>tomcat-server</artifactId>
+  <groupId>com.beoearth</groupId>
+  <artifactId>server</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>server</name>
@@ -50,10 +50,10 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
+        <!-- jpa, crud repository -->
     <dependency>
-      <groupId>org.springframework.data</groupId>
-      <artifactId>spring-data-jpa</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
 
     <dependency>
@@ -62,6 +62,7 @@
       <scope>runtime</scope>
     </dependency>
 
+    <!-- Swagger UI -->
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-boot-starter</artifactId>
@@ -80,6 +81,7 @@
       <artifactId>gson</artifactId>
       <version>${gson.version}</version>
     </dependency>
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>

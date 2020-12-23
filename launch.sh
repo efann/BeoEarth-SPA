@@ -27,6 +27,9 @@ POSTGRES_DBNAME=${POSTGRES_USER}
 CONFIG_DIR="./containers/config"
 ENV_FILE=".env"
 
+# From https://stackoverflow.com/questions/48546124/what-is-linux-equivalent-of-host-docker-internal
+POSTGIS_ADDRESS=$(ip addr show | grep "\binet\b.*\bscope global dynamic\b" | awk '{print $2}' | cut -d '/' -f 1)
+
 # ------------------------------------------------
 # Stop & remove all
 echo "Current folder is $(pwd)"
@@ -48,6 +51,7 @@ cp -v .env-template "${ENV_FILE}"
 sed -i "s/<user>/${POSTGRES_USER}/g" "${ENV_FILE}"
 sed -i "s/<password>/${POSTGRES_PASS}/g" "${ENV_FILE}"
 sed -i "s/<database>/${POSTGRES_DBNAME}/g" "${ENV_FILE}"
+sed -i "s/<postgis_address>/${POSTGIS_ADDRESS}/g" "${ENV_FILE}"
 
 popd
 
@@ -66,6 +70,7 @@ echo "Current folder is $(pwd)"
 echo "Postgres User: ${POSTGRES_USER}"
 echo "Postgres Password: ${POSTGRES_PASS}"
 echo "Postgres Database: ${POSTGRES_DBNAME}"
+echo "IP Address: ${POSTGIS_ADDRESS}"
 
 sudo docker-compose build
 sudo docker-compose up -d
