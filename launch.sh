@@ -8,8 +8,7 @@
 #
 #
 
-if [[ $EUID -eq 0 ]]
-then
+if [[ $EUID -eq 0 ]]; then
   echo -e "\nThis script may not be run as root. Exiting. . . .\n\n"
   exit 1
 fi
@@ -18,7 +17,7 @@ fi
 # Force asking for the password, so you don't have to wait till running the below external scripts.
 if [[ ! $(sudo echo 0) ]]; then
   echo -e "sudo password was not correct. Exiting. . . .\n\n"
-  exit;
+  exit
 fi
 
 POSTGRES_USER=$1
@@ -78,6 +77,16 @@ sudo docker-compose up -d
 # sudo docker-compose logs -t
 
 popd
+
+#echo "Press any key to continue"
+#while [ true ]; do
+#  read -t 3 -n 1
+#  if [ $? = 0 ]; then
+#    break
+#  else
+#    echo "Waiting for the keypress to build Tomcat GIS"
+#  fi
+#done
 
 # ------------------------------------------------
 # Tomcat Container
