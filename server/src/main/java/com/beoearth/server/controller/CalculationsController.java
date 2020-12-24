@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.sql.DataSource;
@@ -35,11 +36,13 @@ public class CalculationsController
   final private JdbcTemplate foJdbcTemplate = new JdbcTemplate();
 
   // ---------------------------------------------------------------------------------------------------------------------
+
+  // From https://www.baeldung.com/spring-requestmapping
   @RequestMapping(value = {"/UTM"}, method = RequestMethod.GET)
   public String getCalculationsGeoCode(
-    @PathVariable("longitudex") double tnLongitudeX,
-    @PathVariable("latitudey") double tnLatitudeY,
-    @PathVariable("srid") int tnSRID
+    @RequestParam("longitudex") double tnLongitudeX,
+    @RequestParam("latitudey") double tnLatitudeY,
+    @RequestParam("srid") int tnSRID
   )
   {
     this.setDataSource();
