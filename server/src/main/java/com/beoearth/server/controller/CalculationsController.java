@@ -38,7 +38,7 @@ public class CalculationsController
   // ---------------------------------------------------------------------------------------------------------------------
   // From https://www.baeldung.com/spring-requestmapping
   @RequestMapping(value = {"/UTM"}, method = RequestMethod.GET)
-  public String getCalculationsGeoCode(
+  public String getGISCalculationsUTM(
     @Validated
     @RequestParam("latitudey") double tnLatitudeY,
     @Validated
@@ -66,13 +66,64 @@ public class CalculationsController
       // From https://mkyong.com/spring/spring-jdbctemplate-querying-examples/
       List<Map<String, Object>> laRows = this.foJdbcTemplate.queryForList(lcSQL);
 
-      for (final Map loRow : laRows)
+      laRows.forEach(loRow ->
       {
         loProjection.addProperty("SRID", loRow.get("SRID").toString());
         loProjection.addProperty("X", (Double) loRow.get("X"));
         loProjection.addProperty("Y", (Double) loRow.get("Y"));
         loProjection.addProperty("Zone", loRow.get("Zone").toString());
-      }
+      });
+
+    }
+    catch (Exception loErr)
+    {
+      loProjection.addProperty("Error", loErr.getMessage());
+    }
+
+    return (loProjection.toString());
+
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  // From https://www.baeldung.com/spring-requestmapping
+  @RequestMapping(value = {"/projection"}, method = RequestMethod.GET)
+  public String getGISCalculationsProjection(
+    @Validated
+    @RequestParam("latitudey") double tnLatitudeY,
+    @Validated
+    @RequestParam("longitudex") double tnLongitudeX,
+    @Validated
+    @RequestParam("projectionold") int tnProjectionOld,
+    @Validated
+    @RequestParam("projectionnew") int tnProjectionNew
+  )
+  {
+    this.setDataSource();
+
+    final var lcGeometry= String.format("ST_SetSRID(ST_MakePoint(%f, %f), %d)", tnLongitudeX, tnLatitudeY, tnProjectionOld);
+
+    // From https://stackoverflow.com/questions/6891175/reuse-a-parameter-in-string-format
+    // Reuse parameter
+    final var lcSQL = String.format("SELECT st_x(ST_Transform(%1$s, %2$d)) As X, st_y(ST_Transform(%1$s, %2$d)) As Y LIMIT 1;", lcGeometry, tnProjectionNew);
+
+    final var loProjection = new JsonObject();
+
+    loProjection.addProperty("SQL", lcSQL);
+    loProjection.addProperty("LongitudeX", tnLongitudeX);
+    loProjection.addProperty("LatitudeY", tnLatitudeY);
+    loProjection.addProperty("ProjectionOld", tnProjectionOld);
+    loProjection.addProperty("ProjectionNew", tnProjectionNew);
+
+    try
+    {
+      // From https://mkyong.com/spring/spring-jdbctemplate-querying-examples/
+      List<Map<String, Object>> laRows = this.foJdbcTemplate.queryForList(lcSQL);
+
+      laRows.forEach(loRow ->
+      {
+        loProjection.addProperty("X", (Double) loRow.get("X"));
+        loProjection.addProperty("Y", (Double) loRow.get("Y"));
+      });
 
     }
     catch (Exception loErr)
