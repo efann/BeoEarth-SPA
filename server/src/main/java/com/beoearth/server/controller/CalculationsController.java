@@ -11,7 +11,7 @@ package com.beoearth.server.controller;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,25 +36,20 @@ public class CalculationsController
   final private JdbcTemplate foJdbcTemplate = new JdbcTemplate();
 
   // ---------------------------------------------------------------------------------------------------------------------
-
   // From https://www.baeldung.com/spring-requestmapping
   @RequestMapping(value = {"/UTM"}, method = RequestMethod.GET)
   public String getCalculationsGeoCode(
-    @RequestParam("longitudex") double tnLongitudeX,
+    @Validated
     @RequestParam("latitudey") double tnLatitudeY,
-    @RequestParam("srid") int tnSRID
+    @Validated
+    @RequestParam("longitudex") double tnLongitudeX,
+    @Validated
+    @RequestParam("projection") int tnProjection
   )
   {
     this.setDataSource();
 
-    final var lcSQL1 = "SELECT data.\"UTMZoneSRID\"(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326)) As SRID, "
-      + "data.\"UTMZone\"(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326)) As Zone, "
-      + "st_x(ST_Transform(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326), "
-      + "data.\"UTMZoneSRID\"(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326)))) As X, "
-      + "st_y(ST_Transform(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326), "
-      + "data.\"UTMZoneSRID\"(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326)))) As Y LIMIT 1;";
-
-    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(%f, %f), %d)", tnLongitudeX, tnLatitudeY, tnSRID);
+    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(%f, %f), %d)", tnLongitudeX, tnLatitudeY, tnProjection);
     // From https://stackoverflow.com/questions/6891175/reuse-a-parameter-in-string-format
     // Reuse parameter
     final var lcSQL = String.format("SELECT data.\"UTMZoneSRID\"(%1$s) As SRID, data.\"UTMZone\"(%1$s) As Zone, st_x(ST_Transform(%1$s, data.\"UTMZoneSRID\"(%1$s))) As x, st_y(ST_Transform(%1$s, data.\"UTMZoneSRID\"(%1$s))) As y LIMIT 1;", lcGeometry);
@@ -64,7 +59,7 @@ public class CalculationsController
     loProjection.addProperty("SQL", lcSQL);
     loProjection.addProperty("LongitudeX", tnLongitudeX);
     loProjection.addProperty("LatitudeY", tnLatitudeY);
-    loProjection.addProperty("SRID", tnSRID);
+    loProjection.addProperty("Projection", tnProjection);
 
     try
     {
@@ -86,8 +81,6 @@ public class CalculationsController
     }
 
     return (loProjection.toString());
-
-//    SELECT data."UTMZoneSRID"(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326)) As SRID, data."UTMZone"(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326)) As Zone, st_x(ST_Transform(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326), data."UTMZoneSRID"(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326)))) As x, st_y(ST_Transform(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326), data."UTMZoneSRID"(ST_SetSRID(ST_MakePoint(-97.74520899999999, 30.268735), 4326)))) As y LIMIT 1;
 
   }
 
