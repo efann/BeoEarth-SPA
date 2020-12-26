@@ -9,7 +9,6 @@
 package com.beoearth.server.controller;
 
 import com.google.gson.JsonObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
 
@@ -27,13 +25,8 @@ import java.util.Map;
 // Launch path for Swagger UI: http://localhost:8999/server/swagger-ui/
 @RestController
 @RequestMapping(value = {"/calculations"}, method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-public class CalculationsController
+public class CalculationsController extends BaseController
 {
-  // From https://stackoverflow.com/questions/43142703/get-a-reference-to-currently-active-datasource-in-spring-boot
-  @Autowired
-  public DataSource foDataSource;
-
-  final private JdbcTemplate foJdbcTemplate = new JdbcTemplate();
 
   // ---------------------------------------------------------------------------------------------------------------------
   // From https://www.baeldung.com/spring-requestmapping
@@ -64,7 +57,7 @@ public class CalculationsController
     try
     {
       // From https://mkyong.com/spring/spring-jdbctemplate-querying-examples/
-      List<Map<String, Object>> laRows = this.foJdbcTemplate.queryForList(lcSQL);
+      List<Map<String, Object>> laRows = this.getJdbcTemplate().queryForList(lcSQL);
 
       laRows.forEach(loRow ->
       {
@@ -117,7 +110,7 @@ public class CalculationsController
     try
     {
       // From https://mkyong.com/spring/spring-jdbctemplate-querying-examples/
-      List<Map<String, Object>> laRows = this.foJdbcTemplate.queryForList(lcSQL);
+      List<Map<String, Object>> laRows = this.getJdbcTemplate().queryForList(lcSQL);
 
       laRows.forEach(loRow ->
       {
@@ -138,9 +131,10 @@ public class CalculationsController
   // ---------------------------------------------------------------------------------------------------------------------
   private void setDataSource()
   {
-    if (this.foJdbcTemplate.getDataSource() == null)
+    final JdbcTemplate loTemplate = this.getJdbcTemplate();
+    if (loTemplate.getDataSource() == null)
     {
-      this.foJdbcTemplate.setDataSource(this.foDataSource);
+      loTemplate.setDataSource(this.getDataSource());
     }
   }
   // ---------------------------------------------------------------------------------------------------------------------

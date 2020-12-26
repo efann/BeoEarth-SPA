@@ -35,7 +35,7 @@ class CalculationsControllerTest
   void getCalculationsUTM()
   {
     final var loCalc = new CalculationsController();
-    loCalc.foDataSource = this.foDataSource;
+    loCalc.setDataSource(this.foDataSource);
 
     // At the moment, I can't connect to the database to test.
     final JsonElement loElement = JsonParser.parseString(loCalc.getGISCalculationsUTM(30.26, -97.746, 4326));
@@ -58,6 +58,11 @@ class CalculationsControllerTest
   void getCalculationsProject()
   {
     final var loCalc = new CalculationsController();
+    // From https://technology.amis.nl/2018/02/22/java-how-to-fix-spring-autowired-annotation-not-working-issues/
+    // Autowire only works in the initializing Application.
+    // When a new instance is created not by Spring but by for example manually calling a constructor,
+    // the instance of the class will not be registered in the Spring context and thus not available for dependency injection.
+    loCalc.setDataSource(this.foDataSource);
 
     // At the moment, I can't connect to the database to test.
     final JsonElement loElement = JsonParser.parseString(loCalc.getGISCalculationsProjection(30.26, -97.746, 4326, 4267));
