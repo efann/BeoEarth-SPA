@@ -31,7 +31,7 @@ public class CalculationsController
 {
   // From https://stackoverflow.com/questions/43142703/get-a-reference-to-currently-active-datasource-in-spring-boot
   @Autowired
-  private DataSource foDataSource;
+  public DataSource foDataSource;
 
   final private JdbcTemplate foJdbcTemplate = new JdbcTemplate();
 
@@ -100,7 +100,7 @@ public class CalculationsController
   {
     this.setDataSource();
 
-    final var lcGeometry= String.format("ST_SetSRID(ST_MakePoint(%f, %f), %d)", tnLongitudeX, tnLatitudeY, tnProjectionOld);
+    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(%f, %f), %d)", tnLongitudeX, tnLatitudeY, tnProjectionOld);
 
     // From https://stackoverflow.com/questions/6891175/reuse-a-parameter-in-string-format
     // Reuse parameter

@@ -8,22 +8,34 @@
 
 package com.beoearth.server.controller;
 
+import com.beoearth.server.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.sql.DataSource;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = ServerApplication.class)
 class CalculationsControllerTest
 {
+  @Autowired
+  private DataSource foDataSource;
 
   // ---------------------------------------------------------------------------------------------------------------------
   @Test
   void getCalculationsUTM()
   {
     final var loCalc = new CalculationsController();
+    loCalc.foDataSource = this.foDataSource;
 
     // At the moment, I can't connect to the database to test.
     final JsonElement loElement = JsonParser.parseString(loCalc.getGISCalculationsUTM(30.26, -97.746, 4326));
@@ -40,6 +52,7 @@ class CalculationsControllerTest
 //    final String lcZone = loJson.get("Zone").getAsString();
 //    assert ((lnSRID != 0) && (lcZone != null) && (!lcZone.isEmpty()));
   }
+
   // ---------------------------------------------------------------------------------------------------------------------
   @Test
   void getCalculationsProject()
@@ -61,6 +74,7 @@ class CalculationsControllerTest
 //    final String lcZone = loJson.get("Zone").getAsString();
 //    assert ((lnSRID != 0) && (lcZone != null) && (!lcZone.isEmpty()));
   }
+
   // ---------------------------------------------------------------------------------------------------------------------
 
 }

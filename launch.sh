@@ -78,23 +78,13 @@ sudo docker-compose up -d
 
 popd
 
-#echo "Press any key to continue"
-#while [ true ]; do
-#  read -t 3 -n 1
-#  if [ $? = 0 ]; then
-#    break
-#  else
-#    echo "Waiting for the keypress to build Tomcat GIS"
-#  fi
-#done
-
 # ------------------------------------------------
 # Tomcat Container
 
 pushd ./server
 echo "Current folder is $(pwd)"
 
-mvn clean install
+mvn -e clean install
 sudo docker-compose up -d
 
 popd
