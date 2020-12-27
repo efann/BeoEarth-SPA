@@ -8,7 +8,9 @@
 
 package com.beoearth.server.controller;
 
-import com.beoearth.server.*;
+import com.beoearth.server.ServerApplication;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -30,27 +32,44 @@ class CalculationsControllerTest
   @Autowired
   private DataSource foDataSource;
 
+  final private Gson foGson = new GsonBuilder().setPrettyPrinting().create();
+
   // ---------------------------------------------------------------------------------------------------------------------
   @Test
   void getCalculationsUTM()
   {
     final var loCalc = new CalculationsController();
-    loCalc.setDataSource(this.foDataSource);
 
     // At the moment, I can't connect to the database to test.
-    final JsonElement loElement = JsonParser.parseString(loCalc.getGISCalculationsUTM(30.26, -97.746, 4326));
+    JsonElement loElement;
+    loElement = JsonParser.parseString(loCalc.getGISCalculationsUTM(30.26, -97.746, 4326));
     assert (loElement instanceof JsonObject);
 
-    JsonObject loJson = (JsonObject) loElement;
+    JsonObject loJson;
+    loJson = (JsonObject) loElement;
 
     System.out.println("======================================");
-    System.out.println(loJson.toString());
+    System.out.println(this.foGson.toJson(loJson));
     System.out.println("======================================");
 
-//    final int lnSRID = Integer.parseInt(loJson.get("SRID").getAsString());
+    assert (loJson.get("Error").toString().length() > 0);
 
-//    final String lcZone = loJson.get("Zone").getAsString();
-//    assert ((lnSRID != 0) && (lcZone != null) && (!lcZone.isEmpty()));
+    // Now set the datasource
+    loCalc.setDataSource(this.foDataSource);
+
+    loElement = JsonParser.parseString(loCalc.getGISCalculationsUTM(30.26, -97.746, 4326));
+    assert (loElement instanceof JsonObject);
+
+    loJson = (JsonObject) loElement;
+
+    System.out.println("======================================");
+    System.out.println(this.foGson.toJson(loJson));
+    System.out.println("======================================");
+
+    final int lnSRID = Integer.parseInt(loJson.get("SRID").getAsString());
+
+    final String lcZone = loJson.get("Zone").getAsString();
+    assert ((lnSRID != 0) && (lcZone != null) && (!lcZone.isEmpty()));
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -58,26 +77,33 @@ class CalculationsControllerTest
   void getCalculationsProject()
   {
     final var loCalc = new CalculationsController();
-    // From https://technology.amis.nl/2018/02/22/java-how-to-fix-spring-autowired-annotation-not-working-issues/
-    // Autowire only works in the initializing Application.
-    // When a new instance is created not by Spring but by for example manually calling a constructor,
-    // the instance of the class will not be registered in the Spring context and thus not available for dependency injection.
-    loCalc.setDataSource(this.foDataSource);
 
-    // At the moment, I can't connect to the database to test.
-    final JsonElement loElement = JsonParser.parseString(loCalc.getGISCalculationsProjection(30.26, -97.746, 4326, 4267));
+    JsonElement loElement;
+    loElement = JsonParser.parseString(loCalc.getGISCalculationsProjection(30.26, -97.746, 4326, 4267));
     assert (loElement instanceof JsonObject);
 
-    JsonObject loJson = (JsonObject) loElement;
-
+    JsonObject loJson;
+    loJson = (JsonObject) loElement;
     System.out.println("======================================");
-    System.out.println(loJson.toString());
+    System.out.println(this.foGson.toJson(loJson));
     System.out.println("======================================");
 
-//    final int lnSRID = Integer.parseInt(loJson.get("SRID").getAsString());
+    assert (loJson.get("Error").toString().length() > 0);
 
-//    final String lcZone = loJson.get("Zone").getAsString();
-//    assert ((lnSRID != 0) && (lcZone != null) && (!lcZone.isEmpty()));
+    // Now set the datasource
+    loCalc.setDataSource(this.foDataSource);
+
+    loElement = JsonParser.parseString(loCalc.getGISCalculationsProjection(30.26, -97.746, 4326, 4267));
+    assert (loElement instanceof JsonObject);
+
+    loJson = (JsonObject) loElement;
+    System.out.println("======================================");
+    System.out.println(this.foGson.toJson(loJson));
+    System.out.println("======================================");
+
+    final double lnY = loJson.get("Y").getAsDouble();
+    final double lnX = loJson.get("X").getAsDouble();
+    assert ((lnY != 0.0) & (lnX != 0.0));
   }
 
   // ---------------------------------------------------------------------------------------------------------------------

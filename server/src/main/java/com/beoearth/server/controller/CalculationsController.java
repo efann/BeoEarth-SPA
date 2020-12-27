@@ -9,7 +9,6 @@
 package com.beoearth.server.controller;
 
 import com.google.gson.JsonObject;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -128,15 +127,6 @@ public class CalculationsController extends BaseController
 
   }
 
-  // ---------------------------------------------------------------------------------------------------------------------
-  private void setDataSource()
-  {
-    final JdbcTemplate loTemplate = this.getJdbcTemplate();
-    if (loTemplate.getDataSource() == null)
-    {
-      loTemplate.setDataSource(this.getDataSource());
-    }
-  }
   // ---------------------------------------------------------------------------------------------------------------------
 
 }
