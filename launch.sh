@@ -102,8 +102,6 @@ echo "IP Address: ${POSTGIS_ADDRESS}"
 sudo docker-compose build
 sudo docker-compose up -d
 
-# sudo docker-compose logs -t
-
 popd
 
 # ------------------------------------------------
@@ -120,4 +118,4 @@ sudo docker-compose up -d
 popd
 # ------------------------------------------------
 
-# sudo docker exec -it tomcat bash
+# sudo docker exec -it tomcat-gis bash
