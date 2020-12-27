@@ -1,14 +1,15 @@
 version: "3.8"
 services:
-    postgis:
-        container_name: postgis
+    beoearth-postgres:
+        container_name: beoearth-postgres
         build: .
         environment:
             POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASS: ${POSTGRES_PASS}
             POSTGRES_DBNAME: ${POSTGRES_DBNAME}
+            POSTGRES_PORT: ${POSTGRES_PORT}
         volumes:
             - ./geocalc.sql:/docker-entrypoint-initdb.d/geocalc.sql
         ports:
-            - "5432:5432"
+            - "${POSTGRES_PORT}:5432"
         restart: always

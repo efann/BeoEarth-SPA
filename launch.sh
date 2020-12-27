@@ -20,10 +20,10 @@ if [[ ! $(sudo echo 0) ]]; then
   exit
 fi
 
-if [ $# -eq 0 ]; then
+if [ $# -ne 3 ]; then
   echo -e "\n============================================================================================="
   echo -e "Example usage:"
-  echo -e "  ./launch.sh <database> <password>"
+  echo -e "  ./launch.sh <database> <password> <port>"
   echo -e "This will generate a database with a username of the same name and the password parameter."
   echo -e "=============================================================================================\n"
   exit
@@ -31,6 +31,7 @@ fi
 
 POSTGRES_USER=$1
 POSTGRES_PASS=$2
+POSTGRES_PORT=$3
 POSTGRES_DBNAME=${POSTGRES_USER}
 CONFIG_DIR="./containers/config"
 ENV_FILE=".env"
@@ -51,6 +52,7 @@ sed -i "s/<user>/${POSTGRES_USER}/g" "${ENV_FILE}"
 sed -i "s/<password>/${POSTGRES_PASS}/g" "${ENV_FILE}"
 sed -i "s/<database>/${POSTGRES_DBNAME}/g" "${ENV_FILE}"
 sed -i "s/<postgis_address>/${POSTGIS_ADDRESS}/g" "${ENV_FILE}"
+sed -i "s/<port>/${POSTGRES_PORT}/g" "${ENV_FILE}"
 
 popd
 
@@ -72,6 +74,7 @@ sed -i "s/\${POSTGIS_ADDRESS}/${POSTGIS_ADDRESS}/g" "${TEST_PROPERTIES}"
 sed -i "s/\${POSTGRES_DBNAME}/${POSTGRES_DBNAME}/g" "${TEST_PROPERTIES}"
 sed -i "s/\${POSTGRES_USER}/${POSTGRES_USER}/g" "${TEST_PROPERTIES}"
 sed -i "s/\${POSTGRES_PASS}/${POSTGRES_PASS}/g" "${TEST_PROPERTIES}"
+sed -i "s/\${POSTGRES_PORT}/${POSTGRES_PORT}/g" "${TEST_PROPERTIES}"
 
 # ------------------------------------------------
 # Stop & remove all
@@ -79,10 +82,10 @@ echo -e "\n=====================================================================
 echo -e "Stopping & removing all containers & volumes"
 echo -e "Current folder is $(pwd)\n"
 
-sudo docker stop postgis
-sudo docker rm postgis
-sudo docker stop tomcat-gis
-sudo docker rm tomcat-gis
+sudo docker stop beoearth-postgres
+sudo docker rm beoearth-postgres
+sudo docker stop beoearth-server
+sudo docker rm beoearth-server
 
 sudo docker volume prune -f
 
@@ -98,6 +101,7 @@ echo "Postgres User: ${POSTGRES_USER}"
 echo "Postgres Password: ${POSTGRES_PASS}"
 echo "Postgres Database: ${POSTGRES_DBNAME}"
 echo "IP Address: ${POSTGIS_ADDRESS}"
+echo "External Port: ${POSTGRES_PORT}"
 
 sudo docker-compose build
 sudo docker-compose up -d
@@ -118,4 +122,4 @@ sudo docker-compose up -d
 popd
 # ------------------------------------------------
 
-# sudo docker exec -it tomcat-gis bash
+# sudo docker exec -it beoearth-server bash
