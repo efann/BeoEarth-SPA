@@ -20,18 +20,20 @@ if [[ ! $(sudo echo 0) ]]; then
   exit
 fi
 
-if [ $# -ne 3 ]; then
+if [ $# -ne 4 ]; then
   echo -e "\n============================================================================================="
   echo -e "Example usage:"
-  echo -e "  ./launch.sh <database> <password> <port>"
-  echo -e "This will generate a database with a username of the same name and the password parameter."
+  echo -e "  ./launch.sh <database> <password> <server_port> <postgres_port>"
+  echo -e "This will generate a database with a username of the same name using the password parameter."
+  echo -e "In addition, this script will set the external access ports for the server and database."
   echo -e "=============================================================================================\n"
   exit
 fi
 
 POSTGRES_USER=$1
 POSTGRES_PASS=$2
-POSTGRES_PORT=$3
+SERVER_PORT=$3
+POSTGRES_PORT=$4
 POSTGRES_DBNAME=${POSTGRES_USER}
 CONFIG_DIR="./containers/config"
 ENV_FILE=".env"
@@ -52,7 +54,8 @@ sed -i "s/<user>/${POSTGRES_USER}/g" "${ENV_FILE}"
 sed -i "s/<password>/${POSTGRES_PASS}/g" "${ENV_FILE}"
 sed -i "s/<database>/${POSTGRES_DBNAME}/g" "${ENV_FILE}"
 sed -i "s/<postgis_address>/${POSTGIS_ADDRESS}/g" "${ENV_FILE}"
-sed -i "s/<port>/${POSTGRES_PORT}/g" "${ENV_FILE}"
+sed -i "s/<server_port>/${SERVER_PORT}/g" "${ENV_FILE}"
+sed -i "s/<postgres_port>/${POSTGRES_PORT}/g" "${ENV_FILE}"
 
 popd
 

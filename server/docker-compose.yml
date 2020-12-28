@@ -9,8 +9,9 @@ services:
             POSTGRES_DBNAME: ${POSTGRES_DBNAME}
             POSTGIS_ADDRESS: ${POSTGIS_ADDRESS}
             POSTGRES_PORT: ${POSTGRES_PORT}
+            SERVER_PORT: ${SERVER_PORT}
         volumes:
             - ./target/server-1.0.0-SNAPSHOT.war:/usr/local/tomcat/webapps/server.war
         ports:
-            - "8999:8080"
+            - "${SERVER_PORT}:8080"
         restart: always
