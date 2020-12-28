@@ -39,7 +39,7 @@ CONFIG_DIR="./containers/config"
 ENV_FILE=".env"
 
 # From https://stackoverflow.com/questions/48546124/what-is-linux-equivalent-of-host-docker-internal
-POSTGIS_ADDRESS=$(ip addr show | grep "\binet\b.*\bscope global dynamic\b" | awk '{print $2}' | cut -d '/' -f 1)
+POSTGIS_ADDRESS=$(hostname -I | awk '{print $1;}')
 
 # ------------------------------------------------
 # Config
