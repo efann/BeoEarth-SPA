@@ -119,6 +119,26 @@ echo -e "Generating Tomcat Container"
 pushd ./server
 echo "Current folder is $(pwd)"
 
+CERT_DIR="/etc/letsencrypt/live/www.fannenterprises.com"
+CERT_TMP_DIR="certificates.tmp"
+
+# From https://medium.com/@raupach/how-to-install-lets-encrypt-with-tomcat-3db8a469e3d2
+# Start afresh
+if [ -d "${CERT_TMP_DIR}" ]; then
+  rm -rf "${CERT_TMP_DIR}"
+fi
+
+# Copy the certificates if they exist.
+if [ -d "${CERT_DIR}" ]; then
+  mkdir "${CERT_TMP_DIR}"
+
+  cp -v "${CERT_DIR}/cert.pem" "${CERT_TMP_DIR}/cert.pem"
+  cp -v "${CERT_DIR}/chain.pem" "${CERT_TMP_DIR}/chain.pem"
+  cp -v "${CERT_DIR}/privkey.pem" "${CERT_TMP_DIR}/privkey.pem"
+
+  cp -v settings/server.ssl.xml "${CERT_TMP_DIR}/server.xml"
+fi
+
 mvn clean install
 sudo docker-compose up -d
 

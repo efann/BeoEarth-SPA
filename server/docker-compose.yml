@@ -2,7 +2,7 @@ version: "3.8"
 services:
     tomcat:
         container_name: beoearth-server
-        image: library/tomcat:9.0.36-jdk11
+        build: .
         environment:
             POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASS: ${POSTGRES_PASS}
