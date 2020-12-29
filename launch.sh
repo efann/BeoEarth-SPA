@@ -140,6 +140,8 @@ if [ -d "${CERT_DIR}" ]; then
 fi
 
 mvn clean install
+
+sudo docker-compose build
 sudo docker-compose up -d
 
 popd

@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-    tomcat:
+    beoearth-server:
         container_name: beoearth-server
         build: .
         environment:
