@@ -4,7 +4,7 @@ FROM library/tomcat:9.0.36-jdk11
 
 WORKDIR /scripts
 COPY load_certs.sh .
-COPY settings/server.ssl.xml .
+COPY certificates.tmp/* .
 
 RUN chmod +x load_certs.sh
 RUN ./load_certs.sh

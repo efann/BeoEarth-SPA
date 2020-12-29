@@ -128,15 +128,16 @@ if [ -d "${CERT_TMP_DIR}" ]; then
   rm -rf "${CERT_TMP_DIR}"
 fi
 
+mkdir -p "${CERT_TMP_DIR}"
+cp -v settings/server.ssl.xml "${CERT_TMP_DIR}/server.xml"
+
 # Copy the certificates if they exist.
 if [ -d "${CERT_DIR}" ]; then
-  mkdir "${CERT_TMP_DIR}"
 
   cp -v "${CERT_DIR}/cert.pem" "${CERT_TMP_DIR}/cert.pem"
   cp -v "${CERT_DIR}/chain.pem" "${CERT_TMP_DIR}/chain.pem"
   cp -v "${CERT_DIR}/privkey.pem" "${CERT_TMP_DIR}/privkey.pem"
 
-  cp -v settings/server.ssl.xml "${CERT_TMP_DIR}/server.xml"
 fi
 
 mvn clean install
