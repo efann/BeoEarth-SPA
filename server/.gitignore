@@ -19,5 +19,3 @@ target/
 *.iml
 *.ipr
 
-### Temp folders
-certificates.tmp/
