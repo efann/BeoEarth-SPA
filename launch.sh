@@ -132,13 +132,13 @@ mkdir -p "${CERT_TMP_DIR}"
 cp -v settings/server.ssl.xml "${CERT_TMP_DIR}/server.xml"
 
 # Copy the certificates if they exist.
-if [ -d "${CERT_DIR}" ]; then
+#if sudo test -d "${CERT_DIR}"; then
 
-  cp -v "${CERT_DIR}/cert.pem" "${CERT_TMP_DIR}/cert.pem"
-  cp -v "${CERT_DIR}/chain.pem" "${CERT_TMP_DIR}/chain.pem"
-  cp -v "${CERT_DIR}/privkey.pem" "${CERT_TMP_DIR}/privkey.pem"
+  sudo cp -v "${CERT_DIR}/cert.pem" "${CERT_TMP_DIR}/cert.pem"
+  sudo cp -v "${CERT_DIR}/chain.pem" "${CERT_TMP_DIR}/chain.pem"
+  sudo cp -v "${CERT_DIR}/privkey.pem" "${CERT_TMP_DIR}/privkey.pem"
 
-fi
+#fi
 
 mvn clean install
 
