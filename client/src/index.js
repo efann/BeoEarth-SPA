@@ -3,13 +3,33 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import Header from "./header";
+import Footer from "./footer";
+import Contact from "./contact";
+import Notfound from "./notfound";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+const routing = (
+    <Router>
+      <div>
+        <Header/>
+        <hr/>
+        <Switch>
+          <Route exact path="/" component={App}/>
+          <Route path="/contact" component={Contact}/>
+          <Route component={Notfound}/>
+        </Switch>
+        <Footer/>
+      </div>
+    </Router>
 );
+
+ReactDOM.render(routing, document.getElementById("root"));
+/*
+ReactDOM.render(
+    document.getElementById('root')
+);
+*/
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
