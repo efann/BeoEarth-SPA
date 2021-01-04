@@ -1,6 +1,6 @@
 /*
  * BeoEarth SPA
- * Copyright(c) 2009-2020, Beowurks
+ * Copyright(c) 2009-2021, Beowurks
  * Original Author: Eddie Fann
  * License: Eclipse Public License - v 2.0 (https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html)
  *
@@ -32,7 +32,7 @@ class ProjectionsControllerTest
     // any exception will cause a test to fail. So below should work.
 
     JsonElement loElement = JsonParser.parseString(loProjections.getProjectionsListAll());
-    assert ((loElement != null) && (loElement instanceof JsonArray));
+    assert (loElement instanceof JsonArray);
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ class ProjectionsControllerTest
     // any exception will cause a test to fail. So below should work.
 
     final JsonElement loElement = JsonParser.parseString(loProjections.getProjectionsListFirst());
-    assert ((loElement != null) && (loElement instanceof JsonArray));
+    assert (loElement instanceof JsonArray);
   }
   // ---------------------------------------------------------------------------------------------------------------------
 

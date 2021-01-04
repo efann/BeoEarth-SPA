@@ -1,6 +1,6 @@
 /*
  * BeoEarth SPA
- * Copyright(c) 2009-2020, Beowurks
+ * Copyright(c) 2009-2021, Beowurks
  * Original Author: Eddie Fann
  * License: Eclipse Public License - v 2.0 (https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html)
  *
@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 @RestController
-public class BaseController
+public class BaseDataController
 {
   // From https://stackoverflow.com/questions/43142703/get-a-reference-to-currently-active-datasource-in-spring-boot
   @Autowired

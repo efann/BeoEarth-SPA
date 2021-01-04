@@ -1,17 +1,26 @@
 /*
  * BeoEarth SPA
- * Copyright(c) 2009-2020, Beowurks
+ * Copyright(c) 2009-2021, Beowurks
  * Original Author: Eddie Fann
  * License: Eclipse Public License - v 2.0 (https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html)
  *
  */
 
 import React from "react";
-import Beo from "lib/beo.routines"
 
 // ---------------------------------------------------------------------------------------------------------------------
 function Footer()
 {
+  const getYear = () => new Date().getFullYear();
+
+  const getCurrentDate = () =>
+  {
+    let loDate = new Date();
+    // Not quite sure why the below format is working correctly displays in that order.
+    // Monday, January 4, 2021
+    return (loDate.toLocaleString('default', {weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'}));
+  }
+
   return (
       <footer className="footer container" role="contentinfo">
         <div className="region region-footer">
@@ -28,14 +37,12 @@ function Footer()
                   overflow: 'hidden'
                 }}>
                   <div className="col-xs-12" style={{textAlign: 'center'}}>
-                    Copyright&copy;&nbsp;2009-{window.Beo.writeCurrentYear()}&nbsp;BeoEarth. All rights
+                    Copyright&copy;&nbsp;2009-{getYear()}&nbsp;BeoEarth. All rights
                     reserved.
                   </div>
 
                   <div className="col-xs-12" style={{textAlign: 'center', fontStyle: 'italic'}}>
-                    <script type="text/javascript">
-                      Beo.writeCurrentDate();
-                    </script>
+                    {getCurrentDate()}
                   </div>
 
                   <div className="col-xs-12" style={{textAlign: 'center', fontStyle: 'italic', paddingTop: '10px'}}>
