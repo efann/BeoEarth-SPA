@@ -46,7 +46,7 @@ function Footer()
                   </div>
 
                   <div className="col-xs-12" style={{textAlign: 'center', fontStyle: 'italic', paddingTop: '10px'}}>
-                    Website by&nbsp;<a href="https://www.beowurks.com/" target="_blank">Beowurks</a>
+                    Website by&nbsp;<a href="https://www.beowurks.com/" target="_blank" rel="noreferrer">Beowurks</a>
                   </div>
 
                 </div>
