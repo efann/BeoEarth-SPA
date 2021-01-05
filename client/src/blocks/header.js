@@ -15,8 +15,8 @@ import '../style/header.css';
 function Header()
 {
   return (
-    <header>
-      <div id="block-header">
+    <header className="fixed-top">
+      <div id="block-header" className="container">
         <div>
           <a href="/">BeoEarth</a>
         </div>
@@ -28,7 +28,7 @@ function Header()
         </div>
       </div>
 
-      <nav>
+      <nav className="container">
         <NavLink exact activeClassName="active" to="/">
           Home
         </NavLink>
