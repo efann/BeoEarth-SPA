@@ -1,0 +1,53 @@
+/*
+ * BeoEarth SPA
+ * Copyright(c) 2009-2021, Beowurks
+ * Original Author: Eddie Fann
+ * License: Eclipse Public License - v 2.0 (https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html)
+ *
+ */
+
+body
+{
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  color: black;
+  padding: 0;
+  background-color: #88B1EF;
+}
+
+code
+{
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
+a,
+a:link,
+a:visited
+{
+  text-decoration: none;
+  color: teal;
+  font-weight: bold;
+
+  /*
+    From https://stackoverflow.com/questions/6008324/fade-effect-on-link-hover
+  */
+  transition: color 0.3s linear;
+  -webkit-transition: color 0.3s linear;
+  -moz-transition: color 0.3s linear;
+}
+
+a:active,
+a:hover,
+a:focus,
+li a.active,
+li a.hover,
+li a:focus
+{
+  color: black;
+}

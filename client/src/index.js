@@ -8,12 +8,12 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './style/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import Header from "./header";
-import Footer from "./footer";
+import Header from "./blocks/header";
+import Footer from "./blocks/footer";
 import Contact from "./contact";
 import Notfound from "./notfound";
 
