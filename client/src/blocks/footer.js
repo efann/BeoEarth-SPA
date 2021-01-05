@@ -16,27 +16,24 @@ function Footer()
 {
   return (
     <footer className="footer container" role="contentinfo">
-      <div>
-        <div style={{
-          clear: 'both',
-          fontSize: '0.8em',
-          paddingTop: '20px',
-          lineHeight: '1.4em',
-          overflow: 'hidden'
-        }}>
-          <div className="col-xs-12" style={{textAlign: 'center'}}>
-            Copyright&copy;&nbsp;2009-{Utils.getYear()}&nbsp;BeoEarth. All rights
-            reserved.
-          </div>
+      <div style={{
+        clear: 'both',
+        fontSize: '0.8em',
+        paddingTop: '20px',
+        lineHeight: '1.4em',
+        overflow: 'hidden'
+      }}>
+        <div className="row">
+          Copyright&copy;&nbsp;2009-{Utils.getYear()}&nbsp;BeoEarth. All rights
+          reserved.
+        </div>
 
-          <div className="col-xs-12" style={{textAlign: 'center', fontStyle: 'italic'}}>
-            {Utils.getCurrentDate()}
-          </div>
+        <div className="row currentdate">
+          {Utils.getCurrentDate()}
+        </div>
 
-          <div className="col-xs-12" style={{textAlign: 'center', fontStyle: 'italic', paddingTop: '10px'}}>
-            Website by&nbsp;<a href="https://www.beowurks.com/" target="_blank" rel="noreferrer">Beowurks</a>
-          </div>
-
+        <div className="row website">
+          Website by&nbsp;<a href="https://www.beowurks.com/" target="_blank" rel="noreferrer">Beowurks</a>
         </div>
 
       </div>

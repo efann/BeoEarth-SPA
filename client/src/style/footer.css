@@ -14,4 +14,27 @@
   background-color: #EEEEEE;
   color: black;
   padding: 20px 0;
+
+  text-align: center;
+
+  clear: both;
+  font-size: 0.9em;
+  line-height: 1.4em;
+  overflow: hidden;
+}
+
+.row
+{
+  clear: both;
+}
+
+.currentdate
+{
+  font-style: italic;
+}
+
+.website
+{
+  font-style: italic;
+  padding-top: 10px;
 }
