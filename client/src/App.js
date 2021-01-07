@@ -6,26 +6,21 @@
  *
  */
 
-import logo from './logo.svg';
+import Map from "./blocks/map";
+
 import './style/App.css';
 
-function App() {
+const location = {
+  address: '298 Pecan St, Austin, TX 78701, USA',
+  lat: 30.268735,
+  lng: -97.745209,
+} // our location object from earlier
+
+function App()
+{
   return (
     <div className="App">
-      <div className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </div>
+      <Map toLocation={location} tnZoomLevel={17} />
     </div>
   );
 }

@@ -23,11 +23,6 @@
   overflow: hidden;
 }
 
-.row
-{
-  clear: both;
-}
-
 .currentdate
 {
   font-style: italic;

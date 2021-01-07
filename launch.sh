@@ -125,6 +125,21 @@ sudo docker-compose build
 sudo docker-compose up -d
 
 popd
+# sudo docker exec -it beoearth-server bash
 # ------------------------------------------------
 
-# sudo docker exec -it beoearth-server bash
+# ------------------------------------------------
+# React Client
+echo -e "\n====================================================================================="
+echo -e "Generating React Client"
+
+pushd ./client
+echo "Current folder is $(pwd)"
+
+echo "You will get warnings about fsevents, which is only relevant if you're on Mac OSX."
+echo "Don't run npm install -f as npm ask if you know what you're doing (I don't)."
+echo "Reference https://stackoverflow.com/questions/40226745/npm-warn-notsup-skipping-optional-dependency-unsupported-platform-for-fsevents"
+npm install
+
+popd
+
