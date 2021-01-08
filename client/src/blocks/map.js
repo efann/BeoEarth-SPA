@@ -8,25 +8,14 @@
 
 import React from 'react'
 import GoogleMapReact from 'google-map-react'
-import {Icon} from '@iconify/react'
-import locationIcon from '@iconify/icons-mdi/map-marker'
 
 import '../style/map.css'
+import {Utils} from "../common/utils";
 
-// ---------------------------------------------------------------------------------------------------------------------
-
-const LocationPin = ({text}) => (
-  <div className="pin">
-    <Icon icon={locationIcon} className="pin-icon"/>
-    <p className="pin-text">{text}</p>
-  </div>
-)
 // ---------------------------------------------------------------------------------------------------------------------
 
 const Map = ({toLocation, tnZoomLevel}) => (
   <div className="map">
-    <h2 className="map-h2">Come Visit Us At Our Campus</h2>
-
     <div className="google-map">
       <GoogleMapReact
         bootstrapURLKeys={{
@@ -34,12 +23,9 @@ const Map = ({toLocation, tnZoomLevel}) => (
         }}
         defaultCenter={toLocation}
         defaultZoom={tnZoomLevel}
+        yesIWantToUseGoogleMapApiInternals
+        onGoogleApiLoaded={({map, maps}) => Utils.setupMarker(map, maps)}
       >
-        <LocationPin
-          lat={toLocation.lat}
-          lng={toLocation.lng}
-          text={toLocation.address}
-        />
       </GoogleMapReact>
     </div>
   </div>

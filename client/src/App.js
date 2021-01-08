@@ -20,7 +20,7 @@ function App()
 {
   return (
     <div className="App">
-      <Map toLocation={location} tnZoomLevel={17} />
+      <Map toLocation={location} tnZoomLevel={14}/>
     </div>
   );
 }
