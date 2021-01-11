@@ -18,14 +18,16 @@ const Map = ({toLocation, tnZoomLevel}) => (
   <div className="map">
     <div className="google-map">
       <GoogleMapReact
+
         bootstrapURLKeys={{
           key: 'AIzaSyB-pdbBGLEr5DlPsvfL3C1Pz8seb3d2gEQ'
         }}
+        options={Utils.createMapOptions()}
         defaultCenter={toLocation}
         defaultZoom={tnZoomLevel}
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={({map, maps}) => Utils.setupMarker(map, maps)}
-      >
+        >
       </GoogleMapReact>
     </div>
   </div>
