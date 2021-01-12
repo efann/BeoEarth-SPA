@@ -6,21 +6,15 @@
  *
  */
 
-import Map from "./blocks/map";
+import Map from './blocks/map';
 
 import './style/App.css';
-
-const location = {
-  address: '298 Pecan St, Austin, TX 78701, USA',
-  lat: 30.268735,
-  lng: -97.745209,
-} // our location object from earlier
 
 function App()
 {
   return (
     <div className="App">
-      <Map toLocation={location} tnZoomLevel={14}/>
+      <Map/>
     </div>
   );
 }
