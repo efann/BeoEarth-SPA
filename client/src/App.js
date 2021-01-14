@@ -16,6 +16,7 @@ import Grid from '@material-ui/core/Grid';
 
 
 import './style/App.css';
+import IntegerSlider from './components/slider';
 
 // ---------------------------------------------------------------------------------------------------------------------
 const useStyles = makeStyles((toTheme) => ({
@@ -35,7 +36,9 @@ function App()
 {
   const classes = useStyles();
 
-  function ColumnFirst()
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  function FormFirst()
   {
     return (
       <React.Fragment>
@@ -48,28 +51,33 @@ function App()
     );
   }
 
-  function ColumnSecond()
+  // ---------------------------------------------------------------------------------------------------------------------
+
+  function FormSecond()
   {
     return (
       <React.Fragment>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <Projection2/>
+            <Projection2 item xs={12}/>
+            <IntegerSlider item xs={12}/>
           </Paper>
         </Grid>
       </React.Fragment>
     );
   }
 
+  // ---------------------------------------------------------------------------------------------------------------------
+
   return (
     <div className="App">
       <div className={classes.root}>
-        <Grid container spacing={3}>
+        <Grid container xs={12}>
           <Grid container item sm={6} spacing={3}>
-            <ColumnFirst/>
+            <FormFirst/>
           </Grid>
           <Grid container item sm={6} spacing={3}>
-            <ColumnSecond/>
+            <FormSecond/>
           </Grid>
 
           <Grid item xs={12}>

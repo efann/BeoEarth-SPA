@@ -6,8 +6,8 @@
  *
  */
 
-import React from "react";
-import {Utils} from "../common/utils";
+import React from 'react';
+import {Utils} from '../common/utils';
 
 import '../style/footer.css';
 

@@ -8,7 +8,6 @@
 
 import React from 'react';
 import Select from 'react-select'
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import BaseSelect from './baseselect'
 
@@ -32,9 +31,7 @@ class Projection2 extends BaseSelect
     return (
       <div>
         <FormControl>
-          <InputLabel id="lblProjection2">GIS</InputLabel>
           <Select
-            labelId="lblProjection2"
             id="cboProjection2"
             options={this.state.selectOptions}
             onChange={this.handleInputChange}
