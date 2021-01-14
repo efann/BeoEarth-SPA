@@ -45,14 +45,6 @@ export const Utils =
     {
       let loMarker = Utils.setupMarker(toMap, toGoogleMaps);
 
-      let lnLongitude = loMarker.getPosition().lng();
-      let lnLatitude = loMarker.getPosition().lat();
-      let loLatLng = new toGoogleMaps.LatLng(parseFloat(lnLatitude), parseFloat(lnLongitude));
-
-      console.log(lnLatitude);
-      console.log(lnLongitude);
-
-      toMap.setCenter(loLatLng);
     },
     // ---------------------------------------------------------------------------------------------------------------------
     // toMap is the actual map
@@ -74,7 +66,7 @@ export const Utils =
           strokeColor: 'black',
           anchor: new toGoogleMaps.Point(46, 148)
         },
-        title: '298 Pecan St, Austin, TX 78701, USA'
+        title: 'Drag & Drop Marker'
       });
 
       return (loMarker);

@@ -10,6 +10,7 @@ package com.beoearth.server.controller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 // ---------------------------------------------------------------------------------------------------------------------
 // Launch path for Swagger UI: http://localhost:8999/server/swagger-ui/
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(value = {"/projections"}, method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 public class ProjectionsController
 {

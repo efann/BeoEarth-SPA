@@ -7,6 +7,8 @@
  */
 
 import Map from './blocks/map';
+import Projection1 from './components/projection1';
+import Projection2 from './components/projection2';
 
 import './style/App.css';
 
@@ -14,6 +16,8 @@ function App()
 {
   return (
     <div className="App">
+      <Projection1/>
+      <Projection2/>
       <Map/>
     </div>
   );
