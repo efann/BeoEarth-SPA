@@ -10,82 +10,20 @@ import React from 'react';
 import Select from 'react-select'
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import BaseSelect from './baseselect'
 
 import '../style/components.css'
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
-class Projection1 extends React.Component
+class Projection1 extends BaseSelect
 {
-
-  // ---------------------------------------------------------------------------------------------------------------------
-  constructor(toProps)
-  {
-    super(toProps);
-
-    this.foFirstProjections = null;
-
-    this.state = {
-      selectOptions: [],
-      id: '',
-      name: '',
-      isLoaded: false
-    }
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  // ---------------------------------------------------------------------------------------------------------------------
-  async getOptions()
-  {
-    fetch('http://localhost:8787/server/projections/list-first')
-      .then(res => res.json())
-      .then(
-        (toResult) =>
-        {
-          const loOptions = toResult.map(loRow => ({
-            'label': loRow.key,
-            'value': loRow.projection
-          }))
-          this.setState({selectOptions: loOptions})
-          console.log(loOptions);
-
-          this.setState({
-            isLoaded: true,
-          });
-          console.log(toResult);
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (toError) =>
-        {
-          this.setState({
-            isLoaded: true,
-            error: toError
-          });
-          console.log('There was a problem:\n', toError);
-        }
-      )
-  }
 
   // ---------------------------------------------------------------------------------------------------------------------
   componentDidMount()
   {
-    this.getOptions()
-  }
-
-  // ---------------------------------------------------------------------------------------------------------------------
-  handleInputChange(toEvent)
-  {
-    const loTarget = toEvent.target;
-    const loValue = loTarget.type === 'checkbox' ? loTarget.checked : loTarget.value;
-    const loName = loTarget.name;
-
-    this.setState({
-      [loName]: loValue
-    });
+    this.getOptions('http://localhost:8787/server/projections/list-first');
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -99,6 +37,7 @@ class Projection1 extends React.Component
             labelId="lblProjection1"
             id="cboProjection1"
             options={this.state.selectOptions}
+            onChange={this.handleInputChange}
           >
           </Select>
         </FormControl>
