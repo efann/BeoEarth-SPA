@@ -47,12 +47,10 @@ class BaseSelect extends React.Component
             'value': loRow.projection
           }))
           this.setState({selectOptions: loOptions})
-          console.log(loOptions);
 
           this.setState({
             isLoaded: true,
           });
-          console.log(toResult);
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
