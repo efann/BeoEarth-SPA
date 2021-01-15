@@ -44,7 +44,7 @@ export default function IntegerSlider()
         marks
         min={0}
         max={12}
-        valueLabelDisplay="Sig Figs"
+        valueLabelDisplay="auto"
       />
     </div>
   );

@@ -42,7 +42,7 @@ class BaseSelect extends React.Component
         (toResult) =>
         {
           this.foProjections = toResult;
-          const loOptions = toResult.map(loRow => ({
+          const loOptions = this.foProjections.map(loRow => ({
             'label': loRow.key,
             'value': loRow.projection
           }))

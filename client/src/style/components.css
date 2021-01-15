@@ -9,7 +9,9 @@
 #cboProjection1,
 #cboProjection2
 {
-  min-width: 120px;
+  min-width: 200px;
+  /* So that the drop down covers any component, like text fields, below it. */
+  z-index: 10;
 }
 
 #cboProjection1 div,
@@ -17,3 +19,9 @@
 {
   cursor: pointer;
 }
+
+/*
+.MuiOutlinedInput-input
+{
+  padding: 7px !important;
+}*/

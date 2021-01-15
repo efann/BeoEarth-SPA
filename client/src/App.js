@@ -6,17 +6,21 @@
  *
  */
 
-import Map from './blocks/map';
 import Projection1 from './components/projection1';
-import Projection2 from './components/projection2';
 import Paper from '@material-ui/core/Paper';
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
+import {Utils} from './common/utils';
+import AddressTextField from './components/address';
+import LatitudeTextField from './components/latitude';
+import LongitudeTextField from './components/longitude';
+import Projection2 from './components/projection2';
+import IntegerSlider from './components/slider';
+import Map from './blocks/map';
 
 import './style/App.css';
-import IntegerSlider from './components/slider';
 
 // ---------------------------------------------------------------------------------------------------------------------
 const useStyles = makeStyles((toTheme) => ({
@@ -41,13 +45,24 @@ function App()
   function FormFirst()
   {
     return (
-      <React.Fragment>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-            <Projection1/>
-          </Paper>
-        </Grid>
-      </React.Fragment>
+      <Paper className={classes.paper}>
+        <form className={classes.root} noValidate autoComplete="off">
+          <Grid container>
+            <Grid item xs={12}>
+              <Projection1/>
+            </Grid>
+            <Grid item xs={12}>
+              <AddressTextField item xs={12}/>
+            </Grid>
+            <Grid item xs={12}>
+              <LatitudeTextField item xs={9}/>
+            </Grid>
+            <Grid item xs={12}>
+              <LongitudeTextField item xs={9}/>
+            </Grid>
+          </Grid>
+        </form>
+      </Paper>
     );
   }
 
@@ -56,27 +71,31 @@ function App()
   function FormSecond()
   {
     return (
-      <React.Fragment>
+      <form className={classes.root} noValidate autoComplete="off">
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <Projection2 item xs={12}/>
             <IntegerSlider item xs={12}/>
           </Paper>
         </Grid>
-      </React.Fragment>
+      </form>
     );
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
+  React.useEffect(() =>
+  {
+    Utils.fixInputNumberIssue();
+  }, []);
 
   return (
     <div className="App">
       <div className={classes.root}>
-        <Grid container xs={12}>
-          <Grid container item sm={6} spacing={3}>
+        <Grid container>
+          <Grid item sm={6}>
             <FormFirst/>
           </Grid>
-          <Grid container item sm={6} spacing={3}>
+          <Grid item sm={6}>
             <FormSecond/>
           </Grid>
 

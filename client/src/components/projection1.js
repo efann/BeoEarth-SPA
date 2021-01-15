@@ -8,7 +8,6 @@
 
 import React from 'react';
 import Select from 'react-select'
-import FormControl from '@material-ui/core/FormControl';
 import BaseSelect from './baseselect'
 
 import '../style/components.css'
@@ -29,16 +28,17 @@ class Projection1 extends BaseSelect
   render()
   {
     return (
-      <div>
-        <FormControl>
-          <Select
-            id="cboProjection1"
-            options={this.state.selectOptions}
-            onChange={this.handleInputChange}
-          >
-          </Select>
-        </FormControl>
-      </div>
+      <Select
+        id="cboProjection1"
+        options={this.state.selectOptions}
+        onChange={this.handleInputChange}
+        style={{width: '45%', padding: '7px 0'}}
+        inputProps={{
+          style: {
+            padding: '7px',
+          },
+        }}
+      />
     );
   }
 

@@ -31,9 +31,10 @@ export const Utils =
     {
       return {
         streetViewControl: true,
-        scrollwheel: true,
+        scrollwheel: false,
         mapTypeId: 'terrain',
         mapTypeControl: true,
+        fullscreenControl: false,
         mapTypeControlOptions: {mapTypeIds: ['terrain', 'satellite', 'hybrid', 'roadmap']},
       }
     },
@@ -70,7 +71,36 @@ export const Utils =
       });
 
       return (loMarker);
-    }
+    },
+    // ---------------------------------------------------------------------------------------------------------------------
+    // From https://gitmemory.com/issue/mui-org/material-ui/18923/567494104,
+    // https://github.com/mui-org/material-ui/issues/18923
+    fixInputNumberIssue: function ()
+    {
+      const loInputs = document.querySelectorAll('input[type=\'number\']')
+      const lcAllowedChars = '0123456789.-';
+
+      loInputs.forEach(loInput =>
+        {
+          loInput.addEventListener('keypress', toEvent =>
+          {
+            if (toEvent.which === 8)
+            {
+              return;
+            }
+
+            let lcKey = toEvent.key;
+            if (lcAllowedChars.indexOf(lcKey) > -1)
+            {
+              return;
+            }
+
+            toEvent.preventDefault();
+          });
+        }
+      );
+
+    },
     // ---------------------------------------------------------------------------------------------------------------------
   }
 // ---------------------------------------------------------------------------------------------------------------------
