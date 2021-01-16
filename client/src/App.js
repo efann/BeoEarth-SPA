@@ -14,13 +14,12 @@ import Grid from '@material-ui/core/Grid';
 
 import {Utils} from './common/utils';
 import AddressTextField from './components/address';
-import LatitudeTextField from './components/latitude';
-import LongitudeTextField from './components/longitude';
 import Projection2 from './components/projection2';
 import IntegerSlider from './components/slider';
 import Map from './blocks/map';
 
 import './style/App.css';
+import BaseNumberTextField from './components/baseNumberTextField';
 
 // ---------------------------------------------------------------------------------------------------------------------
 const useStyles = makeStyles((toTheme) => ({
@@ -55,10 +54,10 @@ function App()
               <AddressTextField item xs={12}/>
             </Grid>
             <Grid item xs={12}>
-              <LatitudeTextField item xs={9}/>
+              <BaseNumberTextField id={'latitude'} label={'Latitude (Y)'} item xs={9}/>
             </Grid>
             <Grid item xs={12}>
-              <LongitudeTextField item xs={9}/>
+              <BaseNumberTextField id={'longitude'} label={'Longitude (X)'} item xs={9}/>
             </Grid>
           </Grid>
         </form>

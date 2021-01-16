@@ -7,31 +7,46 @@
  */
 
 import React from 'react';
-import Select from 'react-select'
-import BaseSelect from './baseSelect'
 
 import '../style/components.css'
+import TextField from '@material-ui/core/TextField';
+import {Utils} from '../common/utils';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
-class Projection1 extends BaseSelect
+class BaseNumberTextField extends React.Component
 {
+  // ---------------------------------------------------------------------------------------------------------------------
+  constructor(toProps)
+  {
+    super(toProps);
+
+    this.state = {};
+    this.state.id = toProps.id;
+    this.state.label = toProps.label;
+  }
 
   // ---------------------------------------------------------------------------------------------------------------------
-  componentDidMount()
+  handleInputChange(toEvent)
   {
-    this.getOptions('http://localhost:8787/server/projections/list-first');
+    Utils.GeoCodeValues[toEvent.target.id] = toEvent.target.value;
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
   render()
   {
     return (
-      <Select
-        id="cboProjection1"
-        options={this.state.selectOptions}
+      <TextField
+        id={this.state.id}
+        label={this.state.label}
+        required
+        type="number"
+        variant="outlined"
         onChange={this.handleInputChange}
+        InputLabelProps={{
+          shrink: true,
+        }}
         style={{width: '45%', padding: '7px 0'}}
         inputProps={{
           style: {
@@ -51,4 +66,4 @@ class Projection1 extends BaseSelect
 // ---------------------------------------------------------------------------------------------------------------------
 
 
-export default Projection1
+export default BaseNumberTextField

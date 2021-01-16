@@ -8,7 +8,7 @@
 
 import React from 'react';
 import Select from 'react-select'
-import BaseSelect from './baseselect'
+import BaseSelect from './baseSelect'
 
 import '../style/components.css'
 

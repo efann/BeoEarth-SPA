@@ -14,6 +14,7 @@ export const Utils =
     DEFAULT_ZOOM: 14,
     DEFAULT_LAT: 30.268735,
     DEFAULT_LNG: -97.745209,
+    GeoCodeValues: new Map(),
 
     // ---------------------------------------------------------------------------------------------------------------------
     getYear: () => new Date().getFullYear(),
