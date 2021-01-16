@@ -25,12 +25,20 @@ class BaseNumberTextField extends React.Component
     this.state = {};
     this.state.id = toProps.id;
     this.state.label = toProps.label;
+
+    // By binding, you can reference 'this' is handleChange.
+    this.handleChange = this.handleChange.bind(this);
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
-  handleInputChange(toEvent)
+  handleChange(toEvent)
   {
-    Utils.GeoCodeValues[toEvent.target.id] = toEvent.target.value;
+//    Utils.GeoCodeValues[toEvent.target.id] = toEvent.target.value;
+
+    Utils.GeoCodeValues.set(toEvent.target.id, {value: toEvent.target.value, label: this.state.label});
+    console.log("======================================");
+    console.log(Utils.GeoCodeValues);
+    console.log("======================================");
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -43,7 +51,7 @@ class BaseNumberTextField extends React.Component
         required
         type="number"
         variant="outlined"
-        onChange={this.handleInputChange}
+        onChange={this.handleChange}
         InputLabelProps={{
           shrink: true,
         }}
