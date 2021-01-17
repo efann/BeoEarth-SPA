@@ -26,7 +26,7 @@ class BaseNumberTextField extends React.Component
     this.state.id = toProps.id;
     this.state.label = toProps.label;
 
-    // By binding, you can reference 'this' is handleChange.
+    // By binding, you can reference 'this' is handleBlur.
     this.handleBlur=this.handleBlur.bind(this);
   }
 
