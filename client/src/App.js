@@ -16,7 +16,7 @@ import {Utils} from './common/utils';
 import AddressTextField from './components/address';
 import Projection2 from './components/projection2';
 import IntegerSlider from './components/slider';
-import Map from './blocks/map';
+import Map from './components/map';
 
 import './style/App.css';
 import BaseNumberTextField from './components/baseNumberTextField';
