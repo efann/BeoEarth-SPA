@@ -21,7 +21,7 @@ class Projection1 extends BaseSelect
   // ---------------------------------------------------------------------------------------------------------------------
   componentDidMount()
   {
-    this.getOptions('http://localhost:8787/server/projections/list-first');
+    this.getOptions(window.location.protocol + '//' + window.location.hostname + '/server/projections/list-first');
   }
 
   // ---------------------------------------------------------------------------------------------------------------------

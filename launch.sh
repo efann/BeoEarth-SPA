@@ -39,7 +39,7 @@ CONFIG_DIR="./containers/config"
 ENV_FILE=".env"
 
 # From https://stackoverflow.com/questions/48546124/what-is-linux-equivalent-of-host-docker-internal
-POSTGIS_ADDRESS=$(hostname -I | awk '{print $1;}')
+HOST_IP_ADDRESS=$(hostname -I | awk '{print $1;}')
 
 # ------------------------------------------------
 # Config
@@ -53,7 +53,7 @@ cp -v .env-template "${ENV_FILE}"
 sed -i "s/<user>/${POSTGRES_USER}/g" "${ENV_FILE}"
 sed -i "s/<password>/${POSTGRES_PASS}/g" "${ENV_FILE}"
 sed -i "s/<database>/${POSTGRES_DBNAME}/g" "${ENV_FILE}"
-sed -i "s/<postgis_address>/${POSTGIS_ADDRESS}/g" "${ENV_FILE}"
+sed -i "s/<host_ip_address>/${HOST_IP_ADDRESS}/g" "${ENV_FILE}"
 sed -i "s/<server_port>/${SERVER_PORT}/g" "${ENV_FILE}"
 sed -i "s/<postgres_port>/${POSTGRES_PORT}/g" "${ENV_FILE}"
 
@@ -65,6 +65,7 @@ echo -e "Current folder is $(pwd)"
 # It appears env_file is ignored when you add environment after it.
 cp -v "${CONFIG_DIR}/${ENV_FILE}" ./containers/postgresql
 cp -v "${CONFIG_DIR}/${ENV_FILE}" ./server
+cp -v "${CONFIG_DIR}/${ENV_FILE}" ./client
 
 # Test Properties need to have actual values as there are no environment variables set.
 # The testing is not run in a container. I could set environment variables in .bashrc,
@@ -73,7 +74,7 @@ echo -e "Generating test properties"
 TEST_PROPERTIES=./server/src/test/resources/application.properties
 cp -v ./server/src/main/resources/application.properties ${TEST_PROPERTIES}
 
-sed -i "s/\${POSTGIS_ADDRESS}/${POSTGIS_ADDRESS}/g" "${TEST_PROPERTIES}"
+sed -i "s/\${HOST_IP_ADDRESS}/${HOST_IP_ADDRESS}/g" "${TEST_PROPERTIES}"
 sed -i "s/\${POSTGRES_DBNAME}/${POSTGRES_DBNAME}/g" "${TEST_PROPERTIES}"
 sed -i "s/\${POSTGRES_USER}/${POSTGRES_USER}/g" "${TEST_PROPERTIES}"
 sed -i "s/\${POSTGRES_PASS}/${POSTGRES_PASS}/g" "${TEST_PROPERTIES}"
@@ -103,7 +104,7 @@ echo "Current folder is $(pwd)"
 echo "Postgres User: ${POSTGRES_USER}"
 echo "Postgres Password: ${POSTGRES_PASS}"
 echo "Postgres Database: ${POSTGRES_DBNAME}"
-echo "IP Address: ${POSTGIS_ADDRESS}"
+echo "Host IP Address: ${HOST_IP_ADDRESS}"
 echo "External Port: ${POSTGRES_PORT}"
 
 sudo docker-compose build

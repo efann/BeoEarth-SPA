@@ -42,3 +42,9 @@ _docker-compose version 1.8.0, build unknown docker-compose version 1.8.0, build
 _For reference: https://docs.docker.com/compose/install/ and click on Linux tab._
 * curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 * chmod +x /usr/local/bin/docker-compose
+
+####Setup for Apache
+_You will need to enable reverse proxy for Apache_
+* a2enmod proxy
+* a2enmod proxy_http
+* systemctl restart apache2

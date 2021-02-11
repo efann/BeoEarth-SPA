@@ -7,7 +7,7 @@ services:
             POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASS: ${POSTGRES_PASS}
             POSTGRES_DBNAME: ${POSTGRES_DBNAME}
-            POSTGIS_ADDRESS: ${POSTGIS_ADDRESS}
+            HOST_IP_ADDRESS: ${HOST_IP_ADDRESS}
             POSTGRES_PORT: ${POSTGRES_PORT}
             SERVER_PORT: ${SERVER_PORT}
         volumes:
