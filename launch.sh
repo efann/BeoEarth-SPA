@@ -35,8 +35,10 @@ POSTGRES_PASS=$2
 SERVER_PORT=$3
 POSTGRES_PORT=$4
 POSTGRES_DBNAME=${POSTGRES_USER}
+
 CONFIG_DIR="./containers/config"
 ENV_FILE=".env"
+APACHE_SITES_DIR="/etc/apache2/sites-available"
 
 # From https://stackoverflow.com/questions/48546124/what-is-linux-equivalent-of-host-docker-internal
 HOST_IP_ADDRESS=$(hostname -I | awk '{print $1;}')
@@ -79,6 +81,27 @@ sed -i "s/\${POSTGRES_DBNAME}/${POSTGRES_DBNAME}/g" "${TEST_PROPERTIES}"
 sed -i "s/\${POSTGRES_USER}/${POSTGRES_USER}/g" "${TEST_PROPERTIES}"
 sed -i "s/\${POSTGRES_PASS}/${POSTGRES_PASS}/g" "${TEST_PROPERTIES}"
 sed -i "s/\${POSTGRES_PORT}/${POSTGRES_PORT}/g" "${TEST_PROPERTIES}"
+
+# Apache files
+CONF_FILE_DEV="000-default.conf"
+CONF_FILE_PROD="beoearth.com-le-ssl.conf"
+
+CONF_FILE="${CONF_FILE_DEV}"
+if [ -f "${APACHE_SITES_DIR}/${CONF_FILE_PROD}" ]; then
+  CONF_FILE="${CONF_FILE_PROD}"
+fi
+
+echo -e "Using ${CONF_FILE} to copy to ${APACHE_SITES_DIR}"
+
+APACHE_CONF="${APACHE_SITES_DIR}/${CONF_FILE}"
+sudo cp -v "./containers/apache/${CONF_FILE}" "${APACHE_CONF}"
+
+sudo sed -i "s/<host_ip_address>/${HOST_IP_ADDRESS}/g" "${APACHE_CONF}"
+sudo sed -i "s/<server_port>/${SERVER_PORT}/g" "${APACHE_CONF}"
+
+sudo a2dissite 000-default.conf
+sudo a2ensite 000-default.conf
+sudo systemctl restart apache2
 
 # ------------------------------------------------
 # Stop & remove all
@@ -143,4 +166,3 @@ echo "Reference https://stackoverflow.com/questions/40226745/npm-warn-notsup-ski
 npm install
 
 popd
-
