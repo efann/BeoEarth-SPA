@@ -84,11 +84,14 @@ sed -i "s/\${POSTGRES_PORT}/${POSTGRES_PORT}/g" "${TEST_PROPERTIES}"
 
 # Apache files
 CONF_FILE_DEV="000-default.conf"
-CONF_FILE_PROD="beoearth.com-le-ssl.conf"
+CONF_FILE_PROD="beoearth-spa.com-le-ssl.conf"
+CONF_FILE_TEST="beoearth.com-le-ssl.conf"
 
 CONF_FILE="${CONF_FILE_DEV}"
-if [ -f "${APACHE_SITES_DIR}/${CONF_FILE_PROD}" ]; then
+PROD_MODE=false
+if [ -f "${APACHE_SITES_DIR}/${CONF_FILE_TEST}" ]; then
   CONF_FILE="${CONF_FILE_PROD}"
+  PROD_MODE=true
 fi
 
 echo -e "Using ${CONF_FILE} to copy to ${APACHE_SITES_DIR}"
@@ -99,8 +102,13 @@ sudo cp -v "./containers/apache/${CONF_FILE}" "${APACHE_CONF}"
 sudo sed -i "s/<host_ip_address>/${HOST_IP_ADDRESS}/g" "${APACHE_CONF}"
 sudo sed -i "s/<server_port>/${SERVER_PORT}/g" "${APACHE_CONF}"
 
-sudo a2dissite 000-default.conf
-sudo a2ensite 000-default.conf
+sudo a2dissite ${CONF_FILE}
+sudo a2ensite ${CONF_FILE}
+
+if [ ${PROD_MODE} = "true" ]; then
+  sudo a2dissite beoearth.com-le-ssl.conf
+fi
+
 sudo systemctl restart apache2
 
 # ------------------------------------------------
