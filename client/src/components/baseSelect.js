@@ -27,7 +27,7 @@ class BaseSelect extends React.Component
       selectOptions: [],
       id: '',
       name: '',
-      isLoaded: false
+      isLoaded: false,
     }
 
   }
@@ -46,6 +46,7 @@ class BaseSelect extends React.Component
             'label': loRow.key,
             'value': loRow.projection
           }))
+
           this.setState({selectOptions: loOptions})
 
           this.setState({
