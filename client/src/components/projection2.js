@@ -25,12 +25,14 @@ class Projection2 extends BaseSelect
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
+  // Pretty cool. options and value get reset after componentDidMount with react-select
   render()
   {
     return (
       <Select
         id="cboProjection2"
         options={this.state.selectOptions}
+        value={this.state.selectOptions[0]}
         onChange={this.handleInputChange}
         style={{width: '45%', padding: '7px 0'}}
         inputProps={{
@@ -49,6 +51,5 @@ class Projection2 extends BaseSelect
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
-
 
 export default Projection2
