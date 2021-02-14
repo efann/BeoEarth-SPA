@@ -16,6 +16,7 @@ import Header from "./blocks/header";
 import Footer from "./blocks/footer";
 import Contact from "./contact";
 import Notfound from "./notfound";
+require('dotenv').config({ debug: true })
 
 const routing = (
     <Router>

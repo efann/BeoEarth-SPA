@@ -32,8 +32,8 @@ class Projection2 extends BaseSelect
       <Select
         id="cboProjection2"
         options={this.state.selectOptions}
-        value={this.state.selectOptions[0]}
-        onChange={this.handleInputChange}
+        defaultValue={{label: process.env.REACT_APP_PROJECTION_LABEL_DEFAULT, value: process.env.PROJECTION_VALUE_DEFAULT}}
+        onChange={this.handleChange.bind(this)}
         style={{width: '45%', padding: '7px 0'}}
         inputProps={{
           style: {

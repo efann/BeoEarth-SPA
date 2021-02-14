@@ -10,6 +10,8 @@ package com.beoearth.server.controller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,8 +31,8 @@ public class ProjectionsController
   // ---------------------------------------------------------------------------------------------------------------------
   public ProjectionsController()
   {
-    this.foOriginalProjection.addProperty("key", "WGS84");
-    this.foOriginalProjection.addProperty("projection", 4326);
+    this.foOriginalProjection.addProperty("key", System.getenv("REACT_APP_PROJECTION_LABEL_DEFAULT"));
+    this.foOriginalProjection.addProperty("projection", System.getenv("REACT_APP_PROJECTION_VALUE_DEFAULT"));
     this.foOriginalProjection.addProperty("url", "https://en.wikipedia.org/wiki/World_Geodetic_System");
   }
 
