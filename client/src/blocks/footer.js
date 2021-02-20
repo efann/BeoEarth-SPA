@@ -8,6 +8,7 @@
 
 import React from 'react';
 import {Utils} from '../common/utils';
+import Grid from '@material-ui/core/Grid';
 
 import '../style/footer.css';
 
@@ -15,29 +16,25 @@ import '../style/footer.css';
 function Footer()
 {
   return (
-    <footer className="footer container" role="contentinfo">
-      <div style={{
-        clear: 'both',
-        fontSize: '0.8em',
-        paddingTop: '20px',
-        lineHeight: '1.4em',
-        overflow: 'hidden'
-      }}>
-        <div className="row">
+    <footer>
+      <Grid container>
+        <Grid item xs={12}>
           Copyright&copy;&nbsp;2009-{Utils.getYear()}&nbsp;BeoEarth. All rights
           reserved.
-        </div>
+        </Grid>
 
-        <div className="row currentdate">
-          {Utils.getCurrentDate()}
-        </div>
+        <Grid item xs={12}>
+          <div className="currentdate">
+            {Utils.getCurrentDate()}
+          </div>
+        </Grid>
 
-        <div className="row website">
-          Website by&nbsp;<a href="https://www.beowurks.com/" target="_blank" rel="noreferrer">Beowurks</a>
-        </div>
-
-      </div>
-
+        <Grid item xs={12}>
+          <div className="website">
+            Website by&nbsp;<a href="https://www.beowurks.com/" target="_blank" rel="noreferrer">Beowurks</a>
+          </div>
+        </Grid>
+      </Grid>
     </footer>
 
   );

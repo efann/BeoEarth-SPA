@@ -33,11 +33,25 @@ const useStyles = makeStyles((toTheme) => ({
   },
 }));
 
+const GoogleMapProps = {
+  center: {
+    lat: Utils.DEFAULT_LAT,
+    lng: Utils.DEFAULT_LNG
+  },
+  zoom: Utils.DEFAULT_ZOOM,
+  googlekey: 'AIzaSyB-pdbBGLEr5DlPsvfL3C1Pz8seb3d2gEQ'
+};
 
 // ---------------------------------------------------------------------------------------------------------------------
 function App()
 {
   const classes = useStyles();
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  React.useEffect(() =>
+  {
+    Utils.fixInputNumberIssue();
+  }, []);
 
   // ---------------------------------------------------------------------------------------------------------------------
   function FormFirst()
@@ -81,25 +95,23 @@ function App()
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
-  React.useEffect(() =>
-  {
-    Utils.fixInputNumberIssue();
-  }, []);
-
   return (
     <div className="App">
       <div className={classes.root}>
         <Grid container>
-          <Grid item sm={6}>
-            <FormFirst/>
-          </Grid>
-          <Grid item sm={6}>
-            <FormSecond/>
-          </Grid>
-
+          <Paper className={classes.paper}>
+            <Grid container>
+              <Grid item sm={6}>
+                <FormFirst/>
+              </Grid>
+              <Grid item sm={6}>
+                <FormSecond/>
+              </Grid>
+            </Grid>
+          </Paper>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <Map/>
+              <Map {...GoogleMapProps}/>
             </Paper>
           </Grid>
         </Grid>

@@ -35,26 +35,6 @@ body
   margin-left: auto;
 }
 
-.row
-{
-  clear: both;
-
-  padding-right: -15px;
-  padding-left: -15px;
-}
-
-.container
-{
-  max-width: 1170px;
-
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-
-
 a,
 a:link,
 a:visited

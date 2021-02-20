@@ -17,24 +17,15 @@ import {Utils} from '../common/utils';
 // ---------------------------------------------------------------------------------------------------------------------
 class DefaultMap extends Component
 {
-  static defaultProps = {
-    center: {
-      lat: Utils.DEFAULT_LAT,
-      lng: Utils.DEFAULT_LNG
-    },
-    zoom: Utils.DEFAULT_ZOOM
-  };
-
   // ---------------------------------------------------------------------------------------------------------------------
   render()
   {
     return (
-      // Important! Always set the container height explicitly
       <div className="map">
         <div className="google-map">
           <GoogleMapReact
             bootstrapURLKeys={{
-              key: 'AIzaSyB-pdbBGLEr5DlPsvfL3C1Pz8seb3d2gEQ'
+              key: this.props.googlekey
             }}
             options={Utils.createMapOptions()}
             defaultCenter={this.props.center}
@@ -55,6 +46,5 @@ class DefaultMap extends Component
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
-
 
 export default DefaultMap

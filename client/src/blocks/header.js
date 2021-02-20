@@ -6,8 +6,9 @@
  *
  */
 
-import React from "react";
-import {NavLink} from "react-router-dom";
+import React from 'react';
+import {NavLink} from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
 
 import '../style/header.css';
 
@@ -16,26 +17,35 @@ function Header()
 {
   return (
     <header className="fixed-top">
-      <div id="block-header" className="container">
-        <div>
-          <a href="/">BeoEarth</a>
-        </div>
-        <div id="wiki-image">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/North_America_from_low_orbiting_satellite_Suomi_NPP.jpg/1024px-North_America_from_low_orbiting_satellite_Suomi_NPP.jpg"
-            title="The Blue Marble from https://en.wikipedia.org/wiki/The_Blue_Marble"
-            alt="The Blue Marble from https://en.wikipedia.org/wiki/The_Blue_Marble"/>
-        </div>
-      </div>
+      <Grid container>
+        <Grid item xs={12}>
 
-      <nav className="container">
-        <NavLink exact activeClassName="active" to="/">
-          Home
-        </NavLink>
-        <NavLink activeClassName="active" to="/contact">
-          Contact
-        </NavLink>
-      </nav>
+          <div id="block-header">
+            <div>
+              <a href="/">BeoEarth</a>
+            </div>
+            <div id="wiki-image">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/North_America_from_low_orbiting_satellite_Suomi_NPP.jpg/1024px-North_America_from_low_orbiting_satellite_Suomi_NPP.jpg"
+                title="The Blue Marble from https://en.wikipedia.org/wiki/The_Blue_Marble"
+                alt="The Blue Marble from https://en.wikipedia.org/wiki/The_Blue_Marble"/>
+            </div>
+          </div>
+        </Grid>
+      </Grid>
+
+      <Grid container>
+        <Grid item xs={12}>
+          <nav>
+            <NavLink exact activeClassName="active" to="/">
+              Home
+            </NavLink>
+            <NavLink activeClassName="active" to="/contact">
+              Contact
+            </NavLink>
+          </nav>
+        </Grid>
+      </Grid>
     </header>
   );
 }

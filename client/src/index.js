@@ -11,29 +11,30 @@ import ReactDOM from 'react-dom';
 import './style/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import Header from "./blocks/header";
-import Footer from "./blocks/footer";
-import Contact from "./contact";
-import Notfound from "./notfound";
-require('dotenv').config({ debug: true })
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import Header from './blocks/header';
+import Footer from './blocks/footer';
+import Contact from './contact';
+import Notfound from './notfound';
+
+require('dotenv').config({debug: true})
 
 const routing = (
-    <Router>
-      <div>
-        <Header/>
-        <hr/>
-        <Switch>
-          <Route exact path="/" component={App}/>
-          <Route path="/contact" component={Contact}/>
-          <Route component={Notfound}/>
-        </Switch>
-        <Footer/>
-      </div>
-    </Router>
+  <Router>
+    <div>
+      <Header/>
+      <hr/>
+      <Switch>
+        <Route exact path="/" component={App}/>
+        <Route path="/contact" component={Contact}/>
+        <Route component={Notfound}/>
+      </Switch>
+      <Footer/>
+    </div>
+  </Router>
 );
 
-ReactDOM.render(routing, document.getElementById("root"));
+ReactDOM.render(routing, document.getElementById('root'));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

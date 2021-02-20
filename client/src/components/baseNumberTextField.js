@@ -27,7 +27,7 @@ class BaseNumberTextField extends React.Component
     this.state.label = toProps.label;
 
     // By binding, you can reference 'this' is handleBlur.
-    this.handleBlur=this.handleBlur.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -36,9 +36,9 @@ class BaseNumberTextField extends React.Component
 //    Utils.GeoCodeValues[toEvent.target.id] = toEvent.target.value;
 
     Utils.GeoCodeValues.set(toEvent.target.id, {value: toEvent.target.value, label: this.state.label});
-    console.log("======================================");
+    console.log('======================================');
     console.log(Utils.GeoCodeValues);
-    console.log("======================================");
+    console.log('======================================');
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -54,12 +54,6 @@ class BaseNumberTextField extends React.Component
         onBlur={this.handleBlur}
         InputLabelProps={{
           shrink: true,
-        }}
-        style={{width: '45%', padding: '7px 0'}}
-        inputProps={{
-          style: {
-            padding: '7px',
-          },
         }}
       />
     );

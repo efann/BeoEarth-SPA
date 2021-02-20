@@ -6,10 +6,16 @@
  *
  */
 
+
+/*
+  By the way, there's no such thing as a select or .select. So you must
+  reference the ID.
+ */
 #cboProjection1,
 #cboProjection2
 {
   min-width: 200px;
+  width: 50%;
   /* So that the drop down covers any component, like text fields, below it. */
   z-index: 10;
 }
@@ -21,7 +27,10 @@
 }
 
 /*
-.MuiOutlinedInput-input
-{
-  padding: 7px !important;
-}*/
+style = {{width: '90%', padding: '7px 0'}}
+inputProps={{
+style: {
+  padding: '7px',
+},
+}}
+*/

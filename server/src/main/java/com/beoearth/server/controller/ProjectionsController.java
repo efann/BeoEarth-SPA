@@ -31,8 +31,8 @@ public class ProjectionsController
   // ---------------------------------------------------------------------------------------------------------------------
   public ProjectionsController()
   {
-    this.foOriginalProjection.addProperty("key", System.getenv("REACT_APP_PROJECTION_LABEL_DEFAULT"));
-    this.foOriginalProjection.addProperty("projection", System.getenv("REACT_APP_PROJECTION_VALUE_DEFAULT"));
+    this.foOriginalProjection.addProperty("key", System.getenv("REACT_APP_PROJECTION_DEFAULT_LABEL"));
+    this.foOriginalProjection.addProperty("projection", System.getenv("REACT_APP_PROJECTION_DEFAULT_VALUE"));
     this.foOriginalProjection.addProperty("url", "https://en.wikipedia.org/wiki/World_Geodetic_System");
   }
 

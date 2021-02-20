@@ -25,21 +25,19 @@ class Projection2 extends BaseSelect
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
-  // Pretty cool. options and value get reset after componentDidMount with react-select
+  // Pretty cool. options get reset after componentDidMount with react-select
   render()
   {
     return (
       <Select
         id="cboProjection2"
+        readOnly
         options={this.state.selectOptions}
-        defaultValue={{label: process.env.REACT_APP_PROJECTION_LABEL_DEFAULT, value: process.env.PROJECTION_VALUE_DEFAULT}}
-        onChange={this.handleChange.bind(this)}
-        style={{width: '45%', padding: '7px 0'}}
-        inputProps={{
-          style: {
-            padding: '7px',
-          },
+        defaultValue={{
+          label: process.env.REACT_APP_PROJECTION_DEFAULT_LABEL,
+          value: process.env.PROJECTION_VALUE_DEFAULT
         }}
+        onChange={this.handleChange.bind(this)}
       />
     );
   }

@@ -20,12 +20,6 @@ export default function AddressTextField()
       InputLabelProps={{
         shrink: true,
       }}
-      style = {{width: '90%', padding: '7px 0'}}
-      inputProps={{
-        style: {
-          padding: '7px',
-        },
-      }}
     />
   );
 }
