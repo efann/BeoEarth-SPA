@@ -31,11 +31,10 @@ class Projection2 extends BaseSelect
     return (
       <Select
         id="cboProjection2"
-        readOnly
         options={this.state.selectOptions}
         defaultValue={{
           label: process.env.REACT_APP_PROJECTION_DEFAULT_LABEL,
-          value: process.env.PROJECTION_VALUE_DEFAULT
+          value: process.env.REACT_APP_PROJECTION_DEFAULT_VALUE
         }}
         onChange={this.handleChange.bind(this)}
       />

@@ -42,6 +42,24 @@ const GoogleMapProps = {
   googlekey: 'AIzaSyB-pdbBGLEr5DlPsvfL3C1Pz8seb3d2gEQ'
 };
 
+const AddressProps = {
+  id: 'txtAddress',
+  label: 'Address',
+  value: Utils.DEFAULT_ADDR
+}
+
+const LatitudeProps = {
+  id: 'txtLatitude',
+  label: 'Latitude (Y)',
+  value: Utils.DEFAULT_LAT
+}
+
+const LongitudeProps = {
+  id: 'txtLongitude',
+  label: 'Longitude (X)',
+  value: Utils.DEFAULT_LNG
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 function App()
 {
@@ -64,13 +82,13 @@ function App()
               <Projection1/>
             </Grid>
             <Grid item xs={12}>
-              <AddressTextField item xs={12}/>
+              <AddressTextField {...AddressProps} item xs={12}/>
             </Grid>
             <Grid item xs={12}>
-              <BaseNumberTextField id={'latitude'} label={'Latitude (Y)'} item xs={9}/>
+              <BaseNumberTextField {...LatitudeProps} item xs={9}/>
             </Grid>
             <Grid item xs={12}>
-              <BaseNumberTextField id={'longitude'} label={'Longitude (X)'} item xs={9}/>
+              <BaseNumberTextField  {...LongitudeProps} item xs={9}/>
             </Grid>
           </Grid>
         </form>

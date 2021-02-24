@@ -10,13 +10,15 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 
 // ---------------------------------------------------------------------------------------------------------------------
-export default function AddressTextField()
+export default function AddressTextField(toProps)
 {
   return (
     <TextField
-      id="Address"
-      label="Address"
+      id={toProps.id}
+      label={toProps.label}
+      defaultValue={toProps.value}
       variant="outlined"
+      size="small"
       InputLabelProps={{
         shrink: true,
       }}
