@@ -6,7 +6,6 @@
  *
  */
 
-import Projection1 from './components/projection1';
 import Paper from '@material-ui/core/Paper';
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
@@ -14,12 +13,12 @@ import Grid from '@material-ui/core/Grid';
 
 import {Utils} from './common/utils';
 import AddressTextField from './components/address';
-import Projection2 from './components/projection2';
 import IntegerSlider from './components/slider';
 import Map from './components/map';
+import BaseNumberTextField from './components/baseNumberTextField';
 
 import './style/App.css';
-import BaseNumberTextField from './components/baseNumberTextField';
+import BaseSelect from './components/baseSelect';
 
 // ---------------------------------------------------------------------------------------------------------------------
 const useStyles = makeStyles((toTheme) => ({
@@ -60,6 +59,16 @@ const LongitudeProps = {
   value: Utils.DEFAULT_LNG
 }
 
+const Projection1Props = {
+  id: 'cboProjection1',
+  url_frag: '/server/projections/list-first'
+}
+
+const Projection2Props = {
+  id: 'cboProjection2',
+  url_frag: '/server/projections/list-all'
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 function App()
 {
@@ -79,7 +88,7 @@ function App()
         <form className={classes.root} noValidate autoComplete="off">
           <Grid container>
             <Grid item xs={12}>
-              <Projection1/>
+              <BaseSelect {...Projection1Props}/>
             </Grid>
             <Grid item xs={12}>
               <AddressTextField {...AddressProps} item xs={12}/>
@@ -101,14 +110,18 @@ function App()
   function FormSecond()
   {
     return (
-      <form className={classes.root} noValidate autoComplete="off">
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>
-            <Projection2 item xs={12}/>
-            <IntegerSlider item xs={12}/>
-          </Paper>
-        </Grid>
-      </form>
+      <Paper className={classes.paper}>
+        <form className={classes.root} noValidate autoComplete="off">
+          <Grid container>
+            <Grid item xs={12}>
+              <BaseSelect {...Projection2Props}/>
+            </Grid>
+            <Grid item xs={12}>
+              <IntegerSlider item xs={12}/>
+            </Grid>
+          </Grid>
+        </form>
+      </Paper>
     );
   }
 
@@ -127,7 +140,7 @@ function App()
               </Grid>
             </Grid>
           </Paper>
-          <Grid item xs={12}>
+          <Grid id={'MapGrid'} item xs={12}>
             <Paper className={classes.paper}>
               <Map {...GoogleMapProps}/>
             </Paper>

@@ -9,6 +9,7 @@
 import React from 'react';
 
 import '../style/components.css'
+import Select from 'react-select';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
@@ -25,11 +26,13 @@ class BaseSelect extends React.Component
 
     this.state = {
       selectOptions: [],
-      id: '',
-      name: '',
-      isLoaded: false,
     }
+  }
 
+  // ---------------------------------------------------------------------------------------------------------------------
+  componentDidMount()
+  {
+    this.getOptions(window.location.protocol + '//' + window.location.hostname + this.props.url_frag);
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -72,6 +75,23 @@ class BaseSelect extends React.Component
   {
     console.log(toSelected.label);
     console.log(toSelected.value);
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  // Pretty cool. options get reset after componentDidMount with react-select
+  render()
+  {
+    return (
+      <Select
+        id={this.props.id}
+        options={this.state.selectOptions}
+        defaultValue={{
+          label: process.env.REACT_APP_PROJECTION_DEFAULT_LABEL,
+          value: process.env.REACT_APP_PROJECTION_DEFAULT_VALUE
+        }}
+        onChange={this.handleChange.bind(this)}
+      />
+    );
   }
 
   // ---------------------------------------------------------------------------------------------------------------------

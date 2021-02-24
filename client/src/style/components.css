@@ -26,11 +26,14 @@
   cursor: pointer;
 }
 
-/*
-style = {{width: '90%', padding: '7px 0'}}
-inputProps={{
-style: {
-  padding: '7px',
-},
-}}
-*/
+.MuiGrid-item
+{
+  padding-top: 7px;
+}
+
+/* I don't want a space between the forms and the map. */
+#MapGrid.MuiGrid-item
+{
+  padding-top: 0;
+}
+

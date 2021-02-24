@@ -17,19 +17,6 @@ import {Utils} from '../common/utils';
 // ---------------------------------------------------------------------------------------------------------------------
 class BaseNumberTextField extends React.Component
 {
-  // ---------------------------------------------------------------------------------------------------------------------
-  constructor(toProps)
-  {
-    super(toProps);
-
-    this.state = {};
-    this.state.id = toProps.id;
-    this.state.label = toProps.label;
-    this.state.value = toProps.value;
-
-    // By binding, you can reference 'this' is handleBlur.
-    this.handleBlur = this.handleBlur.bind(this);
-  }
 
   // ---------------------------------------------------------------------------------------------------------------------
   handleBlur(toEvent)
@@ -47,14 +34,15 @@ class BaseNumberTextField extends React.Component
   {
     return (
       <TextField
-        id={this.state.id}
-        label={this.state.label}
-        defaultValue={this.state.value}
+        id={this.props.id}
+        label={this.props.label}
+        defaultValue={this.props.value}
         required
         size="small"
         type="number"
         variant="outlined"
-        onBlur={this.handleBlur}
+        // By binding, you can reference 'this' is handleBlur.
+        onBlur={this.handleBlur.bind(this)}
         InputLabelProps={{
           shrink: true,
         }}
