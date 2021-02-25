@@ -12,13 +12,12 @@ import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 import {Utils} from './common/utils';
-import AddressTextField from './components/address';
 import IntegerSlider from './components/slider';
 import Map from './components/map';
-import BaseNumberTextField from './components/baseNumberTextField';
 
 import './style/App.css';
 import BaseSelect from './components/baseSelect';
+import BaseTextField from './components/baseTextField';
 
 // ---------------------------------------------------------------------------------------------------------------------
 const useStyles = makeStyles((toTheme) => ({
@@ -44,19 +43,22 @@ const GoogleMapProps = {
 const AddressProps = {
   id: 'txtAddress',
   label: 'Address',
-  value: Utils.DEFAULT_ADDR
+  value: Utils.DEFAULT_ADDR,
+  type: 'text'
 }
 
 const LatitudeProps = {
   id: 'txtLatitude',
   label: 'Latitude (Y)',
-  value: Utils.DEFAULT_LAT
+  value: Utils.DEFAULT_LAT,
+  type: 'number'
 }
 
 const LongitudeProps = {
   id: 'txtLongitude',
   label: 'Longitude (X)',
-  value: Utils.DEFAULT_LNG
+  value: Utils.DEFAULT_LNG,
+  type: 'number'
 }
 
 const Projection1Props = {
@@ -68,6 +70,15 @@ const Projection2Props = {
   id: 'cboProjection2',
   url_frag: '/server/projections/list-all'
 }
+
+const SliderProps = {
+  id: 'sliderSigFigs',
+  label: 'Longitude (X)',
+  value: 6,
+  min: 0,
+  max: 12
+}
+
 
 // ---------------------------------------------------------------------------------------------------------------------
 function App()
@@ -91,13 +102,13 @@ function App()
               <BaseSelect {...Projection1Props}/>
             </Grid>
             <Grid item xs={12}>
-              <AddressTextField {...AddressProps} item xs={12}/>
+              <BaseTextField {...AddressProps} item xs={12}/>
             </Grid>
             <Grid item xs={12}>
-              <BaseNumberTextField {...LatitudeProps} item xs={9}/>
+              <BaseTextField {...LatitudeProps} item xs={9}/>
             </Grid>
             <Grid item xs={12}>
-              <BaseNumberTextField  {...LongitudeProps} item xs={9}/>
+              <BaseTextField  {...LongitudeProps} item xs={9}/>
             </Grid>
           </Grid>
         </form>
@@ -117,7 +128,7 @@ function App()
               <BaseSelect {...Projection2Props}/>
             </Grid>
             <Grid item xs={12}>
-              <IntegerSlider item xs={12}/>
+              <IntegerSlider {...SliderProps} item xs={12}/>
             </Grid>
           </Grid>
         </form>

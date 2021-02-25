@@ -15,7 +15,7 @@ import {Utils} from '../common/utils';
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
-class BaseNumberTextField extends React.Component
+class BaseTextField extends React.Component
 {
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ class BaseNumberTextField extends React.Component
   {
 //    Utils.GeoCodeValues[toEvent.target.id] = toEvent.target.value;
 
-    Utils.GeoCodeValues.set(toEvent.target.id, {value: toEvent.target.value, label: this.state.label});
+    Utils.GeoCodeValues.set(toEvent.target.id, toEvent.target.value);
     console.log('======================================');
     console.log(Utils.GeoCodeValues);
     console.log('======================================');
@@ -39,7 +39,7 @@ class BaseNumberTextField extends React.Component
         defaultValue={this.props.value}
         required
         size="small"
-        type="number"
+        type={this.props.type}
         variant="outlined"
         // By binding, you can reference 'this' is handleBlur.
         onBlur={this.handleBlur.bind(this)}
@@ -58,4 +58,4 @@ class BaseNumberTextField extends React.Component
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 
-export default BaseNumberTextField
+export default BaseTextField

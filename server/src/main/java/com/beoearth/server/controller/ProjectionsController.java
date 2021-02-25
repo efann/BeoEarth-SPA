@@ -10,8 +10,6 @@ package com.beoearth.server.controller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,7 +52,20 @@ public class ProjectionsController
 
     loProjection = new JsonObject();
     loProjection.addProperty("key", "UTM");
-    loProjection.addProperty("projection", -1);
+
+    int lnUTMValue;
+    try
+    {
+      lnUTMValue = Integer.parseInt(System.getenv("REACT_APP_PROJECTION_UTM_VALUE"));
+    }
+    catch (final NumberFormatException loErr)
+    {
+      lnUTMValue = 0;
+
+      loErr.printStackTrace();
+    }
+
+    loProjection.addProperty("projection", lnUTMValue);
     loProjection.addProperty("url", "https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system");
     laProjections.add(loProjection);
 

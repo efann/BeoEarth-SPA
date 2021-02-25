@@ -10,6 +10,7 @@ import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+import {Utils} from '../common/utils';
 
 // ---------------------------------------------------------------------------------------------------------------------
 const useStyles = makeStyles({
@@ -27,9 +28,21 @@ function valuetext(value)
 
 // ---------------------------------------------------------------------------------------------------------------------
 // From https://material-ui.com/components/slider/
-export default function IntegerSlider()
+export default function IntegerSlider(toProps)
 {
   const classes = useStyles();
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  function handleChange(toEvent, toValue)
+  {
+    Utils.GeoCodeValues.set(toProps.id, toValue);
+    console.log('======================================');
+    console.log(Utils.GeoCodeValues);
+    console.log('======================================');
+
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
 
   return (
     <div className={classes.root}>
@@ -37,14 +50,17 @@ export default function IntegerSlider()
         <a href="http://en.wikipedia.org/wiki/Significant_figures" target="_blank" rel="noreferrer"><b>Sig Figs</b></a>
       </Typography>
       <Slider
-        defaultValue={6}
+        id={toProps.id}
+        label={toProps.label}
+        defaultValue={toProps.value}
         getAriaValueText={valuetext}
         aria-labelledby="discrete-slider-small-steps"
         step={1}
         marks
-        min={0}
-        max={12}
+        min={toProps.min}
+        max={toProps.max}
         valueLabelDisplay="auto"
+        onChangeCommitted={handleChange}
       />
     </div>
   );

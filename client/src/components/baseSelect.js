@@ -10,6 +10,7 @@ import React from 'react';
 
 import '../style/components.css'
 import Select from 'react-select';
+import {Utils} from '../common/utils';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
@@ -75,6 +76,12 @@ class BaseSelect extends React.Component
   {
     console.log(toSelected.label);
     console.log(toSelected.value);
+
+    Utils.GeoCodeValues.set(this.props.id, toSelected.value);
+    console.log('======================================');
+    console.log(Utils.GeoCodeValues);
+    console.log('======================================');
+
   }
 
   // ---------------------------------------------------------------------------------------------------------------------

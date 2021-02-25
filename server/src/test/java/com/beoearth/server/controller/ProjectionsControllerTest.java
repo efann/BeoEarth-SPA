@@ -25,6 +25,9 @@ class ProjectionsControllerTest
   @Test
   void getProjectionsListAll()
   {
+    // I can't test for this variable as it only exists in the container.
+    // assertNotNull(System.getenv("REACT_APP_PROJECTION_UTM_VALUE"));
+
     ProjectionsController loProjections = new ProjectionsController();
 
     // By the way, JsonParser.parseString will throw a com.google.gson.JsonSyntaxException on error.
