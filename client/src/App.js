@@ -18,6 +18,7 @@ import Map from './components/map';
 import './style/App.css';
 import BaseSelect from './components/baseSelect';
 import BaseTextField from './components/baseTextField';
+import FetchCalcs from './components/fetchCalcs';
 
 // ---------------------------------------------------------------------------------------------------------------------
 const useStyles = makeStyles((toTheme) => ({
@@ -129,6 +130,9 @@ function App()
             </Grid>
             <Grid item xs={12}>
               <IntegerSlider {...SliderProps} item xs={12}/>
+            </Grid>
+            <Grid item xs={12}>
+              <FetchCalcs item xs={12}/>
             </Grid>
           </Grid>
         </form>

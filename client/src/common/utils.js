@@ -12,6 +12,7 @@
 
 // From https://stackoverflow.com/questions/43714895/google-is-not-defined-in-react-app-using-create-react-app
 /* global google */
+const google = window.google;
 
 export const Utils =
   {
@@ -74,7 +75,6 @@ export const Utils =
         }
 
       Utils.foGoogleMap = new google.maps.Map(document.getElementById(Utils.ID_MAP), loOptionsMap);
-      console.log(Utils.foGoogleMap);
 
       let loMarker = Utils.setupMarker(Utils.foGoogleMap);
 
@@ -87,14 +87,8 @@ export const Utils =
         strictBounds: false,
         types: ['establishment'],
       };
-      try
-      {
-        const loAutoComplete = new google.maps.places.Autocomplete(loInput, laOptionsAuto);
-      }
-      catch (e)
-      {
-        console.log(e);
-      }
+
+      const loAutoComplete = new google.maps.places.Autocomplete(loInput, laOptionsAuto);
     },
     // ---------------------------------------------------------------------------------------------------------------------
     // toMap is the actual map
