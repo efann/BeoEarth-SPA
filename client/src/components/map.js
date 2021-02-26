@@ -7,7 +7,6 @@
  */
 
 import React, {Component} from 'react'
-import GoogleMapReact from 'google-map-react'
 
 import '../style/map.css'
 import {Utils} from '../common/utils';
@@ -18,23 +17,17 @@ import {Utils} from '../common/utils';
 class DefaultMap extends Component
 {
   // ---------------------------------------------------------------------------------------------------------------------
+  componentDidMount()
+  {
+    Utils.setupGoogleMaps();
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
   render()
   {
     return (
-      <div className="map">
-        <div className="google-map">
-          <GoogleMapReact
-            bootstrapURLKeys={{
-              key: this.props.googlekey
-            }}
-            options={Utils.createMapOptions()}
-            defaultCenter={this.props.center}
-            defaultZoom={this.props.zoom}
-            yesIWantToUseGoogleMapApiInternals
-            onGoogleApiLoaded={({map, maps}) => Utils.setupGoogleMaps(map, maps)}
-          >
-          </GoogleMapReact>
-        </div>
+      <div id={Utils.ID_MAP}>
+
       </div>
     );
   }

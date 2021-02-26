@@ -41,38 +41,38 @@ const GoogleMapProps = {
 };
 
 const AddressProps = {
-  id: 'txtAddress',
+  id: Utils.ID_ADDRESS,
   label: 'Address',
   value: Utils.DEFAULT_ADDR,
   type: 'text'
 }
 
 const LatitudeProps = {
-  id: 'txtLatitude',
+  id: Utils.ID_LAT,
   label: 'Latitude (Y)',
   value: Utils.DEFAULT_LAT,
   type: 'number'
 }
 
 const LongitudeProps = {
-  id: 'txtLongitude',
+  id: Utils.ID_LONG,
   label: 'Longitude (X)',
   value: Utils.DEFAULT_LNG,
   type: 'number'
 }
 
 const Projection1Props = {
-  id: 'cboProjection1',
+  id: Utils.ID_PROJ1,
   url_frag: '/server/projections/list-first'
 }
 
 const Projection2Props = {
-  id: 'cboProjection2',
+  id: Utils.ID_PROJ2,
   url_frag: '/server/projections/list-all'
 }
 
 const SliderProps = {
-  id: 'sliderSigFigs',
+  id: Utils.ID_SIGFIG,
   label: 'Longitude (X)',
   value: 6,
   min: 0,

@@ -9,13 +9,30 @@
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
+
+// From https://stackoverflow.com/questions/43714895/google-is-not-defined-in-react-app-using-create-react-app
+const google = window.google;
+
 export const Utils =
   {
+    ID_MAP: 'geocalc-map',
+    ID_ADDRESS: 'txtAddress',
+    ID_LAT: 'txtLatitude',
+    ID_LONG: 'txtLongitude',
+    ID_PROJ1: 'cboProjection1',
+    ID_PROJ2: 'cboProjection2',
+    ID_SIGFIG: 'sliderSigFigs',
     DEFAULT_ZOOM: 14,
     DEFAULT_LAT: 30.268735,
     DEFAULT_LNG: -97.745209,
     DEFAULT_ADDR: '298 Pecan St, Austin, TX 78701',
     GeoCodeValues: new Map(),
+
+    foGoogleMap: null,
+    foInfoWindow: null,
+    foGeoCalcPushPin: null,
+    foGeocoder: null,
+    foAutoComplete: null,
 
     // ---------------------------------------------------------------------------------------------------------------------
     getYear: () => new Date().getFullYear(),
@@ -44,19 +61,48 @@ export const Utils =
     // ---------------------------------------------------------------------------------------------------------------------
     // toMap is the actual map
     // toGoogleMaps is a reference to google.maps.*
-    setupGoogleMaps: function (toMap, toGoogleMaps)
+    setupGoogleMaps: function ()
     {
-      let loMarker = Utils.setupMarker(toMap, toGoogleMaps);
+      let loLatLng = new google.maps.LatLng(Utils.DEFAULT_LAT, Utils.DEFAULT_LNG);
 
+      let loOptionsMap =
+        {
+          zoom: 14,
+          center: loLatLng,
+          mapTypeId: google.maps.MapTypeId.TERRAIN,
+          streetViewControl: true
+        }
+
+      Utils.foGoogleMap = new google.maps.Map(document.getElementById(Utils.ID_MAP), loOptionsMap);
+      console.log(Utils.foGoogleMap);
+
+      let loMarker = Utils.setupMarker(Utils.foGoogleMap);
+
+      // From https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete#maps_places_autocomplete-javascript
+      const loInput = document.getElementById(Utils.ID_ADDRESS);
+
+      const laOptionsAuto = {
+        componentRestrictions: {country: 'us'},
+        fields: ['formatted_address', 'geometry', 'name'],
+        strictBounds: false,
+        types: ['establishment'],
+      };
+      try
+      {
+        const loAutoComplete = new google.maps.places.Autocomplete(loInput, laOptionsAuto);
+      }
+      catch (e)
+      {
+        console.log(e);
+      }
     },
     // ---------------------------------------------------------------------------------------------------------------------
     // toMap is the actual map
-    // toGoogleMaps is a reference to google.maps.*
-    setupMarker: function (toMap, toGoogleMaps)
+    setupMarker: function (toMap)
     {
-      let loLatLng = new toGoogleMaps.LatLng(Utils.DEFAULT_LAT, Utils.DEFAULT_LNG);
+      let loLatLng = new google.maps.LatLng(Utils.DEFAULT_LAT, Utils.DEFAULT_LNG);
 
-      let loMarker = new toGoogleMaps.Marker({
+      let loMarker = new google.maps.Marker({
         position: loLatLng,
         map: toMap,
         draggable: true,
@@ -67,7 +113,7 @@ export const Utils =
           fillOpacity: 0.9,
           scale: 0.25,
           strokeColor: 'black',
-          anchor: new toGoogleMaps.Point(46, 148)
+          anchor: new google.maps.Point(46, 148)
         },
         title: 'Drag & Drop Marker'
       });
