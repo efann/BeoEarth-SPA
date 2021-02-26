@@ -33,6 +33,7 @@ class CalculationsControllerTest
   private DataSource foDataSource;
 
   final private Gson foGson = new GsonBuilder().setPrettyPrinting().create();
+  final private static int SIG_FIG = 6;
 
   // ---------------------------------------------------------------------------------------------------------------------
   @Test
@@ -42,7 +43,7 @@ class CalculationsControllerTest
 
     // At the moment, I can't connect to the database to test.
     JsonElement loElement;
-    loElement = JsonParser.parseString(loCalc.getGISCalculationsUTM(30.26, -97.746, 4326));
+    loElement = JsonParser.parseString(loCalc.getGISCalculationsUTM(30.26, -97.746, 4326, SIG_FIG));
     assert (loElement instanceof JsonObject);
 
     JsonObject loJson;
@@ -57,7 +58,7 @@ class CalculationsControllerTest
     // Now set the datasource
     loCalc.setDataSource(this.foDataSource);
 
-    loElement = JsonParser.parseString(loCalc.getGISCalculationsUTM(30.26, -97.746, 4326));
+    loElement = JsonParser.parseString(loCalc.getGISCalculationsUTM(30.26, -97.746, 4326, SIG_FIG));
     assert (loElement instanceof JsonObject);
 
     loJson = (JsonObject) loElement;
@@ -79,7 +80,7 @@ class CalculationsControllerTest
     final var loCalc = new CalculationsController();
 
     JsonElement loElement;
-    loElement = JsonParser.parseString(loCalc.getGISCalculationsProjection(30.26, -97.746, 4326, 4267));
+    loElement = JsonParser.parseString(loCalc.getGISCalculationsProjection(30.26, -97.746, 4326, 4267, SIG_FIG));
     assert (loElement instanceof JsonObject);
 
     JsonObject loJson;
@@ -93,7 +94,7 @@ class CalculationsControllerTest
     // Now set the datasource
     loCalc.setDataSource(this.foDataSource);
 
-    loElement = JsonParser.parseString(loCalc.getGISCalculationsProjection(30.26, -97.746, 4326, 4267));
+    loElement = JsonParser.parseString(loCalc.getGISCalculationsProjection(30.26, -97.746, 4326, 4267, SIG_FIG));
     assert (loElement instanceof JsonObject);
 
     loJson = (JsonObject) loElement;

@@ -21,8 +21,6 @@ class BaseTextField extends React.Component
   // ---------------------------------------------------------------------------------------------------------------------
   handleBlur(toEvent)
   {
-//    Utils.GeoCodeValues[toEvent.target.id] = toEvent.target.value;
-
     Utils.GeoCodeValues.set(toEvent.target.id, toEvent.target.value);
     console.log('======================================');
     console.log(Utils.GeoCodeValues);

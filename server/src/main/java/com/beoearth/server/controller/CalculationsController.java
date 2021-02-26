@@ -36,12 +36,18 @@ public class CalculationsController extends BaseDataController
     @Validated
     @RequestParam("longitudex") double tnLongitudeX,
     @Validated
-    @RequestParam("projection") int tnProjection
+    @RequestParam("projection") int tnProjection,
+    @Validated
+    @RequestParam("sigfig") int tnSigFig
   )
+
   {
     this.setDataSource();
 
-    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(%f, %f), %d)", tnLongitudeX, tnLatitudeY, tnProjection);
+    // Ensure that lnSigFig is greater than or equal to 0 and less than or equal to 12.
+    int lnSigFig = Integer.max(Integer.min(tnSigFig, 12), 0);
+
+   final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(%f, %f), %d)", tnLongitudeX, tnLatitudeY, tnProjection);
     // From https://stackoverflow.com/questions/6891175/reuse-a-parameter-in-string-format
     // Reuse parameter
     final var lcSQL = String.format("SELECT data.\"UTMZoneSRID\"(%1$s) As SRID, data.\"UTMZone\"(%1$s) As Zone, st_x(ST_Transform(%1$s, data.\"UTMZoneSRID\"(%1$s))) As x, st_y(ST_Transform(%1$s, data.\"UTMZoneSRID\"(%1$s))) As y LIMIT 1;", lcGeometry);
@@ -61,8 +67,8 @@ public class CalculationsController extends BaseDataController
       laRows.forEach(loRow ->
       {
         loProjection.addProperty("SRID", loRow.get("SRID").toString());
-        loProjection.addProperty("X", (Double) loRow.get("X"));
-        loProjection.addProperty("Y", (Double) loRow.get("Y"));
+        loProjection.addProperty("X", this.convertToFormattedDouble(loRow.get("X"), lnSigFig));
+        loProjection.addProperty("Y", this.convertToFormattedDouble(loRow.get("Y"), lnSigFig));
         loProjection.addProperty("Zone", loRow.get("Zone").toString());
       });
 
@@ -87,10 +93,15 @@ public class CalculationsController extends BaseDataController
     @Validated
     @RequestParam("projectionold") int tnProjectionOld,
     @Validated
-    @RequestParam("projectionnew") int tnProjectionNew
+    @RequestParam("projectionnew") int tnProjectionNew,
+    @Validated
+    @RequestParam("sigfig") int tnSigFig
   )
   {
     this.setDataSource();
+
+    // Ensure that lnSigFig is greater than or equal to 0 and less than or equal to 12.
+    int lnSigFig = Integer.max(Integer.min(tnSigFig, 12), 0);
 
     final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(%f, %f), %d)", tnLongitudeX, tnLatitudeY, tnProjectionOld);
 
@@ -113,8 +124,8 @@ public class CalculationsController extends BaseDataController
 
       laRows.forEach(loRow ->
       {
-        loProjection.addProperty("X", (Double) loRow.get("X"));
-        loProjection.addProperty("Y", (Double) loRow.get("Y"));
+        loProjection.addProperty("X", this.convertToFormattedDouble(loRow.get("X"), lnSigFig));
+        loProjection.addProperty("Y", this.convertToFormattedDouble(loRow.get("Y"), lnSigFig));
       });
 
     }
@@ -127,6 +138,15 @@ public class CalculationsController extends BaseDataController
 
   }
 
+  // ---------------------------------------------------------------------------------------------------------------------
+  public String convertToFormattedDouble(Object toValue, int tnSigFig)
+  {
+    final Double lnValue = (Double) toValue;
+    final String lcFormat = "%." + tnSigFig + "f";
+
+    return (String.format(lcFormat, lnValue));
+
+  }
   // ---------------------------------------------------------------------------------------------------------------------
 
 }
