@@ -11,7 +11,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 
 // From https://stackoverflow.com/questions/43714895/google-is-not-defined-in-react-app-using-create-react-app
-const google = window.google;
+/* global google */
 
 export const Utils =
   {
