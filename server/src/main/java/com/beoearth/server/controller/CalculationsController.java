@@ -47,7 +47,7 @@ public class CalculationsController extends BaseDataController
     // Ensure that lnSigFig is greater than or equal to 0 and less than or equal to 12.
     int lnSigFig = Integer.max(Integer.min(tnSigFig, 12), 0);
 
-   final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(%f, %f), %d)", tnLongitudeX, tnLatitudeY, tnProjection);
+    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(%f, %f), %d)", tnLongitudeX, tnLatitudeY, tnProjection);
     // From https://stackoverflow.com/questions/6891175/reuse-a-parameter-in-string-format
     // Reuse parameter
     final var lcSQL = String.format("SELECT data.\"UTMZoneSRID\"(%1$s) As SRID, data.\"UTMZone\"(%1$s) As Zone, st_x(ST_Transform(%1$s, data.\"UTMZoneSRID\"(%1$s))) As x, st_y(ST_Transform(%1$s, data.\"UTMZoneSRID\"(%1$s))) As y LIMIT 1;", lcGeometry);
@@ -67,8 +67,10 @@ public class CalculationsController extends BaseDataController
       laRows.forEach(loRow ->
       {
         loProjection.addProperty("SRID", loRow.get("SRID").toString());
-        loProjection.addProperty("X", this.convertToFormattedDouble(loRow.get("X"), lnSigFig));
-        loProjection.addProperty("Y", this.convertToFormattedDouble(loRow.get("Y"), lnSigFig));
+        final double lnY = (Double) loRow.get("Y");
+        final double lnX = (Double) loRow.get("X");
+        loProjection.addProperty("Y", this.convertToFormattedDouble(lnY, lnSigFig));
+        loProjection.addProperty("X", this.convertToFormattedDouble(lnX, lnSigFig));
         loProjection.addProperty("Zone", loRow.get("Zone").toString());
       });
 
@@ -124,8 +126,14 @@ public class CalculationsController extends BaseDataController
 
       laRows.forEach(loRow ->
       {
-        loProjection.addProperty("X", this.convertToFormattedDouble(loRow.get("X"), lnSigFig));
-        loProjection.addProperty("Y", this.convertToFormattedDouble(loRow.get("Y"), lnSigFig));
+        final double lnY = (Double) loRow.get("Y");
+        final double lnX = (Double) loRow.get("X");
+        loProjection.addProperty("Y", this.convertToFormattedDouble(lnY, lnSigFig));
+        loProjection.addProperty("X", this.convertToFormattedDouble(lnX, lnSigFig));
+        loProjection.addProperty("YDirection", this.getDegreesMinutesSeconds(lnY, true, lnSigFig));
+        loProjection.addProperty("XDirection", this.getDegreesMinutesSeconds(lnX, false, lnSigFig));
+        loProjection.addProperty("YMinutes", this.getDegreesMinutes(lnY, lnSigFig));
+        loProjection.addProperty("XMinutes", this.getDegreesMinutes(lnX, lnSigFig));
       });
 
     }
@@ -139,14 +147,76 @@ public class CalculationsController extends BaseDataController
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
-  public String convertToFormattedDouble(Object toValue, int tnSigFig)
+  private String convertToFormattedDouble(final double tnValue, final int tnSigFig)
   {
-    final Double lnValue = (Double) toValue;
     final String lcFormat = "%." + tnSigFig + "f";
 
-    return (String.format(lcFormat, lnValue));
+    return (String.format(lcFormat, tnValue));
 
   }
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  private String getDegreesMinutesSeconds(final double tnMeasurement, final boolean tlNorthSouth, final int tnSigFig)
+  {
+    final StringBuilder lcResults = new StringBuilder();
+
+    double lnMeasurement = tnMeasurement;
+    boolean llPositive = (lnMeasurement >= 0.0);
+
+    lnMeasurement = Math.abs(lnMeasurement);
+
+    String lcDirection;
+    if (llPositive)
+    {
+      lcDirection = (tlNorthSouth) ? "N" : "E";
+    }
+    else
+    {
+      lcDirection = (tlNorthSouth) ? "S" : "W";
+    }
+
+    final int lnDegrees = (int) Math.floor(lnMeasurement);
+    // The degree symbol causes XML to complain. So this is the HTML entity.
+    lcResults.append(String.format("%d&deg; ", lnDegrees));
+
+    final int lnMinutes = (int) Math.floor((lnMeasurement - lnDegrees) * 60.0);
+    lcResults.append(String.format("%d' ", lnMinutes));
+
+    final double lnSeconds = (lnMeasurement - lnDegrees - (lnMinutes / 60.0)) * 3600.0;
+
+    lcResults.append(this.convertToFormattedDouble(lnSeconds, tnSigFig));
+    lcResults.append("\"");
+    lcResults.append(lcDirection);
+
+    return (lcResults.toString());
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  private String getDegreesMinutes(final double tnMeasurement, final int tnSigFig)
+  {
+    final StringBuilder lcResults = new StringBuilder();
+
+    double lnMeasurement = tnMeasurement;
+    if (lnMeasurement < 0.0)
+    {
+      lcResults.append("-");
+    }
+
+    lnMeasurement = Math.abs(lnMeasurement);
+
+    final int lnDegrees = (int) Math.floor(lnMeasurement);
+    // The degree symbol causes XML to complain. So this is the HTML entity.
+    lcResults.append(String.format("%d&deg; ", lnDegrees));
+
+    final int lnMinutes = (int) Math.floor((lnMeasurement - lnDegrees) * 60.0);
+    // You have to convert seconds to minutes; hence the times 60.
+    final double lnSeconds = (lnMeasurement - lnDegrees - (lnMinutes / 60.0)) * 60.0;
+
+    lcResults.append(this.convertToFormattedDouble(lnMinutes + lnSeconds, tnSigFig));
+
+    return (lcResults.toString());
+  }
+
   // ---------------------------------------------------------------------------------------------------------------------
 
 }
