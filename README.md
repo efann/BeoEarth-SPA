@@ -48,3 +48,10 @@ _You will need to enable reverse proxy for Apache_
 * a2enmod proxy
 * a2enmod proxy_http
 * systemctl restart apache2
+
+_For the local environment, you will need to enable headers for Apache_
+* a2enmod headers
+* systemctl restart apache2
+
+This will fix the CORS issue with localhost:3000. From
+https://stackoverflow.com/questions/29150384/how-to-allow-cross-domain-request-in-apache2/42816351

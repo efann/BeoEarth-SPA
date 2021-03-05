@@ -185,7 +185,7 @@ public class CalculationsController extends BaseDataController
     final double lnSeconds = (lnMeasurement - lnDegrees - (lnMinutes / 60.0)) * 3600.0;
 
     lcResults.append(this.convertToFormattedDouble(lnSeconds, tnSigFig));
-    lcResults.append("\"");
+    lcResults.append("\" ");
     lcResults.append(lcDirection);
 
     return (lcResults.toString());

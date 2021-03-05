@@ -9,6 +9,7 @@
 import React from 'react';
 
 import '../style/components.css'
+import Grid from '@material-ui/core/Grid';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
@@ -29,7 +30,7 @@ class FetchCalcs extends React.Component
   // ---------------------------------------------------------------------------------------------------------------------
   componentDidMount()
   {
-    this.getOptions(window.location.protocol + '//' + window.location.hostname + '/server/calculations/projection?latitudey=32&longitudex=-97&projectionnew=4326&projectionold=4326&sigfig=6');
+    this.getOptions(window.location.protocol + '//' + window.location.hostname + '/server/calculations/projection?latitudey=30.268735&longitudex=-97.745209&projectionnew=4326&projectionold=4326&sigfig=6');
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -42,9 +43,18 @@ class FetchCalcs extends React.Component
         (toResult) =>
         {
           let loMap = toResult;
+          //let sql = loMap.find(loRow => loRow.key === "SQL");
 
+          console.log(loMap.SQL);
+          console.log(loMap.YDirection);
+          console.log(loMap.XDirection);
 
-          this.setState({lines: loMap})
+          this.setState({'Y': loMap.Y})
+          this.setState({'X': loMap.X})
+          this.setState({'YDirection': loMap.YDirection})
+          this.setState({'XDirection': loMap.XDirection})
+          this.setState({'YMinutes': loMap.YMinutes})
+          this.setState({'XMinutes': loMap.XMinutes})
 
           this.setState({
             isLoaded: true,
@@ -71,13 +81,27 @@ class FetchCalcs extends React.Component
     return (
       <div className={'FetchedData'}>
         <div className="App-intro">
-          <ul>
-            {this.state.lines.forEach(function (item, index)
-            {
-              <li key={index}>{item}</li>
-            })
-            }
-          </ul>
+          <Grid container>
+            <Grid item xs={12}>
+              {this.state.Y}
+            </Grid>
+            <Grid item xs={12}>
+              {this.state.X}
+            </Grid>
+            <Grid item xs={12}>
+              {this.state.YDirection}
+            </Grid>
+            <Grid item xs={12}>
+              {this.state.XDirection}
+            </Grid>
+            <Grid item xs={12}>
+              {this.state.YMinutes}
+            </Grid>
+            <Grid item xs={12}>
+              {this.state.XMinutes}
+            </Grid>
+          </Grid>
+
         </div>
       </div>
     );
