@@ -8,6 +8,8 @@
 
 package com.beoearth.server.controller;
 
+import com.beoearth.server.Utils;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +29,23 @@ import java.util.Map;
 @RequestMapping(value = {"/calculations"}, method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 public class CalculationsController extends BaseDataController
 {
+  private enum Direction
+  {
+    DIRECTION_NONE,
+    DIRECTION_NORTHSOUTH,
+    DIRECTION_EASTWEST
+  }
+
+  private enum ProjectionValue
+  {
+    PROJECTION_VALUE_TEXT,
+    PROJECTION_VALUE_URL
+  }
+
+  final private static int MAX_SIG_FIG = 12;
+
+  // If you don't use %.12f, then the string defaults to %.6f or so.
+  final private static String FORMAT_SQL_DECIMAL = "%." + CalculationsController.MAX_SIG_FIG + "f";
 
   // ---------------------------------------------------------------------------------------------------------------------
   // From https://www.baeldung.com/spring-requestmapping
@@ -44,10 +64,12 @@ public class CalculationsController extends BaseDataController
   {
     this.setDataSource();
 
-    // Ensure that lnSigFig is greater than or equal to 0 and less than or equal to 12.
-    int lnSigFig = Integer.max(Integer.min(tnSigFig, 12), 0);
+    // Ensure that lnSigFig is greater than or equal to 0 and less than or equal to CalculationsController.MAX_SIG_FIG.
+    int lnSigFig = Integer.max(Integer.min(tnSigFig, CalculationsController.MAX_SIG_FIG), 0);
 
-    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(%f, %f), %d)", tnLongitudeX, tnLatitudeY, tnProjection);
+    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(" + CalculationsController.FORMAT_SQL_DECIMAL
+      + ", " + CalculationsController.FORMAT_SQL_DECIMAL + "), %d)", tnLongitudeX, tnLatitudeY, tnProjection);
+
     // From https://stackoverflow.com/questions/6891175/reuse-a-parameter-in-string-format
     // Reuse parameter
     final var lcSQL = String.format("SELECT data.\"UTMZoneSRID\"(%1$s) As SRID, data.\"UTMZone\"(%1$s) As Zone, st_x(ST_Transform(%1$s, data.\"UTMZoneSRID\"(%1$s))) As x, st_y(ST_Transform(%1$s, data.\"UTMZoneSRID\"(%1$s))) As y LIMIT 1;", lcGeometry);
@@ -55,6 +77,8 @@ public class CalculationsController extends BaseDataController
     final var loProjection = new JsonObject();
 
     loProjection.addProperty("SQL", lcSQL);
+    loProjection.addProperty("ProjectionURL", this.getProjectionValue(tnProjection, ProjectionValue.PROJECTION_VALUE_URL));
+    loProjection.addProperty("ProjectionText", this.getProjectionValue(tnProjection, ProjectionValue.PROJECTION_VALUE_TEXT));
     loProjection.addProperty("LongitudeX", tnLongitudeX);
     loProjection.addProperty("LatitudeY", tnLatitudeY);
     loProjection.addProperty("Projection", tnProjection);
@@ -102,10 +126,11 @@ public class CalculationsController extends BaseDataController
   {
     this.setDataSource();
 
-    // Ensure that lnSigFig is greater than or equal to 0 and less than or equal to 12.
-    int lnSigFig = Integer.max(Integer.min(tnSigFig, 12), 0);
+    // Ensure that lnSigFig is greater than or equal to 0 and less than or equal to CalculationsController.MAX_SIG_FIG.
+    int lnSigFig = Integer.max(Integer.min(tnSigFig, CalculationsController.MAX_SIG_FIG), 0);
 
-    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(%f, %f), %d)", tnLongitudeX, tnLatitudeY, tnProjectionOld);
+    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(" + CalculationsController.FORMAT_SQL_DECIMAL + ", "
+      + CalculationsController.FORMAT_SQL_DECIMAL + "), %d)", tnLongitudeX, tnLatitudeY, tnProjectionOld);
 
     // From https://stackoverflow.com/questions/6891175/reuse-a-parameter-in-string-format
     // Reuse parameter
@@ -114,8 +139,10 @@ public class CalculationsController extends BaseDataController
     final var loProjection = new JsonObject();
 
     loProjection.addProperty("SQL", lcSQL);
-    loProjection.addProperty("LongitudeX", tnLongitudeX);
+    loProjection.addProperty("ProjectionURL", this.getProjectionValue(tnProjectionNew, ProjectionValue.PROJECTION_VALUE_URL));
+    loProjection.addProperty("ProjectionText", this.getProjectionValue(tnProjectionNew, ProjectionValue.PROJECTION_VALUE_TEXT));
     loProjection.addProperty("LatitudeY", tnLatitudeY);
+    loProjection.addProperty("LongitudeX", tnLongitudeX);
     loProjection.addProperty("ProjectionOld", tnProjectionOld);
     loProjection.addProperty("ProjectionNew", tnProjectionNew);
 
@@ -130,10 +157,10 @@ public class CalculationsController extends BaseDataController
         final double lnX = (Double) loRow.get("X");
         loProjection.addProperty("Y", this.convertToFormattedDouble(lnY, lnSigFig));
         loProjection.addProperty("X", this.convertToFormattedDouble(lnX, lnSigFig));
-        loProjection.addProperty("YDirection", this.getDegreesMinutesSeconds(lnY, true, lnSigFig));
-        loProjection.addProperty("XDirection", this.getDegreesMinutesSeconds(lnX, false, lnSigFig));
-        loProjection.addProperty("YMinutes", this.getDegreesMinutes(lnY, lnSigFig));
-        loProjection.addProperty("XMinutes", this.getDegreesMinutes(lnX, lnSigFig));
+        loProjection.addProperty("YDirection", this.getDegreesMinutesSeconds(lnY, Direction.DIRECTION_NORTHSOUTH, lnSigFig));
+        loProjection.addProperty("XDirection", this.getDegreesMinutesSeconds(lnX, Direction.DIRECTION_EASTWEST, lnSigFig));
+        loProjection.addProperty("YMinutes", this.getDegreesMinutesSeconds(lnY, Direction.DIRECTION_NONE, lnSigFig));
+        loProjection.addProperty("XMinutes", this.getDegreesMinutesSeconds(lnX, Direction.DIRECTION_NONE, lnSigFig));
       });
 
     }
@@ -156,7 +183,7 @@ public class CalculationsController extends BaseDataController
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
-  private String getDegreesMinutesSeconds(final double tnMeasurement, final boolean tlNorthSouth, final int tnSigFig)
+  private String getDegreesMinutesSeconds(final double tnMeasurement, final Direction tnDirection, final int tnSigFig)
   {
     final StringBuilder lcResults = new StringBuilder();
 
@@ -165,58 +192,87 @@ public class CalculationsController extends BaseDataController
 
     lnMeasurement = Math.abs(lnMeasurement);
 
-    String lcDirection;
-    if (llPositive)
+    String lcDirection = "";
+    switch (tnDirection)
     {
-      lcDirection = (tlNorthSouth) ? "N" : "E";
+      case DIRECTION_NONE:
+        if (!llPositive)
+        {
+          lcResults.append("-");
+        }
+        break;
+
+      case DIRECTION_NORTHSOUTH:
+        lcDirection = (llPositive) ? "N" : "S";
+        break;
+
+      case DIRECTION_EASTWEST:
+        lcDirection = (llPositive) ? "E" : "W";
+        break;
+    }
+
+    // From https://www.baeldung.com/java-separate-double-into-integer-decimal-parts
+    BigDecimal lnBigDecimal = new BigDecimal(lnMeasurement);
+    final int lnDegrees = lnBigDecimal.intValue();
+    final double lnFraction = lnBigDecimal.subtract(new BigDecimal(lnDegrees)).doubleValue();
+
+    // The degree symbol causes XML to complain. So this is the HTML entity.
+    // However, we're using JSON now, and Google recommends using the actual code
+    // From https://google.github.io/styleguide/htmlcssguide.html#Entity_References
+    lcResults.append(String.format("%d° ", lnDegrees));
+
+    final int lnMinutes = (int) Math.floor(lnFraction * 60.0);
+
+    double lnSecondsFraction;
+    if (tnDirection == Direction.DIRECTION_NONE)
+    {
+      // You have to convert seconds to minutes; hence the times 60.
+      lnSecondsFraction = (lnFraction - (lnMinutes / 60.0)) * 60.0;
+
+      lcResults.append(this.convertToFormattedDouble(lnMinutes + lnSecondsFraction, tnSigFig));
     }
     else
     {
-      lcDirection = (tlNorthSouth) ? "S" : "W";
+      lcResults.append(String.format("%d' ", lnMinutes));
+
+      lnSecondsFraction = (lnFraction - (lnMinutes / 60.0)) * 3600.0;
+
+      lcResults.append(this.convertToFormattedDouble(lnSecondsFraction, tnSigFig));
+      lcResults.append("\" ").append(lcDirection);
     }
-
-    final int lnDegrees = (int) Math.floor(lnMeasurement);
-    // The degree symbol causes XML to complain. So this is the HTML entity.
-    lcResults.append(String.format("%d&deg; ", lnDegrees));
-
-    final int lnMinutes = (int) Math.floor((lnMeasurement - lnDegrees) * 60.0);
-    lcResults.append(String.format("%d' ", lnMinutes));
-
-    final double lnSeconds = (lnMeasurement - lnDegrees - (lnMinutes / 60.0)) * 3600.0;
-
-    lcResults.append(this.convertToFormattedDouble(lnSeconds, tnSigFig));
-    lcResults.append("\" ");
-    lcResults.append(lcDirection);
 
     return (lcResults.toString());
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
-  private String getDegreesMinutes(final double tnMeasurement, final int tnSigFig)
+  private String getProjectionValue(final int tnProjection, final ProjectionValue tnValue)
   {
-    final StringBuilder lcResults = new StringBuilder();
+    final JsonArray laProjections = Utils.INSTANCE.getAllProjections();
 
-    double lnMeasurement = tnMeasurement;
-    if (lnMeasurement < 0.0)
+    String lcValue = "";
+    final int lnSize = laProjections.size();
+    for (int i = 0; i < lnSize; ++i)
     {
-      lcResults.append("-");
+      final JsonObject loRow = (JsonObject) laProjections.get(i);
+      final int lnProjection = loRow.get("projection").getAsInt();
+      if (lnProjection == tnProjection)
+      {
+        switch (tnValue)
+        {
+          case PROJECTION_VALUE_TEXT:
+            lcValue = loRow.get("key").toString().replaceAll("\"", "");
+            break;
+          case PROJECTION_VALUE_URL:
+            lcValue = loRow.get("url").toString().replaceAll("\"", "");
+            break;
+        }
+
+        break;
+      }
     }
 
-    lnMeasurement = Math.abs(lnMeasurement);
-
-    final int lnDegrees = (int) Math.floor(lnMeasurement);
-    // The degree symbol causes XML to complain. So this is the HTML entity.
-    lcResults.append(String.format("%d&deg; ", lnDegrees));
-
-    final int lnMinutes = (int) Math.floor((lnMeasurement - lnDegrees) * 60.0);
-    // You have to convert seconds to minutes; hence the times 60.
-    final double lnSeconds = (lnMeasurement - lnDegrees - (lnMinutes / 60.0)) * 60.0;
-
-    lcResults.append(this.convertToFormattedDouble(lnMinutes + lnSeconds, tnSigFig));
-
-    return (lcResults.toString());
+    return (lcValue);
   }
-
   // ---------------------------------------------------------------------------------------------------------------------
 
 }

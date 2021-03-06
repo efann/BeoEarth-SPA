@@ -45,10 +45,8 @@ class FetchCalcs extends React.Component
           let loMap = toResult;
           //let sql = loMap.find(loRow => loRow.key === "SQL");
 
-          console.log(loMap.SQL);
-          console.log(loMap.YDirection);
-          console.log(loMap.XDirection);
-
+          this.setState({'ProjectionURL': loMap.ProjectionURL})
+          this.setState({'ProjectionText': loMap.ProjectionText})
           this.setState({'Y': loMap.Y})
           this.setState({'X': loMap.X})
           this.setState({'YDirection': loMap.YDirection})
@@ -83,21 +81,31 @@ class FetchCalcs extends React.Component
         <div className="App-intro">
           <Grid container>
             <Grid item xs={12}>
+              <strong>Projection: </strong> <a href={this.state.ProjectionURL}
+                                               target='_blank'>{this.state.ProjectionText}</a>
+            </Grid>
+            <Grid item xs={6}>
+              <strong>Latitude (Y)</strong>
+            </Grid>
+            <Grid item xs={6}>
+              <strong>Longitude (X)</strong>
+            </Grid>
+            <Grid item xs={6}>
               {this.state.Y}
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               {this.state.X}
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               {this.state.YDirection}
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               {this.state.XDirection}
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               {this.state.YMinutes}
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               {this.state.XMinutes}
             </Grid>
           </Grid>

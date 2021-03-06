@@ -8,6 +8,7 @@
 
 package com.beoearth.server.controller;
 
+import com.beoearth.server.Utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -25,8 +26,10 @@ class ProjectionsControllerTest
   @Test
   void getProjectionsListAll()
   {
-    // I can't test for this variable as it only exists in the container.
-    // assertNotNull(System.getenv("REACT_APP_PROJECTION_UTM_VALUE"));
+    final String lcUTM = Utils.INSTANCE.getenv("REACT_APP_PROJECTION_UTM_VALUE");
+    assert (lcUTM != null);
+
+    Integer.parseInt(lcUTM);
 
     ProjectionsController loProjections = new ProjectionsController();
 
