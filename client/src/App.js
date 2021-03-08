@@ -35,7 +35,7 @@ const useStyles = makeStyles((toTheme) => ({
 const GoogleMapProps = {
   center: {
     lat: Utils.DEFAULT_LAT,
-    lng: Utils.DEFAULT_LNG
+    lng: Utils.DEFAULT_LONG
   },
   zoom: Utils.DEFAULT_ZOOM,
   googlekey: 'AIzaSyB-pdbBGLEr5DlPsvfL3C1Pz8seb3d2gEQ'
@@ -45,21 +45,24 @@ const AddressProps = {
   id: Utils.ID_ADDRESS,
   label: 'Address',
   value: Utils.DEFAULT_ADDR,
-  type: 'text'
+  type: 'text',
+  width: '90%'
 }
 
 const LatitudeProps = {
   id: Utils.ID_LAT,
   label: 'Latitude (Y)',
   value: Utils.DEFAULT_LAT,
-  type: 'number'
+  type: 'number',
+  width: '50%'
 }
 
 const LongitudeProps = {
   id: Utils.ID_LONG,
   label: 'Longitude (X)',
-  value: Utils.DEFAULT_LNG,
-  type: 'number'
+  value: Utils.DEFAULT_LONG,
+  type: 'number',
+  width: '50%'
 }
 
 const Projection1Props = {
@@ -75,11 +78,10 @@ const Projection2Props = {
 const SliderProps = {
   id: Utils.ID_SIGFIG,
   label: 'Longitude (X)',
-  value: 6,
+  value: Utils.DEFAULT_SIGFIG,
   min: 0,
   max: 12
 }
-
 
 // ---------------------------------------------------------------------------------------------------------------------
 function App()

@@ -21,8 +21,8 @@ class BaseTextField extends React.Component
   // ---------------------------------------------------------------------------------------------------------------------
   handleBlur(toEvent)
   {
-    Utils.GeoCodeValues.set(toEvent.target.id, toEvent.target.value);
-    console.log('======================================');
+    Utils.GeoCodeValues.set(this.props.id, toEvent.target.value);
+    console.log('===============handleBlur=======================');
     console.log(Utils.GeoCodeValues);
     console.log('======================================');
   }
@@ -30,11 +30,14 @@ class BaseTextField extends React.Component
   // ---------------------------------------------------------------------------------------------------------------------
   render()
   {
+    Utils.GeoCodeValues.set(this.props.id, this.props.value);
+
     return (
       <TextField
         id={this.props.id}
         label={this.props.label}
         defaultValue={this.props.value}
+        style={{width: this.props.width}}
         required
         size="small"
         type={this.props.type}
@@ -42,7 +45,7 @@ class BaseTextField extends React.Component
         // By binding, you can reference 'this' is handleBlur.
         onBlur={this.handleBlur.bind(this)}
         InputLabelProps={{
-          shrink: true,
+          shrink: true
         }}
       />
     );

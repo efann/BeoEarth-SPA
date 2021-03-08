@@ -10,9 +10,6 @@ services:
             HOST_IP_ADDRESS: ${HOST_IP_ADDRESS}
             POSTGRES_PORT: ${POSTGRES_PORT}
             SERVER_PORT: ${SERVER_PORT}
-            REACT_APP_PROJECTION_DEFAULT_LABEL: ${REACT_APP_PROJECTION_DEFAULT_LABEL}
-            REACT_APP_PROJECTION_DEFAULT_VALUE: ${REACT_APP_PROJECTION_DEFAULT_VALUE}
-            REACT_APP_PROJECTION_UTM_VALUE: ${REACT_APP_PROJECTION_UTM_VALUE}
         volumes:
             - ./target/server-1.0.0-SNAPSHOT.war:/usr/local/tomcat/webapps/server.war
         ports:

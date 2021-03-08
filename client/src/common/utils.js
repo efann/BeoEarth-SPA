@@ -25,8 +25,9 @@ export const Utils =
     ID_SIGFIG: 'sliderSigFigs',
     DEFAULT_ZOOM: 14,
     DEFAULT_LAT: 30.268735,
-    DEFAULT_LNG: -97.745209,
+    DEFAULT_LONG: -97.745209,
     DEFAULT_ADDR: '298 Pecan St, Austin, TX 78701',
+    DEFAULT_SIGFIG: 6,
     GeoCodeValues: new Map(),
 
     foGoogleMap: null,
@@ -64,7 +65,7 @@ export const Utils =
     // toGoogleMaps is a reference to google.maps.*
     setupGoogleMaps: function ()
     {
-      let loLatLng = new google.maps.LatLng(Utils.DEFAULT_LAT, Utils.DEFAULT_LNG);
+      let loLatLng = new google.maps.LatLng(Utils.DEFAULT_LAT, Utils.DEFAULT_LONG);
 
       let loOptionsMap =
         {
@@ -79,22 +80,16 @@ export const Utils =
       let loMarker = Utils.setupMarker(Utils.foGoogleMap);
 
       // From https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete#maps_places_autocomplete-javascript
-      const loInput = document.getElementById(Utils.ID_ADDRESS);
+      let loInput = document.getElementById(Utils.ID_ADDRESS);
 
-      const laOptionsAuto = {
-        componentRestrictions: {country: 'us'},
-        fields: ['formatted_address', 'geometry', 'name'],
-        strictBounds: false,
-        types: ['establishment'],
-      };
-
-      const loAutoComplete = new google.maps.places.Autocomplete(loInput, laOptionsAuto);
+      // From https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete
+      let loAutoComplete = new google.maps.places.Autocomplete(loInput, {});
     },
     // ---------------------------------------------------------------------------------------------------------------------
     // toMap is the actual map
     setupMarker: function (toMap)
     {
-      let loLatLng = new google.maps.LatLng(Utils.DEFAULT_LAT, Utils.DEFAULT_LNG);
+      let loLatLng = new google.maps.LatLng(Utils.DEFAULT_LAT, Utils.DEFAULT_LONG);
 
       let loMarker = new google.maps.Marker({
         position: loLatLng,
@@ -143,6 +138,32 @@ export const Utils =
       );
 
     },
+    // ---------------------------------------------------------------------------------------------------------------------
+    // toMap is the actual map
+    buildFetchCalcURL: function ()
+    {
+      let lcURL = window.location.protocol + '//' + window.location.hostname + '/server/calculations/';
+      return;
+
+      let loProj1 = this.GeoCodeValues.get(this.ID_PROJ1);
+      let loProj2 = this.GeoCodeValues.get(this.ID_PROJ2);
+      let lnY = this.GeoCodeValues.get(this.ID_LAT);
+      let lnX = this.GeoCodeValues.get(this.ID_LONG);
+      let lnSigFig = this.GeoCodeValues.get(this.ID_SIGFIG);
+
+      if (loProj2.key != 'UTM')
+      {
+        lcURL += 'projection?';
+        lcURL += 'latitudey=${lnY}&longitudex=${lnX}&projectionnew=${loProj2.value}&projectionold=${loProj1.value}&sigfig=${lnSigFig.value}';
+      }
+      else
+      {
+        lcURL += 'UTM?';
+        lcURL += 'latitudey=${lnY}&longitudex=${lnX}&projection=${loProj1.value}&sigfig=${lnSigFig.value}';
+      }
+
+      return (lcURL);
+    }
     // ---------------------------------------------------------------------------------------------------------------------
   }
 // ---------------------------------------------------------------------------------------------------------------------

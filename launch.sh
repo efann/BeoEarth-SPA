@@ -20,10 +20,10 @@ if [[ ! $(sudo echo 0) ]]; then
   exit
 fi
 
-if [ $# -ne 4 ]; then
+if [ $# -ne 2 ]; then
   echo -e "\n============================================================================================="
   echo -e "Example usage:"
-  echo -e "  ./launch.sh <database> <password> <server_port> <postgres_port>"
+  echo -e "  ./launch.sh <database> <password>"
   echo -e "This will generate a database with a username of the same name using the password parameter."
   echo -e "In addition, this script will set the external access ports for the server and database."
   echo -e "=============================================================================================\n"
@@ -32,9 +32,11 @@ fi
 
 POSTGRES_USER=$1
 POSTGRES_PASS=$2
-SERVER_PORT=$3
-POSTGRES_PORT=$4
+
 POSTGRES_DBNAME=${POSTGRES_USER}
+
+# Load variables from launch.conf
+source launch.conf
 
 CONFIG_DIR="./containers/config"
 ENV_FILE=".env"

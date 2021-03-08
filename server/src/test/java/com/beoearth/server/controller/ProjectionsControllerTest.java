@@ -8,7 +8,6 @@
 
 package com.beoearth.server.controller;
 
-import com.beoearth.server.Utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -26,11 +25,6 @@ class ProjectionsControllerTest
   @Test
   void getProjectionsListAll()
   {
-    final String lcUTM = Utils.INSTANCE.getenv("REACT_APP_PROJECTION_UTM_VALUE");
-    assert (lcUTM != null);
-
-    Integer.parseInt(lcUTM);
-
     ProjectionsController loProjections = new ProjectionsController();
 
     // By the way, JsonParser.parseString will throw a com.google.gson.JsonSyntaxException on error.

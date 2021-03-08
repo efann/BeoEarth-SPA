@@ -8,7 +8,7 @@
 
 package com.beoearth.server.controller;
 
-import com.beoearth.server.Utils;
+import com.beoearth.server.model.Projections;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.springframework.validation.annotation.Validated;
@@ -44,9 +44,6 @@ public class CalculationsController extends BaseDataController
 
   final private static int MAX_SIG_FIG = 12;
 
-  // If you don't use %.12f, then the string defaults to %.6f or so.
-  final private static String FORMAT_SQL_DECIMAL = "%." + CalculationsController.MAX_SIG_FIG + "f";
-
   // ---------------------------------------------------------------------------------------------------------------------
   // From https://www.baeldung.com/spring-requestmapping
   @RequestMapping(value = {"/UTM"}, method = RequestMethod.GET)
@@ -67,8 +64,9 @@ public class CalculationsController extends BaseDataController
     // Ensure that lnSigFig is greater than or equal to 0 and less than or equal to CalculationsController.MAX_SIG_FIG.
     int lnSigFig = Integer.max(Integer.min(tnSigFig, CalculationsController.MAX_SIG_FIG), 0);
 
-    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(" + CalculationsController.FORMAT_SQL_DECIMAL
-      + ", " + CalculationsController.FORMAT_SQL_DECIMAL + "), %d)", tnLongitudeX, tnLatitudeY, tnProjection);
+    // Finally found a way to correctly convert a double to a string without losing precision.
+    // Gleaned from https://www.baeldung.com/java-separate-double-into-integer-decimal-parts
+    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(%s, %s), %d)", tnLongitudeX, tnLatitudeY, tnProjection);
 
     // From https://stackoverflow.com/questions/6891175/reuse-a-parameter-in-string-format
     // Reuse parameter
@@ -93,8 +91,8 @@ public class CalculationsController extends BaseDataController
         loProjection.addProperty("SRID", loRow.get("SRID").toString());
         final double lnY = (Double) loRow.get("Y");
         final double lnX = (Double) loRow.get("X");
-        loProjection.addProperty("Y", this.convertToFormattedDouble(lnY, lnSigFig));
-        loProjection.addProperty("X", this.convertToFormattedDouble(lnX, lnSigFig));
+        loProjection.addProperty("Northing", this.convertToFormattedDouble(lnY, lnSigFig));
+        loProjection.addProperty("Easting", this.convertToFormattedDouble(lnX, lnSigFig));
         loProjection.addProperty("Zone", loRow.get("Zone").toString());
       });
 
@@ -129,8 +127,12 @@ public class CalculationsController extends BaseDataController
     // Ensure that lnSigFig is greater than or equal to 0 and less than or equal to CalculationsController.MAX_SIG_FIG.
     int lnSigFig = Integer.max(Integer.min(tnSigFig, CalculationsController.MAX_SIG_FIG), 0);
 
-    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(" + CalculationsController.FORMAT_SQL_DECIMAL + ", "
-      + CalculationsController.FORMAT_SQL_DECIMAL + "), %d)", tnLongitudeX, tnLatitudeY, tnProjectionOld);
+//    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(" + CalculationsController.FORMAT_SQL_DECIMAL + ", "
+//      + CalculationsController.FORMAT_SQL_DECIMAL + "), %d)", tnLongitudeX, tnLatitudeY, tnProjectionOld);
+
+    // Finally found a way to correctly convert a double to a string without losing precision.
+    // Gleaned from https://www.baeldung.com/java-separate-double-into-integer-decimal-parts
+    final var lcGeometry = String.format("ST_SetSRID(ST_MakePoint(%s, %s), %d)", tnLongitudeX, tnLatitudeY, tnProjectionOld);
 
     // From https://stackoverflow.com/questions/6891175/reuse-a-parameter-in-string-format
     // Reuse parameter
@@ -247,7 +249,7 @@ public class CalculationsController extends BaseDataController
   // ---------------------------------------------------------------------------------------------------------------------
   private String getProjectionValue(final int tnProjection, final ProjectionValue tnValue)
   {
-    final JsonArray laProjections = Utils.INSTANCE.getAllProjections();
+    final JsonArray laProjections = Projections.INSTANCE.getAllProjections();
 
     String lcValue = "";
     final int lnSize = laProjections.size();

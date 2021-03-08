@@ -44,6 +44,8 @@ export default function IntegerSlider(toProps)
 
   // ---------------------------------------------------------------------------------------------------------------------
 
+  Utils.GeoCodeValues.set(toProps.id, toProps.value);
+
   return (
     <div className={classes.root}>
       <Typography id="discrete-slider-small-steps" gutterBottom>

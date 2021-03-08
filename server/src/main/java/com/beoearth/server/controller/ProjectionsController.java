@@ -8,7 +8,7 @@
 
 package com.beoearth.server.controller;
 
-import com.beoearth.server.Utils;
+import com.beoearth.server.model.Projections;
 import com.google.gson.JsonArray;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +28,7 @@ public class ProjectionsController
   @RequestMapping(value = {"/list-all"}, method = RequestMethod.GET)
   public String getProjectionsListAll()
   {
-    return (Utils.INSTANCE.getAllProjections().toString());
+    return (Projections.INSTANCE.getAllProjections().toString());
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ public class ProjectionsController
   {
     final JsonArray laProjections = new JsonArray();
 
-    laProjections.add(Utils.INSTANCE.getOriginalProjection());
+    laProjections.add(Projections.INSTANCE.getOriginalProjection());
 
     return (laProjections.toString());
   }

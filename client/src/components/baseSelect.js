@@ -11,6 +11,7 @@ import React from 'react';
 import '../style/components.css'
 import Select from 'react-select';
 import {Utils} from '../common/utils';
+import AjaxImage from '../blocks/ajaximage';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
@@ -26,6 +27,7 @@ class BaseSelect extends React.Component
     this.foProjections = null;
 
     this.state = {
+      isLoaded: false,
       selectOptions: [],
     }
   }
@@ -40,6 +42,10 @@ class BaseSelect extends React.Component
   // From https://medium.com/how-to-react/react-select-dropdown-tutorial-using-react-select-51664ab8b6f3
   async getOptions(tcURL)
   {
+    this.setState({
+      isLoaded: false,
+    });
+
     fetch(tcURL)
       .then(res => res.json())
       .then(
@@ -49,9 +55,12 @@ class BaseSelect extends React.Component
           const loOptions = this.foProjections.map(loRow => ({
             'label': loRow.key,
             'value': loRow.projection
-          }))
+          }));
 
-          this.setState({selectOptions: loOptions})
+          this.setState({selectOptions: loOptions});
+          this.setState({value: loOptions[0]});
+
+          Utils.GeoCodeValues.set(this.props.id, this.state.value);
 
           this.setState({
             isLoaded: true,
@@ -77,7 +86,9 @@ class BaseSelect extends React.Component
     console.log(toSelected.label);
     console.log(toSelected.value);
 
-    Utils.GeoCodeValues.set(this.props.id, toSelected.value);
+    this.setState({value: toSelected});
+
+    Utils.GeoCodeValues.set(this.props.id, toSelected);
     console.log('======================================');
     console.log(Utils.GeoCodeValues);
     console.log('======================================');
@@ -88,16 +99,21 @@ class BaseSelect extends React.Component
   // Pretty cool. options get reset after componentDidMount with react-select
   render()
   {
+    if (this.state.isLoaded)
+    {
+      return (
+        <Select
+          id={this.props.id}
+          value={this.state.value}
+          options={this.state.selectOptions}
+          onChange={this.handleChange.bind(this)}
+          isSearchable={false}
+        />
+      );
+    }
+
     return (
-      <Select
-        id={this.props.id}
-        options={this.state.selectOptions}
-        defaultValue={{
-          label: process.env.REACT_APP_PROJECTION_DEFAULT_LABEL,
-          value: process.env.REACT_APP_PROJECTION_DEFAULT_VALUE
-        }}
-        onChange={this.handleChange.bind(this)}
-      />
+      <AjaxImage/>
     );
   }
 
