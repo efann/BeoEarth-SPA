@@ -143,7 +143,6 @@ export const Utils =
     buildFetchCalcURL: function ()
     {
       let lcURL = window.location.protocol + '//' + window.location.hostname + '/server/calculations/';
-      return;
 
       let loProj1 = this.GeoCodeValues.get(this.ID_PROJ1);
       let loProj2 = this.GeoCodeValues.get(this.ID_PROJ2);
@@ -151,7 +150,7 @@ export const Utils =
       let lnX = this.GeoCodeValues.get(this.ID_LONG);
       let lnSigFig = this.GeoCodeValues.get(this.ID_SIGFIG);
 
-      if (loProj2.key != 'UTM')
+      if (loProj2.key !== 'UTM')
       {
         lcURL += 'projection?';
         lcURL += 'latitudey=${lnY}&longitudex=${lnX}&projectionnew=${loProj2.value}&projectionold=${loProj1.value}&sigfig=${lnSigFig.value}';

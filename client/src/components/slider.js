@@ -6,10 +6,10 @@
  *
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+
 import {Utils} from '../common/utils';
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -20,49 +20,41 @@ const useStyles = makeStyles({
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
-
-function valuetext(value)
-{
-  return `${value}°C`;
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
 // From https://material-ui.com/components/slider/
 export default function IntegerSlider(toProps)
 {
   const classes = useStyles();
 
-  // ---------------------------------------------------------------------------------------------------------------------
-  function handleChange(toEvent, toValue)
-  {
-    Utils.GeoCodeValues.set(toProps.id, toValue);
-    console.log('======================================');
-    console.log(Utils.GeoCodeValues);
-    console.log('======================================');
+  const [fetchCalc, setFetchCalc] = toProps.functions;
+  const [value, setValue] = useState(toProps.value);
 
+  // ---------------------------------------------------------------------------------------------------------------------
+  function handleChange(toEvent, tnValue)
+  {
+    Utils.GeoCodeValues.set(toProps.id, tnValue);
+    console.log('=============Slider=========================');
+    console.log('=>tnValue ' + tnValue);
+    console.log(Utils.GeoCodeValues);
+    console.log('============================================');
+
+    setValue(tnValue);
+    setFetchCalc(tnValue);
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
 
-  Utils.GeoCodeValues.set(toProps.id, toProps.value);
-
   return (
     <div className={classes.root}>
-      <Typography id="discrete-slider-small-steps" gutterBottom>
-        <a href="http://en.wikipedia.org/wiki/Significant_figures" target="_blank" rel="noreferrer"><b>Sig Figs</b></a>
-      </Typography>
       <Slider
         id={toProps.id}
-        label={toProps.label}
+        value={value}
         defaultValue={toProps.value}
-        getAriaValueText={valuetext}
-        aria-labelledby="discrete-slider-small-steps"
         step={1}
         marks
         min={toProps.min}
         max={toProps.max}
         valueLabelDisplay="auto"
-        onChangeCommitted={handleChange}
+        onChange={handleChange}
       />
     </div>
   );

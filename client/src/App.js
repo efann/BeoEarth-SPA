@@ -6,19 +6,20 @@
  *
  */
 
+import React, {useState} from 'react';
 import Paper from '@material-ui/core/Paper';
-import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 import {Utils} from './common/utils';
+
+import BaseSelect from './components/baseSelect';
+import BaseTextField from './components/baseTextField';
+import FetchCalcs from './components/fetchCalcs';
 import IntegerSlider from './components/slider';
 import Map from './components/map';
 
 import './style/App.css';
-import BaseSelect from './components/baseSelect';
-import BaseTextField from './components/baseTextField';
-import FetchCalcs from './components/fetchCalcs';
 
 // ---------------------------------------------------------------------------------------------------------------------
 const useStyles = makeStyles((toTheme) => ({
@@ -32,61 +33,63 @@ const useStyles = makeStyles((toTheme) => ({
   },
 }));
 
-const GoogleMapProps = {
-  center: {
-    lat: Utils.DEFAULT_LAT,
-    lng: Utils.DEFAULT_LONG
-  },
-  zoom: Utils.DEFAULT_ZOOM,
-  googlekey: 'AIzaSyB-pdbBGLEr5DlPsvfL3C1Pz8seb3d2gEQ'
-};
-
-const AddressProps = {
-  id: Utils.ID_ADDRESS,
-  label: 'Address',
-  value: Utils.DEFAULT_ADDR,
-  type: 'text',
-  width: '90%'
-}
-
-const LatitudeProps = {
-  id: Utils.ID_LAT,
-  label: 'Latitude (Y)',
-  value: Utils.DEFAULT_LAT,
-  type: 'number',
-  width: '50%'
-}
-
-const LongitudeProps = {
-  id: Utils.ID_LONG,
-  label: 'Longitude (X)',
-  value: Utils.DEFAULT_LONG,
-  type: 'number',
-  width: '50%'
-}
-
-const Projection1Props = {
-  id: Utils.ID_PROJ1,
-  url_frag: '/server/projections/list-first'
-}
-
-const Projection2Props = {
-  id: Utils.ID_PROJ2,
-  url_frag: '/server/projections/list-all'
-}
-
-const SliderProps = {
-  id: Utils.ID_SIGFIG,
-  label: 'Longitude (X)',
-  value: Utils.DEFAULT_SIGFIG,
-  min: 0,
-  max: 12
-}
 
 // ---------------------------------------------------------------------------------------------------------------------
 function App()
 {
   const classes = useStyles();
+
+  // Declare a new state variable, which we'll call "fetchCalc"
+  const [fetchCalc, setFetchCalc] = useState(0);
+
+  const GoogleMapProps = {
+    center: {
+      lat: Utils.DEFAULT_LAT,
+      lng: Utils.DEFAULT_LONG
+    },
+    zoom: Utils.DEFAULT_ZOOM,
+  };
+
+  const AddressProps = {
+    id: Utils.ID_ADDRESS,
+    label: 'Address',
+    value: Utils.DEFAULT_ADDR,
+    type: 'text',
+    width: '90%'
+  }
+
+  const LatitudeProps = {
+    id: Utils.ID_LAT,
+    label: 'Latitude (Y)',
+    value: Utils.DEFAULT_LAT,
+    type: 'number',
+    width: '50%'
+  }
+
+  const LongitudeProps = {
+    id: Utils.ID_LONG,
+    label: 'Longitude (X)',
+    value: Utils.DEFAULT_LONG,
+    type: 'number',
+    width: '50%'
+  }
+
+  const Projection1Props = {
+    id: Utils.ID_PROJ1,
+    url_frag: '/server/projections/list-first',
+  }
+
+  const Projection2Props = {
+    id: Utils.ID_PROJ2,
+    url_frag: '/server/projections/list-all',
+  }
+
+  const SliderProps = {
+    id: Utils.ID_SIGFIG,
+    value: Utils.DEFAULT_SIGFIG,
+    min: 0,
+    max: 12
+  };
 
   // ---------------------------------------------------------------------------------------------------------------------
   React.useEffect(() =>
@@ -131,10 +134,10 @@ function App()
               <BaseSelect {...Projection2Props}/>
             </Grid>
             <Grid item xs={12}>
-              <IntegerSlider {...SliderProps} item xs={12}/>
+              <IntegerSlider {...SliderProps} functions={[fetchCalc, setFetchCalc]} item xs={12}/>
             </Grid>
             <Grid item xs={12}>
-              <FetchCalcs item xs={12}/>
+              <FetchCalcs fetchCalc={fetchCalc} item xs={12}/>
             </Grid>
           </Grid>
         </form>
@@ -143,6 +146,7 @@ function App()
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
+
   return (
     <div className="App">
       <div className={classes.root}>

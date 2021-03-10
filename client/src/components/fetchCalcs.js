@@ -7,11 +7,12 @@
  */
 
 import React from 'react';
-
-import '../style/components.css'
 import Grid from '@material-ui/core/Grid';
+
 import AjaxImage from '../blocks/ajaximage';
 import {Utils} from '../common/utils';
+
+import '../style/components.css'
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
@@ -27,12 +28,14 @@ class FetchCalcs extends React.Component
     this.state = {
       isLoaded: false,
       lines: [],
+      fetchCalc: toProps.fetchCalc
     }
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
   componentDidMount()
   {
+    console.log('===============================componentDidMount===================================')
     //this.calculateProjection(window.location.protocol + '//' + window.location.hostname + '/server/calculations/projection?latitudey=30.268735&longitudex=-97.745209&projectionnew=4326&projectionold=4326&sigfig=6');
 
     //let lcURL = Utils.buildFetchCalcURL();
@@ -111,7 +114,7 @@ class FetchCalcs extends React.Component
             <Grid container>
               <Grid item xs={12}>
                 <strong>Projection: </strong> <a href={this.state.ProjectionURL}
-                                                 target='_blank'>{this.state.ProjectionText}</a>
+                                                 target='_blank'>{this.state.ProjectionText} rel="noreferrer" </a>
               </Grid>
               <Grid item xs={6}>
                 <strong>Latitude (Y)</strong>
@@ -146,7 +149,10 @@ class FetchCalcs extends React.Component
 
 
     return (
-      <AjaxImage/>
+      <div>
+        <AjaxImage/>
+        <div>{this.state.fetchCalc}</div>
+      </div>
     );
 
   }
