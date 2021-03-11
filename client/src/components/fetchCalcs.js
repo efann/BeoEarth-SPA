@@ -111,11 +111,11 @@ class FetchCalcs extends React.Component
       if (this.state.error)
       {
         return (
-          <div className={'FetchedData'}>
-            <div className="App-intro">
+          <Grid container>
+            <Grid item xs={12}>
               {this.state.errorMessage}
-            </div>
-          </div>
+            </Grid>
+          </Grid>
         );
       }
       else

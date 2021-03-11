@@ -12,6 +12,7 @@ import '../style/components.css'
 import Select from 'react-select';
 import {Utils} from '../common/utils';
 import AjaxImage from '../blocks/ajaximage';
+import Grid from '@material-ui/core/Grid';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
@@ -28,6 +29,8 @@ class BaseSelect extends React.Component
 
     this.state = {
       isLoaded: false,
+      error: false,
+      errorMessage: '<none>',
       selectOptions: [],
       updateFetchCalc: toProps.updateFetchCalc
     }
@@ -66,6 +69,8 @@ class BaseSelect extends React.Component
           this.setState({
             isLoaded: true,
           });
+
+          this.state.updateFetchCalc();
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -96,15 +101,28 @@ class BaseSelect extends React.Component
   {
     if (this.state.isLoaded)
     {
-      return (
-        <Select
-          id={this.props.id}
-          value={this.state.value}
-          options={this.state.selectOptions}
-          onChange={this.handleChange.bind(this)}
-          isSearchable={false}
-        />
-      );
+      if (this.state.error)
+      {
+        return (
+          <Grid container>
+            <Grid item xs={12}>
+              {this.state.errorMessage}
+            </Grid>
+          </Grid>
+        );
+      }
+      else
+      {
+        return (
+          <Select
+            id={this.props.id}
+            value={this.state.value}
+            options={this.state.selectOptions}
+            onChange={this.handleChange.bind(this)}
+            isSearchable={false}
+          />
+        );
+      }
     }
 
     return (

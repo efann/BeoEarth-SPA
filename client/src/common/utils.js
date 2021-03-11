@@ -154,7 +154,7 @@ export const Utils =
     // toMap is the actual map
     buildFetchCalcURL: function ()
     {
-      let lcURL = window.location.protocol + '//' + window.location.hostname + '/server/calculations/';
+      let lcURL = '';
 
       let loProj1 = this.GeoCodeValues.get(this.ID_PROJ1);
       let loProj2 = this.GeoCodeValues.get(this.ID_PROJ2);
@@ -162,17 +162,21 @@ export const Utils =
       let lnX = this.GeoCodeValues.get(this.ID_LONG);
       let lnSigFig = this.GeoCodeValues.get(this.ID_SIGFIG);
 
-      // From https://www.freecodecamp.org/news/javascript-string-format-how-to-use-string-interpolation-in-js/
-      // Note the use of backticks (`).
-      if (loProj2.key !== 'UTM')
+      if (Boolean(loProj1) && Boolean(loProj2) && Boolean(lnY) && Boolean(lnX) && (Boolean(lnSigFig) || lnSigFig === 0))
       {
-        lcURL += 'projection?';
-        lcURL += `latitudey=${lnY}&longitudex=${lnX}&projectionnew=${loProj2.value}&projectionold=${loProj1.value}&sigfig=${lnSigFig}`;
-      }
-      else
-      {
-        lcURL += 'UTM?';
-        lcURL += `latitudey=${lnY}&longitudex=${lnX}&projection=${loProj1.value}&sigfig=${lnSigFig}`;
+        lcURL = window.location.protocol + '//' + window.location.hostname + '/server/calculations/';
+        // From https://www.freecodecamp.org/news/javascript-string-format-how-to-use-string-interpolation-in-js/
+        // Note the use of backticks (`).
+        if (loProj2.key !== 'UTM')
+        {
+          lcURL += 'projection?';
+          lcURL += `latitudey=${lnY}&longitudex=${lnX}&projectionnew=${loProj2.value}&projectionold=${loProj1.value}&sigfig=${lnSigFig}`;
+        }
+        else
+        {
+          lcURL += 'UTM?';
+          lcURL += `latitudey=${lnY}&longitudex=${lnX}&projection=${loProj1.value}&sigfig=${lnSigFig}`;
+        }
       }
 
       return (lcURL);
