@@ -8,14 +8,14 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './style/index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import Header from './blocks/header';
+import App from './App';
 import Footer from './blocks/footer';
+import Header from './blocks/header';
 import Contact from './contact';
 import Notfound from './notfound';
+import reportWebVitals from './reportWebVitals';
+import './style/index.css';
 
 require('dotenv').config({debug: true})
 

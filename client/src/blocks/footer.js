@@ -6,9 +6,9 @@
  *
  */
 
+import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import {Utils} from '../common/utils';
-import Grid from '@material-ui/core/Grid';
 
 import '../style/footer.css';
 

@@ -6,12 +6,12 @@
  *
  */
 
-import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/core/Slider';
+import {makeStyles} from '@material-ui/core/styles';
+import React from 'react';
 
 import {Utils} from '../common/utils';
-import Grid from '@material-ui/core/Grid';
 
 // ---------------------------------------------------------------------------------------------------------------------
 const useStyles = makeStyles({

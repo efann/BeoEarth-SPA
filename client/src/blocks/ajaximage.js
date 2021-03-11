@@ -6,8 +6,8 @@
  *
  */
 
-import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import React from 'react';
 import ajaxgif from '../images/ajax-loader.gif'
 
 import '../style/ajaximage.css';

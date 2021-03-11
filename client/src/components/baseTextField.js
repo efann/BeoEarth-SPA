@@ -6,11 +6,11 @@
  *
  */
 
+import TextField from '@material-ui/core/TextField';
 import React from 'react';
+import {Utils} from '../common/utils';
 
 import '../style/components.css'
-import TextField from '@material-ui/core/TextField';
-import {Utils} from '../common/utils';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------

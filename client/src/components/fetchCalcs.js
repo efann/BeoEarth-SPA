@@ -6,8 +6,8 @@
  *
  */
 
-import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import React from 'react';
 
 import AjaxImage from '../blocks/ajaximage';
 import {Utils} from '../common/utils';
@@ -36,6 +36,7 @@ class FetchCalcs extends React.Component
 
   }
 
+  l
   // ---------------------------------------------------------------------------------------------------------------------
   // Called when state changes. If you leave out checking STATUS_FETCHCALC, you will get an infinite
   // loop of state changes as calculateProjection changes state.

@@ -6,18 +6,18 @@
  *
  */
 
-import React from 'react';
+import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import React from 'react';
 
 import {Utils} from './common/utils';
 
 import BaseSelect from './components/baseSelect';
 import BaseTextField from './components/baseTextField';
 import FetchCalcs from './components/fetchCalcs';
-import IntegerSlider from './components/slider';
 import Map from './components/map';
+import IntegerSlider from './components/slider';
 
 import './style/App.css';
 
