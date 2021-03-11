@@ -23,18 +23,24 @@ export const Utils =
     ID_PROJ1: 'cboProjection1',
     ID_PROJ2: 'cboProjection2',
     ID_SIGFIG: 'sliderSigFigs',
+    ID_FETCHCALC: 'fetchCalc',
+
     DEFAULT_ZOOM: 14,
     DEFAULT_LAT: 30.268735,
     DEFAULT_LONG: -97.745209,
     DEFAULT_ADDR: '298 Pecan St, Austin, TX 78701',
     DEFAULT_SIGFIG: 6,
-    GeoCodeValues: new Map(),
+
+    STATUS_FETCHCALC: 'status_fetchcalc',
 
     foGoogleMap: null,
     foInfoWindow: null,
     foGeoCalcPushPin: null,
     foGeocoder: null,
     foAutoComplete: null,
+
+    GeoCodeValues: new Map(),
+
 
     // ---------------------------------------------------------------------------------------------------------------------
     getYear: () => new Date().getFullYear(),
@@ -140,6 +146,12 @@ export const Utils =
     },
     // ---------------------------------------------------------------------------------------------------------------------
     // toMap is the actual map
+    setGeoCodeMap: function (tcKey, tcValue)
+    {
+      this.GeoCodeValues.set(tcKey, tcValue);
+    },
+    // ---------------------------------------------------------------------------------------------------------------------
+    // toMap is the actual map
     buildFetchCalcURL: function ()
     {
       let lcURL = window.location.protocol + '//' + window.location.hostname + '/server/calculations/';
@@ -150,15 +162,17 @@ export const Utils =
       let lnX = this.GeoCodeValues.get(this.ID_LONG);
       let lnSigFig = this.GeoCodeValues.get(this.ID_SIGFIG);
 
+      // From https://www.freecodecamp.org/news/javascript-string-format-how-to-use-string-interpolation-in-js/
+      // Note the use of backticks (`).
       if (loProj2.key !== 'UTM')
       {
         lcURL += 'projection?';
-        lcURL += 'latitudey=${lnY}&longitudex=${lnX}&projectionnew=${loProj2.value}&projectionold=${loProj1.value}&sigfig=${lnSigFig.value}';
+        lcURL += `latitudey=${lnY}&longitudex=${lnX}&projectionnew=${loProj2.value}&projectionold=${loProj1.value}&sigfig=${lnSigFig}`;
       }
       else
       {
         lcURL += 'UTM?';
-        lcURL += 'latitudey=${lnY}&longitudex=${lnX}&projection=${loProj1.value}&sigfig=${lnSigFig.value}';
+        lcURL += `latitudey=${lnY}&longitudex=${lnX}&projection=${loProj1.value}&sigfig=${lnSigFig}`;
       }
 
       return (lcURL);

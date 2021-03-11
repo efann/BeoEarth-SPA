@@ -21,16 +21,13 @@ class BaseTextField extends React.Component
   // ---------------------------------------------------------------------------------------------------------------------
   handleBlur(toEvent)
   {
-    Utils.GeoCodeValues.set(this.props.id, toEvent.target.value);
-    console.log('===============handleBlur=======================');
-    console.log(Utils.GeoCodeValues);
-    console.log('======================================');
+    Utils.setGeoCodeMap(this.props.id, toEvent.target.value);
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
   render()
   {
-    Utils.GeoCodeValues.set(this.props.id, this.props.value);
+    Utils.setGeoCodeMap(this.props.id, this.props.value);
 
     return (
       <TextField

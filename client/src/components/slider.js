@@ -6,11 +6,12 @@
  *
  */
 
-import React, {useState} from 'react';
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 
 import {Utils} from '../common/utils';
+import Grid from '@material-ui/core/Grid';
 
 // ---------------------------------------------------------------------------------------------------------------------
 const useStyles = makeStyles({
@@ -25,37 +26,38 @@ export default function IntegerSlider(toProps)
 {
   const classes = useStyles();
 
-  const [fetchCalc, setFetchCalc] = toProps.functions;
-  const [value, setValue] = useState(toProps.value);
-
   // ---------------------------------------------------------------------------------------------------------------------
   function handleChange(toEvent, tnValue)
   {
-    Utils.GeoCodeValues.set(toProps.id, tnValue);
-    console.log('=============Slider=========================');
-    console.log('=>tnValue ' + tnValue);
-    console.log(Utils.GeoCodeValues);
-    console.log('============================================');
-
-    setValue(tnValue);
-    setFetchCalc(tnValue);
+    Utils.setGeoCodeMap(toProps.id, tnValue);
+    toProps.updateFetchCalc();
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
 
+  Utils.setGeoCodeMap(toProps.id, toProps.value);
+
   return (
     <div className={classes.root}>
-      <Slider
-        id={toProps.id}
-        value={value}
-        defaultValue={toProps.value}
-        step={1}
-        marks
-        min={toProps.min}
-        max={toProps.max}
-        valueLabelDisplay="auto"
-        onChange={handleChange}
-      />
+      <Grid container>
+        <Grid item xs={12}>
+          <a href='https://en.wikipedia.org/wiki/Significant_figures' target='_blank' rel="noreferrer">Sig
+            Figs</a>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Slider
+            id={toProps.id}
+            defaultValue={toProps.value}
+            step={1}
+            marks
+            min={toProps.min}
+            max={toProps.max}
+            valueLabelDisplay="auto"
+            onChangeCommitted={handleChange}
+          />
+        </Grid>
+      </Grid>
     </div>
   );
 }

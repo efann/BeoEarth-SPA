@@ -29,6 +29,7 @@ class BaseSelect extends React.Component
     this.state = {
       isLoaded: false,
       selectOptions: [],
+      updateFetchCalc: toProps.updateFetchCalc
     }
   }
 
@@ -60,7 +61,7 @@ class BaseSelect extends React.Component
           this.setState({selectOptions: loOptions});
           this.setState({value: loOptions[0]});
 
-          Utils.GeoCodeValues.set(this.props.id, this.state.value);
+          Utils.setGeoCodeMap(this.props.id, this.state.value);
 
           this.setState({
             isLoaded: true,
@@ -83,16 +84,10 @@ class BaseSelect extends React.Component
   // ---------------------------------------------------------------------------------------------------------------------
   handleChange(toSelected)
   {
-    console.log(toSelected.label);
-    console.log(toSelected.value);
-
     this.setState({value: toSelected});
+    Utils.setGeoCodeMap(this.props.id, toSelected);
 
-    Utils.GeoCodeValues.set(this.props.id, toSelected);
-    console.log('======================================');
-    console.log(Utils.GeoCodeValues);
-    console.log('======================================');
-
+    this.state.updateFetchCalc();
   }
 
   // ---------------------------------------------------------------------------------------------------------------------

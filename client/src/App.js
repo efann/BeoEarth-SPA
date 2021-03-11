@@ -6,7 +6,7 @@
  *
  */
 
-import React, {useState} from 'react';
+import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -39,8 +39,19 @@ function App()
 {
   const classes = useStyles();
 
-  // Declare a new state variable, which we'll call "fetchCalc"
-  const [fetchCalc, setFetchCalc] = useState(0);
+  var refFetchCalc = React.createRef();
+
+  const updateFetchCalc = () =>
+  {
+    if (refFetchCalc === undefined)
+    {
+      console.log('===> refFetchCalc is undefined in updateFetchCalc');
+      return;
+    }
+
+    // Will cause a re-render of fetchCalc
+    refFetchCalc.current.setState({[Utils.STATUS_FETCHCALC]: true});
+  };
 
   const GoogleMapProps = {
     center: {
@@ -77,18 +88,21 @@ function App()
   const Projection1Props = {
     id: Utils.ID_PROJ1,
     url_frag: '/server/projections/list-first',
+    updateFetchCalc: updateFetchCalc
   }
 
   const Projection2Props = {
     id: Utils.ID_PROJ2,
     url_frag: '/server/projections/list-all',
+    updateFetchCalc: updateFetchCalc
   }
 
   const SliderProps = {
     id: Utils.ID_SIGFIG,
     value: Utils.DEFAULT_SIGFIG,
     min: 0,
-    max: 12
+    max: 12,
+    updateFetchCalc: updateFetchCalc
   };
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -134,10 +148,10 @@ function App()
               <BaseSelect {...Projection2Props}/>
             </Grid>
             <Grid item xs={12}>
-              <IntegerSlider {...SliderProps} functions={[fetchCalc, setFetchCalc]} item xs={12}/>
+              <IntegerSlider {...SliderProps} item xs={12}/>
             </Grid>
             <Grid item xs={12}>
-              <FetchCalcs fetchCalc={fetchCalc} item xs={12}/>
+              <FetchCalcs ref={refFetchCalc} item xs={12}/>
             </Grid>
           </Grid>
         </form>

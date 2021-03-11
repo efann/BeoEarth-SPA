@@ -27,34 +27,26 @@ class FetchCalcs extends React.Component
 
     this.state = {
       isLoaded: false,
+      error: false,
+      errorMessage: '<none>',
+      [Utils.STATUS_FETCHCALC]: false,
+      id: toProps.id,
       lines: [],
-      fetchCalc: toProps.fetchCalc
     }
+
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
-  componentDidMount()
-  {
-    console.log('===============================componentDidMount===================================')
-    //this.calculateProjection(window.location.protocol + '//' + window.location.hostname + '/server/calculations/projection?latitudey=30.268735&longitudex=-97.745209&projectionnew=4326&projectionold=4326&sigfig=6');
-
-    //let lcURL = Utils.buildFetchCalcURL();
-    //this.calculateProjection(lcURL);
-  }
-
-  // ---------------------------------------------------------------------------------------------------------------------
+  // Called when state changes. If you leave out checking STATUS_FETCHCALC, you will get an infinite
+  // loop of state changes as calculateProjection changes state.
   componentDidUpdate(toPrevProps, toPrevState)
   {
-    console.log('===============================componentDidUpdate===================================')
-    console.log(toPrevProps);
-    console.log(toPrevState);
-    console.log('====================================================================================')
-    /*
-        if (toPrevState.pokemons !== this.state.pokemons)
-        {
-          this.calculateProjection();
-        }
-    */
+    if (this.state[Utils.STATUS_FETCHCALC])
+    {
+      this.setState({[Utils.STATUS_FETCHCALC]: false});
+
+      this.calculateProjection();
+    }
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -66,6 +58,14 @@ class FetchCalcs extends React.Component
     });
 
     let lcURL = Utils.buildFetchCalcURL();
+    // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+    // Boolean checks for all sorts of conditions.
+    // If the value is omitted or is 0, -0, null, false, NaN, undefined, or the empty string (""),
+    // then Boolean will return false.
+    if (!Boolean(lcURL))
+    {
+      return;
+    }
 
     fetch(lcURL)
       .then(res => res.json())
@@ -73,7 +73,6 @@ class FetchCalcs extends React.Component
         (toResult) =>
         {
           let loMap = toResult;
-          //let sql = loMap.find(loRow => loRow.key === "SQL");
 
           this.setState({'ProjectionURL': loMap.ProjectionURL})
           this.setState({'ProjectionText': loMap.ProjectionText})
@@ -95,7 +94,8 @@ class FetchCalcs extends React.Component
         {
           this.setState({
             isLoaded: true,
-            error: toError
+            error: true,
+            errorMessage: toError
           });
           console.log('There was a problem:\n', toError);
         }
@@ -108,50 +108,61 @@ class FetchCalcs extends React.Component
   {
     if (this.state.isLoaded)
     {
-      return (
-        <div className={'FetchedData'}>
-          <div className="App-intro">
-            <Grid container>
-              <Grid item xs={12}>
-                <strong>Projection: </strong> <a href={this.state.ProjectionURL}
-                                                 target='_blank'>{this.state.ProjectionText} rel="noreferrer" </a>
-              </Grid>
-              <Grid item xs={6}>
-                <strong>Latitude (Y)</strong>
-              </Grid>
-              <Grid item xs={6}>
-                <strong>Longitude (X)</strong>
-              </Grid>
-              <Grid item xs={6}>
-                {this.state.Y}
-              </Grid>
-              <Grid item xs={6}>
-                {this.state.X}
-              </Grid>
-              <Grid item xs={6}>
-                {this.state.YDirection}
-              </Grid>
-              <Grid item xs={6}>
-                {this.state.XDirection}
-              </Grid>
-              <Grid item xs={6}>
-                {this.state.YMinutes}
-              </Grid>
-              <Grid item xs={6}>
-                {this.state.XMinutes}
-              </Grid>
-            </Grid>
-
+      if (this.state.error)
+      {
+        return (
+          <div className={'FetchedData'}>
+            <div className="App-intro">
+              {this.state.errorMessage}
+            </div>
           </div>
-        </div>
-      );
-    }
+        );
+      }
+      else
+      {
+        return (
+          <div className={'FetchedData'}>
+            <div className="App-intro">
+              <Grid container>
+                <Grid item xs={12}>
+                  <strong>Projection: </strong> <a href={this.state.ProjectionURL}
+                                                   target='_blank' rel="noreferrer">{this.state.ProjectionText}</a>
+                </Grid>
+                <Grid item xs={6}>
+                  <strong>Latitude (Y)</strong>
+                </Grid>
+                <Grid item xs={6}>
+                  <strong>Longitude (X)</strong>
+                </Grid>
+                <Grid item xs={6}>
+                  {this.state.Y}
+                </Grid>
+                <Grid item xs={6}>
+                  {this.state.X}
+                </Grid>
+                <Grid item xs={6}>
+                  {this.state.YDirection}
+                </Grid>
+                <Grid item xs={6}>
+                  {this.state.XDirection}
+                </Grid>
+                <Grid item xs={6}>
+                  {this.state.YMinutes}
+                </Grid>
+                <Grid item xs={6}>
+                  {this.state.XMinutes}
+                </Grid>
+              </Grid>
 
+            </div>
+          </div>
+        );
+      }
+    }
 
     return (
       <div>
         <AjaxImage/>
-        <div>{this.state.fetchCalc}</div>
       </div>
     );
 
