@@ -136,7 +136,7 @@ class FetchCalcs extends React.Component
           <div id='FetchedData'>
             <CSSTransition
               in={true}
-              timeout={700}
+              timeout={100}
               classNames="fetchcalc-list-transition"
               unmountOnExit
               appear
