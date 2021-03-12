@@ -6,10 +6,10 @@
  *
  */
 
-import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import Select from 'react-select';
-import AjaxImage from '../blocks/ajaximage';
+import AjaxImage from '../blocks/ajaxImage';
+import ErrorMessage from '../blocks/errorMessage';
 import {Utils} from '../common/utils';
 
 import '../style/components.css'
@@ -39,7 +39,7 @@ class BaseSelect extends React.Component
   // ---------------------------------------------------------------------------------------------------------------------
   componentDidMount()
   {
-    this.getOptions(window.location.protocol + '//' + window.location.hostname + this.props.url_frag);
+    this.getOptions(Utils.getURLPrefix() + this.props.url_frag);
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -55,33 +55,48 @@ class BaseSelect extends React.Component
       .then(
         (toResult) =>
         {
-          this.foProjections = toResult;
-          const loOptions = this.foProjections.map(loRow => ({
-            'label': loRow.key,
-            'value': loRow.projection
-          }));
+          try
+          {
+            this.foProjections = toResult;
+            const loOptions = this.foProjections.map(loRow => ({
+              'label': loRow.key,
+              'value': loRow.projection
+            }));
 
-          this.setState({selectOptions: loOptions});
-          this.setState({value: loOptions[0]});
+            this.setState({selectOptions: loOptions});
+            this.setState({value: loOptions[0]});
 
-          Utils.setGeoCodeMap(this.props.id, this.state.value);
+            Utils.setGeoCodeMap(this.props.id, this.state.value);
 
-          this.setState({
-            isLoaded: true,
-          });
+            this.setState({
+              isLoaded: true,
+            });
 
-          this.state.updateFetchCalc();
+            this.state.updateFetchCalc();
+          }
+          catch (toError)
+          {
+            console.log('There was a problem:\n', toError);
+
+            this.setState({
+              isLoaded: true,
+              error: true,
+              errorMessage: toError.message
+            });
+          }
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
         // exceptions from actual bugs in components.
         (toError) =>
         {
+          console.log('There was a problem:\n', toError);
+
           this.setState({
             isLoaded: true,
-            error: toError
+            error: true,
+            errorMessage: toError.message
           });
-          console.log('There was a problem:\n', toError);
         }
       )
   }
@@ -104,11 +119,7 @@ class BaseSelect extends React.Component
       if (this.state.error)
       {
         return (
-          <Grid container>
-            <Grid item xs={12}>
-              {this.state.errorMessage}
-            </Grid>
-          </Grid>
+          <ErrorMessage Message={this.state.errorMessage}/>
         );
       }
       else
@@ -126,7 +137,9 @@ class BaseSelect extends React.Component
     }
 
     return (
-      <AjaxImage/>
+      <div id={this.props.id}>
+        <AjaxImage/>
+      </div>
     );
   }
 

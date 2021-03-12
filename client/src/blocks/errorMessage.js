@@ -8,21 +8,19 @@
 
 import Grid from '@material-ui/core/Grid';
 import React from 'react';
-import ajaxgif from '../images/ajax-loader.gif'
 
-import '../style/ajaximage.css';
+import '../style/errorMessage.css';
 
 // ---------------------------------------------------------------------------------------------------------------------
-function AjaxImage()
+function ErrorMessage(toProps)
 {
   return (
     <Grid container>
       <Grid item xs={12}>
-
-        <div id="ajax-loading">
-          <img src={ajaxgif} alt={'Ajax gif not found'}/>
+        <div id="errorMessage">
+          <h4>An Error Has Been Detected</h4>
+          <p>{toProps.Message}</p>
         </div>
-
       </Grid>
     </Grid>
 
@@ -31,4 +29,4 @@ function AjaxImage()
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-export default AjaxImage;
+export default ErrorMessage;

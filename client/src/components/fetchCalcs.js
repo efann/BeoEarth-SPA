@@ -8,8 +8,10 @@
 
 import Grid from '@material-ui/core/Grid';
 import React from 'react';
+import {CSSTransition} from 'react-transition-group';
 
-import AjaxImage from '../blocks/ajaximage';
+import AjaxImage from '../blocks/ajaxImage';
+import ErrorMessage from '../blocks/errorMessage';
 import {Utils} from '../common/utils';
 
 import '../style/components.css'
@@ -36,7 +38,6 @@ class FetchCalcs extends React.Component
 
   }
 
-  l
   // ---------------------------------------------------------------------------------------------------------------------
   // Called when state changes. If you leave out checking STATUS_FETCHCALC, you will get an infinite
   // loop of state changes as calculateProjection changes state.
@@ -73,32 +74,46 @@ class FetchCalcs extends React.Component
       .then(
         (toResult) =>
         {
-          let loMap = toResult;
+          try
+          {
+            let loMap = toResult;
 
-          this.setState({'ProjectionURL': loMap.ProjectionURL})
-          this.setState({'ProjectionText': loMap.ProjectionText})
-          this.setState({'Y': loMap.Y})
-          this.setState({'X': loMap.X})
-          this.setState({'YDirection': loMap.YDirection})
-          this.setState({'XDirection': loMap.XDirection})
-          this.setState({'YMinutes': loMap.YMinutes})
-          this.setState({'XMinutes': loMap.XMinutes})
+            this.setState({'ProjectionURL': loMap.ProjectionURL})
+            this.setState({'ProjectionText': loMap.ProjectionText})
+            this.setState({'Y': loMap.Y})
+            this.setState({'X': loMap.X})
+            this.setState({'YDirection': loMap.YDirection})
+            this.setState({'XDirection': loMap.XDirection})
+            this.setState({'YMinutes': loMap.YMinutes})
+            this.setState({'XMinutes': loMap.XMinutes})
 
-          this.setState({
-            isLoaded: true,
-          });
+            this.setState({
+              isLoaded: true,
+            });
+          }
+          catch (toError)
+          {
+            console.log('There was a problem:\n', toError);
+
+            this.setState({
+              isLoaded: true,
+              error: true,
+              errorMessage: toError.message
+            });
+          }
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
         // exceptions from actual bugs in components.
         (toError) =>
         {
+          console.log('There was a problem:\n', toError);
+
           this.setState({
             isLoaded: true,
             error: true,
-            errorMessage: toError
+            errorMessage: toError.message
           });
-          console.log('There was a problem:\n', toError);
         }
       )
   }
@@ -112,57 +127,61 @@ class FetchCalcs extends React.Component
       if (this.state.error)
       {
         return (
-          <Grid container>
-            <Grid item xs={12}>
-              {this.state.errorMessage}
-            </Grid>
-          </Grid>
+          <ErrorMessage Message={this.state.errorMessage}/>
         );
       }
       else
       {
         return (
-          <div className={'FetchedData'}>
-            <div className="App-intro">
-              <Grid container>
-                <Grid item xs={12}>
-                  <strong>Projection: </strong> <a href={this.state.ProjectionURL}
-                                                   target='_blank' rel="noreferrer">{this.state.ProjectionText}</a>
+          <div id='FetchedData'>
+            <CSSTransition
+              in={true}
+              timeout={700}
+              classNames="fetchcalc-list-transition"
+              unmountOnExit
+              appear
+            >
+              <div className="App-intro">
+                <Grid container>
+                  <Grid item xs={12}>
+                    <strong>Projection: </strong> <a href={this.state.ProjectionURL}
+                                                     target='_blank' rel="noreferrer">{this.state.ProjectionText}</a>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <strong>Latitude (Y)</strong>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <strong>Longitude (X)</strong>
+                  </Grid>
+                  <Grid item xs={6}>
+                    {this.state.Y}
+                  </Grid>
+                  <Grid item xs={6}>
+                    {this.state.X}
+                  </Grid>
+                  <Grid item xs={6}>
+                    {this.state.YDirection}
+                  </Grid>
+                  <Grid item xs={6}>
+                    {this.state.XDirection}
+                  </Grid>
+                  <Grid item xs={6}>
+                    {this.state.YMinutes}
+                  </Grid>
+                  <Grid item xs={6}>
+                    {this.state.XMinutes}
+                  </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                  <strong>Latitude (Y)</strong>
-                </Grid>
-                <Grid item xs={6}>
-                  <strong>Longitude (X)</strong>
-                </Grid>
-                <Grid item xs={6}>
-                  {this.state.Y}
-                </Grid>
-                <Grid item xs={6}>
-                  {this.state.X}
-                </Grid>
-                <Grid item xs={6}>
-                  {this.state.YDirection}
-                </Grid>
-                <Grid item xs={6}>
-                  {this.state.XDirection}
-                </Grid>
-                <Grid item xs={6}>
-                  {this.state.YMinutes}
-                </Grid>
-                <Grid item xs={6}>
-                  {this.state.XMinutes}
-                </Grid>
-              </Grid>
 
-            </div>
+              </div>
+            </CSSTransition>
           </div>
         );
       }
     }
 
     return (
-      <div>
+      <div id='FetchedData'>
         <AjaxImage/>
       </div>
     );

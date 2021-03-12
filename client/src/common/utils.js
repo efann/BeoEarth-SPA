@@ -152,6 +152,12 @@ export const Utils =
     },
     // ---------------------------------------------------------------------------------------------------------------------
     // toMap is the actual map
+    getURLPrefix: function ()
+    {
+      return (window.location.protocol + '//' + window.location.hostname + '/server/');
+    },
+    // ---------------------------------------------------------------------------------------------------------------------
+    // toMap is the actual map
     buildFetchCalcURL: function ()
     {
       let lcURL = '';
@@ -164,7 +170,7 @@ export const Utils =
 
       if (Boolean(loProj1) && Boolean(loProj2) && Boolean(lnY) && Boolean(lnX) && (Boolean(lnSigFig) || lnSigFig === 0))
       {
-        lcURL = window.location.protocol + '//' + window.location.hostname + '/server/calculations/';
+        lcURL = this.getURLPrefix() + 'calculations/';
         // From https://www.freecodecamp.org/news/javascript-string-format-how-to-use-string-interpolation-in-js/
         // Note the use of backticks (`).
         if (loProj2.key !== 'UTM')

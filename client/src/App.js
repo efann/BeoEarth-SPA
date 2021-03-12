@@ -87,13 +87,13 @@ function App()
 
   const Projection1Props = {
     id: Utils.ID_PROJ1,
-    url_frag: '/server/projections/list-first',
+    url_frag: 'projections/list-first',
     updateFetchCalc: updateFetchCalc
   }
 
   const Projection2Props = {
     id: Utils.ID_PROJ2,
-    url_frag: '/server/projections/list-all',
+    url_frag: 'projections/list-all',
     updateFetchCalc: updateFetchCalc
   }
 
