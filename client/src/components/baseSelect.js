@@ -51,54 +51,40 @@ class BaseSelect extends React.Component
     });
 
     fetch(tcURL)
-      .then(res => res.json())
+      .then(function (toResponse)
+      {
+        if (!toResponse.ok)
+        {
+          throw Error(toResponse.statusText);
+        }
+        return (toResponse.json());
+      })
       .then(
         (toResult) =>
         {
-          try
-          {
-            this.foProjections = toResult;
-            const loOptions = this.foProjections.map(loRow => ({
-              'label': loRow.key,
-              'value': loRow.projection
-            }));
+          this.foProjections = toResult;
+          const loOptions = this.foProjections.map(loRow => ({
+            'label': loRow.key,
+            'value': loRow.projection
+          }));
 
-            this.setState({selectOptions: loOptions});
-            this.setState({value: loOptions[0]});
+          this.setState({selectOptions: loOptions});
+          this.setState({value: loOptions[0]});
 
-            Utils.setGeoCodeMap(this.props.id, this.state.value);
-
-            this.setState({
-              isLoaded: true,
-            });
-
-            this.state.updateFetchCalc();
-          }
-          catch (toError)
-          {
-            console.log('There was a problem:\n', toError);
-
-            this.setState({
-              isLoaded: true,
-              error: true,
-              errorMessage: toError.message
-            });
-          }
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (toError) =>
-        {
-          console.log('There was a problem:\n', toError);
+          Utils.setGeoCodeMap(this.props.id, this.state.value);
 
           this.setState({
             isLoaded: true,
-            error: true,
-            errorMessage: toError.message
           });
-        }
-      )
+
+          this.state.updateFetchCalc();
+        })
+      .catch(function (toError)
+      {
+        // I'm finding that setting the state in the catch or error sections
+        // causes odd problems. Plus, apparently, 'this' is undefined.
+        console.log('There was a problem in baseSelect.getOptions():\n', toError.message);
+      });
   }
 
   // ---------------------------------------------------------------------------------------------------------------------

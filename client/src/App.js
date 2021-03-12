@@ -66,7 +66,8 @@ function App()
     label: 'Address',
     value: Utils.DEFAULT_ADDR,
     type: 'text',
-    width: '90%'
+    width: '90%',
+    updateFetchCalc: updateFetchCalc
   }
 
   const LatitudeProps = {
@@ -74,7 +75,8 @@ function App()
     label: 'Latitude (Y)',
     value: Utils.DEFAULT_LAT,
     type: 'number',
-    width: '50%'
+    width: '50%',
+    updateFetchCalc: updateFetchCalc
   }
 
   const LongitudeProps = {
@@ -82,7 +84,8 @@ function App()
     label: 'Longitude (X)',
     value: Utils.DEFAULT_LONG,
     type: 'number',
-    width: '50%'
+    width: '50%',
+    updateFetchCalc: updateFetchCalc
   }
 
   const Projection1Props = {

@@ -66,56 +66,46 @@ class FetchCalcs extends React.Component
     // then Boolean will return false.
     if (!Boolean(lcURL))
     {
+      // Do NOT setState here: otherwise, state will always update with an error message.
+      console.log('There was an issue with the URL query parameters.')
       return;
     }
 
+    // From https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
+    // Handling errors
     fetch(lcURL)
-      .then(res => res.json())
+      .then(function (toResponse)
+      {
+        if (!toResponse.ok)
+        {
+          throw Error(toResponse.statusText);
+        }
+        return (toResponse.json());
+      })
       .then(
         (toResult) =>
         {
-          try
-          {
-            let loMap = toResult;
+          let loMap = toResult;
 
-            this.setState({'ProjectionURL': loMap.ProjectionURL})
-            this.setState({'ProjectionText': loMap.ProjectionText})
-            this.setState({'Y': loMap.Y})
-            this.setState({'X': loMap.X})
-            this.setState({'YDirection': loMap.YDirection})
-            this.setState({'XDirection': loMap.XDirection})
-            this.setState({'YMinutes': loMap.YMinutes})
-            this.setState({'XMinutes': loMap.XMinutes})
-
-            this.setState({
-              isLoaded: true,
-            });
-          }
-          catch (toError)
-          {
-            console.log('There was a problem:\n', toError);
-
-            this.setState({
-              isLoaded: true,
-              error: true,
-              errorMessage: toError.message
-            });
-          }
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (toError) =>
-        {
-          console.log('There was a problem:\n', toError);
+          this.setState({'ProjectionURL': loMap.ProjectionURL})
+          this.setState({'ProjectionText': loMap.ProjectionText})
+          this.setState({'Y': loMap.Y})
+          this.setState({'X': loMap.X})
+          this.setState({'YDirection': loMap.YDirection})
+          this.setState({'XDirection': loMap.XDirection})
+          this.setState({'YMinutes': loMap.YMinutes})
+          this.setState({'XMinutes': loMap.XMinutes})
 
           this.setState({
             isLoaded: true,
-            error: true,
-            errorMessage: toError.message
           });
-        }
-      )
+        })
+      .catch(function (toError)
+      {
+        // I'm finding that setting the state in the catch or error sections
+        // causes odd problems. Plus, apparently, 'this' is undefined.
+        console.log('There was a problem in fetchCalc.calculateProjection():\n', toError.message);
+      });
   }
 
   // ---------------------------------------------------------------------------------------------------------------------

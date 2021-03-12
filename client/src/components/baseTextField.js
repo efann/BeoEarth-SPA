@@ -19,9 +19,32 @@ class BaseTextField extends React.Component
 {
 
   // ---------------------------------------------------------------------------------------------------------------------
+  constructor(toProps)
+  {
+    super(toProps);
+
+    this.INPUT_ERROR = 'inputError';
+
+    this.state = {
+      [this.INPUT_ERROR]: false,
+      updateFetchCalc: toProps.updateFetchCalc
+    }
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
   handleBlur(toEvent)
   {
-    Utils.setGeoCodeMap(this.props.id, toEvent.target.value);
+    let lnValue = toEvent.target.value;
+    if (Boolean(lnValue))
+    {
+      this.setState({[this.INPUT_ERROR]: false});
+      Utils.setGeoCodeMap(this.props.id, toEvent.target.value);
+      this.state.updateFetchCalc();
+    }
+    else
+    {
+      this.setState({[this.INPUT_ERROR]: true});
+    }
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -32,9 +55,10 @@ class BaseTextField extends React.Component
     return (
       <TextField
         id={this.props.id}
+        error={this.state[this.INPUT_ERROR]}
         label={this.props.label}
         defaultValue={this.props.value}
-        style={{width: this.props.width}}
+        style={{width: this.props.width, borderColor: 'red'}}
         required
         size="small"
         type={this.props.type}
