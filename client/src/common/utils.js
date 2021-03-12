@@ -19,7 +19,7 @@ export const Utils =
     ID_MAP: 'geocalc-map',
     ID_ADDRESS: 'txtAddress',
     ID_LAT: 'txtLatitude',
-    ID_LONG: 'txtLongitude',
+    ID_LNG: 'txtLongitude',
     ID_PROJ1: 'cboProjection1',
     ID_PROJ2: 'cboProjection2',
     ID_SIGFIG: 'sliderSigFigs',
@@ -27,7 +27,7 @@ export const Utils =
 
     DEFAULT_ZOOM: 14,
     DEFAULT_LAT: 30.268735,
-    DEFAULT_LONG: -97.745209,
+    DEFAULT_LNG: -97.745209,
     DEFAULT_ADDR: '298 Pecan St, Austin, TX 78701',
     DEFAULT_SIGFIG: 6,
 
@@ -35,7 +35,7 @@ export const Utils =
 
     foGoogleMap: null,
     foInfoWindow: null,
-    foGeoCalcPushPin: null,
+    foPushPin: null,
     foGeocoder: null,
     foAutoComplete: null,
 
@@ -71,7 +71,7 @@ export const Utils =
     // toGoogleMaps is a reference to google.maps.*
     setupGoogleMaps: function ()
     {
-      let loLatLng = new google.maps.LatLng(Utils.DEFAULT_LAT, Utils.DEFAULT_LONG);
+      let loLatLng = new google.maps.LatLng(Utils.DEFAULT_LAT, Utils.DEFAULT_LNG);
 
       let loOptionsMap =
         {
@@ -83,19 +83,19 @@ export const Utils =
 
       Utils.foGoogleMap = new google.maps.Map(document.getElementById(Utils.ID_MAP), loOptionsMap);
 
-      let loMarker = Utils.setupMarker(Utils.foGoogleMap);
+      Utils.foPushPin = Utils.setupMarker(Utils.foGoogleMap);
 
       // From https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete#maps_places_autocomplete-javascript
       let loInput = document.getElementById(Utils.ID_ADDRESS);
 
       // From https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete
-      let loAutoComplete = new google.maps.places.Autocomplete(loInput, {});
+      Utils.foAutoComplete = new google.maps.places.Autocomplete(loInput, {});
     },
     // ---------------------------------------------------------------------------------------------------------------------
     // toMap is the actual map
     setupMarker: function (toMap)
     {
-      let loLatLng = new google.maps.LatLng(Utils.DEFAULT_LAT, Utils.DEFAULT_LONG);
+      let loLatLng = new google.maps.LatLng(Utils.DEFAULT_LAT, Utils.DEFAULT_LNG);
 
       let loMarker = new google.maps.Marker({
         position: loLatLng,
@@ -114,6 +114,20 @@ export const Utils =
       });
 
       return (loMarker);
+    },
+    //----------------------------------------------------------------------------------------------------
+    setupListeners: function ()
+    {
+      google.maps.event.addListener(Utils.foPushPin, "dragend", function ()
+      {
+        let loLng = document.getElementById(Utils.ID_LNG);
+        let loLat = document.getElementById(Utils.ID_LAT);
+        let loPostion = Utils.foPushPin.getPosition();
+
+        loLng.value = loPostion.lng();
+        loLat.value = loPostion.lat();
+      });
+
     },
     // ---------------------------------------------------------------------------------------------------------------------
     // From https://gitmemory.com/issue/mui-org/material-ui/18923/567494104,
@@ -146,15 +160,14 @@ export const Utils =
     },
     // ---------------------------------------------------------------------------------------------------------------------
     // toMap is the actual map
-    setGeoCodeMap: function (tcKey, tcValue)
-    {
-      this.GeoCodeValues.set(tcKey, tcValue);
-    },
-    // ---------------------------------------------------------------------------------------------------------------------
-    // toMap is the actual map
     getURLPrefix: function ()
     {
       return (window.location.protocol + '//' + window.location.hostname + '/server/');
+    },
+    // ---------------------------------------------------------------------------------------------------------------------
+    setGeoCodeMap: function (tcKey, toValue)
+    {
+      this.GeoCodeValues.set(tcKey, toValue);
     },
     // ---------------------------------------------------------------------------------------------------------------------
     // toMap is the actual map
@@ -165,7 +178,7 @@ export const Utils =
       let loProj1 = this.GeoCodeValues.get(this.ID_PROJ1);
       let loProj2 = this.GeoCodeValues.get(this.ID_PROJ2);
       let lnY = this.GeoCodeValues.get(this.ID_LAT);
-      let lnX = this.GeoCodeValues.get(this.ID_LONG);
+      let lnX = this.GeoCodeValues.get(this.ID_LNG);
       let lnSigFig = this.GeoCodeValues.get(this.ID_SIGFIG);
 
       if (Boolean(loProj1) && Boolean(loProj2) && Boolean(lnY) && Boolean(lnX) && (Boolean(lnSigFig) || lnSigFig === 0))
@@ -175,13 +188,11 @@ export const Utils =
         // Note the use of backticks (`).
         if (loProj2.key !== 'UTM')
         {
-          lcURL += 'projection?';
-          lcURL += `latitudey=${lnY}&longitudex=${lnX}&projectionnew=${loProj2.value}&projectionold=${loProj1.value}&sigfig=${lnSigFig}`;
+          lcURL += `projection?latitudey=${lnY}&longitudex=${lnX}&projectionnew=${loProj2.value}&projectionold=${loProj1.value}&sigfig=${lnSigFig}`;
         }
         else
         {
-          lcURL += 'UTM?';
-          lcURL += `latitudey=${lnY}&longitudex=${lnX}&projection=${loProj1.value}&sigfig=${lnSigFig}`;
+          lcURL += `UTM?latitudey=${lnY}&longitudex=${lnX}&projection=${loProj1.value}&sigfig=${lnSigFig}`;
         }
       }
 

@@ -56,7 +56,7 @@ function App()
   const GoogleMapProps = {
     center: {
       lat: Utils.DEFAULT_LAT,
-      lng: Utils.DEFAULT_LONG
+      lng: Utils.DEFAULT_LNG
     },
     zoom: Utils.DEFAULT_ZOOM,
   };
@@ -80,9 +80,9 @@ function App()
   }
 
   const LongitudeProps = {
-    id: Utils.ID_LONG,
+    id: Utils.ID_LNG,
     label: 'Longitude (X)',
-    value: Utils.DEFAULT_LONG,
+    value: Utils.DEFAULT_LNG,
     type: 'number',
     width: '50%',
     updateFetchCalc: updateFetchCalc

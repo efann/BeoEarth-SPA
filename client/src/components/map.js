@@ -20,6 +20,7 @@ class DefaultMap extends Component
   componentDidMount()
   {
     Utils.setupGoogleMaps();
+    Utils.setupListeners();
   }
 
   // ---------------------------------------------------------------------------------------------------------------------

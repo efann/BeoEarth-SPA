@@ -37,9 +37,10 @@ class BaseTextField extends React.Component
     let lnValue = toEvent.target.value;
     if (Boolean(lnValue))
     {
-      this.setState({[this.INPUT_ERROR]: false});
-      Utils.setGeoCodeMap(this.props.id, toEvent.target.value);
+      Utils.setGeoCodeMap(this.props.id, lnValue);
       this.state.updateFetchCalc();
+
+      this.setState({[this.INPUT_ERROR]: false});
     }
     else
     {
@@ -50,7 +51,11 @@ class BaseTextField extends React.Component
   // ---------------------------------------------------------------------------------------------------------------------
   render()
   {
-    Utils.setGeoCodeMap(this.props.id, this.props.value);
+    // Only set if value is empty.
+    if (!Boolean(Utils.GeoCodeValues.get(this.props.id)))
+    {
+      Utils.setGeoCodeMap(this.props.id, this.props.value);
+    }
 
     return (
       <TextField
