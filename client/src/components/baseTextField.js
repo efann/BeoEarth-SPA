@@ -32,6 +32,12 @@ class BaseTextField extends React.Component
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
+  componentDidMount()
+  {
+    Utils.setGeoCodeMap(this.props.id, this.props.value);
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
   handleBlur(toEvent)
   {
     let lnValue = toEvent.target.value;
@@ -51,12 +57,6 @@ class BaseTextField extends React.Component
   // ---------------------------------------------------------------------------------------------------------------------
   render()
   {
-    // Only set if value is empty.
-    if (!Boolean(Utils.GeoCodeValues.get(this.props.id)))
-    {
-      Utils.setGeoCodeMap(this.props.id, this.props.value);
-    }
-
     return (
       <TextField
         id={this.props.id}
