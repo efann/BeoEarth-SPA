@@ -14,6 +14,11 @@ header
   margin-left: auto;
 }
 
+header .MuiBox-root-1
+{
+  padding: 0;
+}
+
 .fixed-top
 {
   position: fixed;
@@ -32,9 +37,17 @@ nav,
 
 #block-header a
 {
-  font-size: 6.0em;
+  font-size: 3.0em;
   text-shadow: grey 0.05em 0.05em 0.09em;
   font-weight: bold;
+}
+
+@media (min-width: 600px)
+{
+  #block-header a
+  {
+    font-size: 6.0vw;
+  }
 }
 
 #wiki-image

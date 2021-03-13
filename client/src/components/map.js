@@ -35,7 +35,6 @@ class DefaultMap extends Component
   // ---------------------------------------------------------------------------------------------------------------------
   render()
   {
-    console.log('afasdfasdfasdfasdfasdfasdf');
     return (
       <div id={Utils.ID_MAP}>
 

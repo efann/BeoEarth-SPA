@@ -113,6 +113,9 @@ function App()
   React.useEffect(() =>
   {
     Utils.fixInputNumberIssue();
+
+    Utils.setupResizing();
+
   }, []);
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -166,7 +169,7 @@ function App()
   // ---------------------------------------------------------------------------------------------------------------------
 
   return (
-    <div className="App">
+    <div id={Utils.ID_APP} className="App">
       <div className={classes.root}>
         <Grid container>
           <Paper className={classes.paper}>

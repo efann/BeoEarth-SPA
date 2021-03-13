@@ -6,6 +6,7 @@
  *
  */
 
+import {Box} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import {NavLink} from 'react-router-dom';
@@ -18,8 +19,7 @@ function Header()
   return (
     <header className="fixed-top">
       <Grid container>
-        <Grid item xs={12}>
-
+        <Grid item sm={8} xs={12}>
           <div id="block-header">
             <div>
               <a href="/">BeoEarth</a>
@@ -32,19 +32,21 @@ function Header()
             </div>
           </div>
         </Grid>
-      </Grid>
-
-      <Grid container>
-        <Grid item xs={12}>
-          <nav>
-            <NavLink exact activeClassName="active" to="/">
-              Home
-            </NavLink>
-            <NavLink activeClassName="active" to="/contact">
-              Contact
-            </NavLink>
-          </nav>
+        <Grid item sm={4} xs={12}>
+          <Box display="flex" justifyContent="flex-end" m={1} p={1} bgcolor="background.paper">
+            <Box p={1}>
+              <NavLink exact activeClassName="active" to="/">
+                Home
+              </NavLink>
+            </Box>
+            <Box p={1}>
+              <NavLink activeClassName="active" to="/contact">
+                Contact
+              </NavLink>
+            </Box>
+          </Box>
         </Grid>
+
       </Grid>
     </header>
   );
