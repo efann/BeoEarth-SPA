@@ -40,7 +40,7 @@ export const Utils =
     foAutoComplete: null,
 
     GeoCodeValues: new Map(),
-
+    foState: null,
 
     // ---------------------------------------------------------------------------------------------------------------------
     getYear: () => new Date().getFullYear(),
@@ -116,7 +116,7 @@ export const Utils =
       return (loPushPin);
     },
     //----------------------------------------------------------------------------------------------------
-    setupListeners: function (toState)
+    setupListeners: function ()
     {
       google.maps.event.addListener(Utils.foPushPin, 'dragend', function ()
       {
@@ -133,7 +133,7 @@ export const Utils =
         Utils.setGeoCodeMap(Utils.ID_LAT, lnLat);
         Utils.setGeoCodeMap(Utils.ID_LNG, lnLng);
 
-        toState.updateFetchCalc();
+        Utils.foState.updateFetchCalc();
       });
 
     },
@@ -175,7 +175,7 @@ export const Utils =
     // ---------------------------------------------------------------------------------------------------------------------
     setGeoCodeMap: function (tcKey, toValue)
     {
-      this.GeoCodeValues.set(tcKey, toValue);
+      Utils.GeoCodeValues.set(tcKey, toValue);
     },
     // ---------------------------------------------------------------------------------------------------------------------
     // toMap is the actual map
@@ -183,15 +183,15 @@ export const Utils =
     {
       let lcURL = '';
 
-      let loProj1 = this.GeoCodeValues.get(this.ID_PROJ1);
-      let loProj2 = this.GeoCodeValues.get(this.ID_PROJ2);
-      let lnY = this.GeoCodeValues.get(this.ID_LAT);
-      let lnX = this.GeoCodeValues.get(this.ID_LNG);
-      let lnSigFig = this.GeoCodeValues.get(this.ID_SIGFIG);
+      let loProj1 = Utils.GeoCodeValues.get(Utils.ID_PROJ1);
+      let loProj2 = Utils.GeoCodeValues.get(Utils.ID_PROJ2);
+      let lnY = Utils.GeoCodeValues.get(Utils.ID_LAT);
+      let lnX = Utils.GeoCodeValues.get(Utils.ID_LNG);
+      let lnSigFig = Utils.GeoCodeValues.get(Utils.ID_SIGFIG);
 
       if (Boolean(loProj1) && Boolean(loProj2) && Boolean(lnY) && Boolean(lnX) && (Boolean(lnSigFig) || lnSigFig === 0))
       {
-        lcURL = this.getURLPrefix() + 'calculations/';
+        lcURL = Utils.getURLPrefix() + 'calculations/';
         // From https://www.freecodecamp.org/news/javascript-string-format-how-to-use-string-interpolation-in-js/
         // Note the use of backticks (`).
         if (loProj2.key !== 'UTM')
@@ -205,6 +205,16 @@ export const Utils =
       }
 
       return (lcURL);
+    },
+    // ---------------------------------------------------------------------------------------------------------------------
+    // toMap is the actual map
+    initializeGoogleMaps: function (toState)
+    {
+      Utils.foState = toState;
+
+      Utils.setupGoogleMaps();
+      Utils.setupListeners();
+
     }
     // ---------------------------------------------------------------------------------------------------------------------
   }
