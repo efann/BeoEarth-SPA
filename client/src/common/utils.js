@@ -83,7 +83,7 @@ export const Utils =
 
       Utils.foGoogleMap = new google.maps.Map(document.getElementById(Utils.ID_MAP), loOptionsMap);
 
-      Utils.foPushPin = Utils.setupMarker(Utils.foGoogleMap);
+      Utils.foPushPin = Utils.createPushPin(Utils.foGoogleMap);
 
       // From https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete#maps_places_autocomplete-javascript
       let loInput = document.getElementById(Utils.ID_ADDRESS);
@@ -93,11 +93,11 @@ export const Utils =
     },
     // ---------------------------------------------------------------------------------------------------------------------
     // toMap is the actual map
-    setupMarker: function (toMap)
+    createPushPin: function (toMap)
     {
       let loLatLng = new google.maps.LatLng(Utils.DEFAULT_LAT, Utils.DEFAULT_LNG);
 
-      let loMarker = new google.maps.Marker({
+      let loPushPin = new google.maps.Marker({
         position: loLatLng,
         map: toMap,
         draggable: true,
@@ -113,19 +113,27 @@ export const Utils =
         title: 'Drag & Drop Marker'
       });
 
-      return (loMarker);
+      return (loPushPin);
     },
     //----------------------------------------------------------------------------------------------------
-    setupListeners: function ()
+    setupListeners: function (toState)
     {
-      google.maps.event.addListener(Utils.foPushPin, "dragend", function ()
+      google.maps.event.addListener(Utils.foPushPin, 'dragend', function ()
       {
-        let loLng = document.getElementById(Utils.ID_LNG);
-        let loLat = document.getElementById(Utils.ID_LAT);
         let loPostion = Utils.foPushPin.getPosition();
+        let lnLat = loPostion.lat();
+        let lnLng = loPostion.lng();
 
-        loLng.value = loPostion.lng();
-        loLat.value = loPostion.lat();
+        let loLat = document.getElementById(Utils.ID_LAT);
+        let loLng = document.getElementById(Utils.ID_LNG);
+
+        loLat.value = lnLat;
+        loLng.value = lnLng;
+
+        Utils.setGeoCodeMap(Utils.ID_LAT, lnLat);
+        Utils.setGeoCodeMap(Utils.ID_LNG, lnLng);
+
+        toState.updateFetchCalc();
       });
 
     },

@@ -59,6 +59,7 @@ function App()
       lng: Utils.DEFAULT_LNG
     },
     zoom: Utils.DEFAULT_ZOOM,
+    updateFetchCalc: updateFetchCalc
   };
 
   const AddressProps = {

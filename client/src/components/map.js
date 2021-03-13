@@ -17,15 +17,26 @@ import '../style/map.css'
 class DefaultMap extends Component
 {
   // ---------------------------------------------------------------------------------------------------------------------
+  constructor(toProps)
+  {
+    super(toProps);
+
+    this.state = {
+      updateFetchCalc: toProps.updateFetchCalc
+    }
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
   componentDidMount()
   {
     Utils.setupGoogleMaps();
-    Utils.setupListeners();
+    Utils.setupListeners(this.state);
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
   render()
   {
+    console.log('afasdfasdfasdfasdfasdfasdf');
     return (
       <div id={Utils.ID_MAP}>
 
