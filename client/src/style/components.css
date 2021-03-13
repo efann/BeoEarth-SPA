@@ -44,9 +44,9 @@
 
 #FetchedData
 {
+  font-size: 0.9em;
   min-height: 130px;
 }
-
 
 /*
   For CSSTransition in fetchCalc
