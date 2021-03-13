@@ -77,6 +77,8 @@ public class CalculationsController extends BaseDataController
     loProjection.addProperty("SQL", lcSQL);
     loProjection.addProperty("ProjectionURL", this.getProjectionValue(tnProjection, ProjectionValue.PROJECTION_VALUE_URL));
     loProjection.addProperty("ProjectionText", this.getProjectionValue(tnProjection, ProjectionValue.PROJECTION_VALUE_TEXT));
+    loProjection.addProperty("SRID_URL", "https://en.wikipedia.org/wiki/Spatial_reference_system#Identifier");
+    loProjection.addProperty("SRID_Text", "SRID");
     loProjection.addProperty("LongitudeX", tnLongitudeX);
     loProjection.addProperty("LatitudeY", tnLatitudeY);
     loProjection.addProperty("Projection", tnProjection);

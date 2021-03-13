@@ -71,6 +71,7 @@ class FetchCalcs extends React.Component
       return;
     }
 
+    console.log(lcURL)
     // From https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
     // Handling errors
     fetch(lcURL)
@@ -87,14 +88,28 @@ class FetchCalcs extends React.Component
         {
           let loMap = toResult;
 
-          this.setState({'ProjectionURL': loMap.ProjectionURL})
-          this.setState({'ProjectionText': loMap.ProjectionText})
-          this.setState({'Y': loMap.Y})
-          this.setState({'X': loMap.X})
-          this.setState({'YDirection': loMap.YDirection})
-          this.setState({'XDirection': loMap.XDirection})
-          this.setState({'YMinutes': loMap.YMinutes})
-          this.setState({'XMinutes': loMap.XMinutes})
+          if (!Utils.isUTM())
+          {
+            this.setState({'ProjectionURL': loMap.ProjectionURL})
+            this.setState({'ProjectionText': loMap.ProjectionText})
+            this.setState({'Y': loMap.Y})
+            this.setState({'X': loMap.X})
+            this.setState({'YDirection': loMap.YDirection})
+            this.setState({'XDirection': loMap.XDirection})
+            this.setState({'YMinutes': loMap.YMinutes})
+            this.setState({'XMinutes': loMap.XMinutes})
+          }
+          else
+          {
+            this.setState({'ProjectionURL': loMap.ProjectionURL})
+            this.setState({'ProjectionText': loMap.ProjectionText})
+            this.setState({'SRID_URL': loMap.SRID_URL})
+            this.setState({'SRID_Text': loMap.SRID_Text})
+            this.setState({'SRID': loMap.SRID})
+            this.setState({'Zone': loMap.Zone})
+            this.setState({'Easting': loMap.Easting})
+            this.setState({'Northing': loMap.Northing})
+          }
 
           this.setState({
             isLoaded: true,
@@ -122,51 +137,113 @@ class FetchCalcs extends React.Component
       }
       else
       {
-        return (
-          <div id='FetchedData'>
-            <CSSTransition
-              in={true}
-              timeout={100}
-              classNames="fetchcalc-list-transition"
-              unmountOnExit
-              appear
-            >
-              <div className="App-intro">
-                <Grid container>
-                  <Grid item xs={12}>
-                    <strong>Projection: </strong> <a href={this.state.ProjectionURL}
-                                                     target='_blank' rel="noreferrer">{this.state.ProjectionText}</a>
+        if (!Utils.isUTM())
+        {
+          return (
+            <div id='FetchedData'>
+              <CSSTransition
+                in={true}
+                timeout={100}
+                classNames="fetchcalc-list-transition"
+                unmountOnExit
+                appear
+              >
+                <div className="App-intro">
+                  <Grid container>
+                    <Grid item xs={12}>
+                      <strong>Projection: </strong> <a href={this.state.ProjectionURL}
+                                                       target='_blank' rel="noreferrer">{this.state.ProjectionText}</a>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <strong>Latitude (Y)</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <strong>Longitude (X)</strong>
+                    </Grid>
+                    <Grid item xs={6}>
+                      {this.state.Y}
+                    </Grid>
+                    <Grid item xs={6}>
+                      {this.state.X}
+                    </Grid>
+                    <Grid item xs={6}>
+                      {this.state.YDirection}
+                    </Grid>
+                    <Grid item xs={6}>
+                      {this.state.XDirection}
+                    </Grid>
+                    <Grid item xs={6}>
+                      {this.state.YMinutes}
+                    </Grid>
+                    <Grid item xs={6}>
+                      {this.state.XMinutes}
+                    </Grid>
                   </Grid>
-                  <Grid item xs={6}>
-                    <strong>Latitude (Y)</strong>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <strong>Longitude (X)</strong>
-                  </Grid>
-                  <Grid item xs={6}>
-                    {this.state.Y}
-                  </Grid>
-                  <Grid item xs={6}>
-                    {this.state.X}
-                  </Grid>
-                  <Grid item xs={6}>
-                    {this.state.YDirection}
-                  </Grid>
-                  <Grid item xs={6}>
-                    {this.state.XDirection}
-                  </Grid>
-                  <Grid item xs={6}>
-                    {this.state.YMinutes}
-                  </Grid>
-                  <Grid item xs={6}>
-                    {this.state.XMinutes}
-                  </Grid>
-                </Grid>
 
-              </div>
-            </CSSTransition>
-          </div>
-        );
+                </div>
+              </CSSTransition>
+            </div>
+          );
+        }
+        else
+        {
+          return (
+            <div id='FetchedData'>
+              <CSSTransition
+                in={true}
+                timeout={100}
+                classNames="fetchcalc-list-transition"
+                unmountOnExit
+                appear
+              >
+                <div className="App-intro">
+                  <Grid container>
+                    <Grid item xs={3}>
+                      <strong>Projection: </strong>
+                    </Grid>
+                    <Grid item xs={9}>
+                      <a href={this.state.ProjectionURL} target='_blank'
+                         rel="noreferrer">{this.state.ProjectionText}</a>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <a href={this.state.SRID_URL} target='_blank'
+                         rel="noreferrer">{this.state.SRID_Text}</a>
+                    </Grid>
+                    <Grid item xs={9}>
+                      {this.state.SRID}
+                    </Grid>
+                    <Grid item xs={3}>
+                      <strong>Zone</strong>
+                    </Grid>
+                    <Grid item xs={9}>
+                      {this.state.Zone}
+                    </Grid>
+                    <Grid item xs={3}>
+                      <strong>Easting</strong>
+                    </Grid>
+                    <Grid item xs={9}>
+                      {this.state.Easting}
+                    </Grid>
+                    <Grid item xs={3}>
+                      <strong>Zone</strong>
+                    </Grid>
+                    <Grid item xs={9}>
+                      {this.state.Zone}
+                    </Grid>
+                    <Grid item xs={3}>
+                      <strong>Northing</strong>
+                    </Grid>
+                    <Grid item xs={9}>
+                      {this.state.Northing}
+                    </Grid>
+                  </Grid>
+
+                </div>
+              </CSSTransition>
+            </div>
+          );
+        }
+
       }
     }
 

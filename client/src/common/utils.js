@@ -117,6 +117,18 @@ export const Utils =
     },
     // ---------------------------------------------------------------------------------------------------------------------
     // toMap is the actual map
+    isUTM: function ()
+    {
+      let loProjection = Utils.GeoCodeValues.get(Utils.ID_PROJ2);
+      if (Boolean(loProjection))
+      {
+        return (loProjection.value === -1);
+      }
+
+      return (false);
+    },
+    // ---------------------------------------------------------------------------------------------------------------------
+    // toMap is the actual map
     buildFetchCalcURL: function ()
     {
       let lcURL = '';
@@ -132,7 +144,7 @@ export const Utils =
         lcURL = Utils.getURLPrefix() + 'calculations/';
         // From https://www.freecodecamp.org/news/javascript-string-format-how-to-use-string-interpolation-in-js/
         // Note the use of backticks (`).
-        if (loProj2.key !== 'UTM')
+        if (!Utils.isUTM())
         {
           lcURL += `projection?latitudey=${lnY}&longitudex=${lnX}&projectionnew=${loProj2.value}&projectionold=${loProj1.value}&sigfig=${lnSigFig}`;
         }
