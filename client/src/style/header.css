@@ -14,7 +14,8 @@ header
   margin-left: auto;
 }
 
-header .MuiBox-root-1
+header .MuiBox-root-1,
+header .MuiGrid-item
 {
   padding: 0;
 }
