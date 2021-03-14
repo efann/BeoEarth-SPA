@@ -19,7 +19,7 @@ function Header()
   return (
     <header className="fixed-top">
       <Grid container>
-        <Grid item sm={8} xs={12}>
+        <Grid item xs={8}>
           <div id="block-header">
             <div>
               <a href="/">BeoEarth</a>
@@ -32,7 +32,7 @@ function Header()
             </div>
           </div>
         </Grid>
-        <Grid item sm={4} xs={12}>
+        <Grid item xs={4}>
           <Box display="flex" justifyContent="flex-end" m={1} p={1} bgcolor="background.paper">
             <Box p={1}>
               <NavLink exact activeClassName="active" to="/">
