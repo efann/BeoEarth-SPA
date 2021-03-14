@@ -37,7 +37,6 @@
   padding-top: 0;
 }
 
-
 /*
   For fetchCalc
 */
@@ -45,7 +44,7 @@
 #FetchedData
 {
   font-size: 0.9em;
-  min-height: 130px;
+  min-height: 120px;
 }
 
 /*

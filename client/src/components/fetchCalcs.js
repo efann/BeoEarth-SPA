@@ -199,7 +199,7 @@ class FetchCalcs extends React.Component
                 <div className="App-intro">
                   <Grid container>
                     <Grid item xs={3}>
-                      <strong>Projection: </strong>
+                      <strong>Projection:</strong>
                     </Grid>
                     <Grid item xs={9}>
                       <a href={this.state.ProjectionURL} target='_blank'
@@ -213,25 +213,19 @@ class FetchCalcs extends React.Component
                       {this.state.SRID}
                     </Grid>
                     <Grid item xs={3}>
-                      <strong>Zone</strong>
+                      <strong>Zone:</strong>
                     </Grid>
                     <Grid item xs={9}>
                       {this.state.Zone}
                     </Grid>
                     <Grid item xs={3}>
-                      <strong>Easting</strong>
+                      <strong>Easting:</strong>
                     </Grid>
                     <Grid item xs={9}>
                       {this.state.Easting}
                     </Grid>
                     <Grid item xs={3}>
-                      <strong>Zone</strong>
-                    </Grid>
-                    <Grid item xs={9}>
-                      {this.state.Zone}
-                    </Grid>
-                    <Grid item xs={3}>
-                      <strong>Northing</strong>
+                      <strong>Northing:</strong>
                     </Grid>
                     <Grid item xs={9}>
                       {this.state.Northing}
