@@ -42,6 +42,18 @@ CONFIG_DIR="./containers/config"
 ENV_FILE=".env"
 APACHE_SITES_DIR="/etc/apache2/sites-available"
 
+# Apache files
+CONF_FILE_DEV="000-default.conf"
+CONF_FILE_PROD="beoearth-spa.com-le-ssl.conf"
+CONF_FILE_TEST="beoearth.com-le-ssl.conf"
+
+CONF_FILE="${CONF_FILE_DEV}"
+PROD_MODE=false
+if [ -f "${APACHE_SITES_DIR}/${CONF_FILE_TEST}" ]; then
+  CONF_FILE="${CONF_FILE_PROD}"
+  PROD_MODE=true
+fi
+
 # From https://stackoverflow.com/questions/48546124/what-is-linux-equivalent-of-host-docker-internal
 HOST_IP_ADDRESS=$(hostname -I | awk '{print $1;}')
 
@@ -60,6 +72,12 @@ sed -i "s/<database>/${POSTGRES_DBNAME}/g" "${ENV_FILE}"
 sed -i "s/<host_ip_address>/${HOST_IP_ADDRESS}/g" "${ENV_FILE}"
 sed -i "s/<server_port>/${SERVER_PORT}/g" "${ENV_FILE}"
 sed -i "s/<postgres_port>/${POSTGRES_PORT}/g" "${ENV_FILE}"
+
+if [ ${PROD_MODE} = "true" ]; then
+  sed -i "s/<react_app_map_key>/${GOOGLE_KEY_PROD}/g" "${ENV_FILE}"
+else
+  sed -i "s/<react_app_map_key>/${GOOGLE_KEY_DEV}/g" "${ENV_FILE}"
+fi
 
 popd
 
@@ -83,18 +101,6 @@ sed -i "s/\${POSTGRES_DBNAME}/${POSTGRES_DBNAME}/g" "${TEST_PROPERTIES}"
 sed -i "s/\${POSTGRES_USER}/${POSTGRES_USER}/g" "${TEST_PROPERTIES}"
 sed -i "s/\${POSTGRES_PASS}/${POSTGRES_PASS}/g" "${TEST_PROPERTIES}"
 sed -i "s/\${POSTGRES_PORT}/${POSTGRES_PORT}/g" "${TEST_PROPERTIES}"
-
-# Apache files
-CONF_FILE_DEV="000-default.conf"
-CONF_FILE_PROD="beoearth-spa.com-le-ssl.conf"
-CONF_FILE_TEST="beoearth.com-le-ssl.conf"
-
-CONF_FILE="${CONF_FILE_DEV}"
-PROD_MODE=false
-if [ -f "${APACHE_SITES_DIR}/${CONF_FILE_TEST}" ]; then
-  CONF_FILE="${CONF_FILE_PROD}"
-  PROD_MODE=true
-fi
 
 echo -e "Using ${CONF_FILE} to copy to ${APACHE_SITES_DIR}"
 
