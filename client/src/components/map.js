@@ -7,6 +7,7 @@
  */
 
 import React, {Component} from 'react'
+import {Mapping} from '../common/mapping';
 import {Utils} from '../common/utils';
 
 import '../style/map.css'
@@ -29,7 +30,7 @@ class DefaultMap extends Component
   // ---------------------------------------------------------------------------------------------------------------------
   componentDidMount()
   {
-    Utils.initializeGoogleMaps(this.state);
+    Mapping.initializeGoogleMaps(this.state);
   }
 
   // ---------------------------------------------------------------------------------------------------------------------

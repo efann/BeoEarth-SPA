@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/core/styles';
 import React from 'react';
+import {Mapping} from './common/mapping';
 
 import {Utils} from './common/utils';
 
@@ -55,17 +56,17 @@ function App()
 
   const GoogleMapProps = {
     center: {
-      lat: Utils.DEFAULT_LAT,
-      lng: Utils.DEFAULT_LNG
+      lat: Mapping.DEFAULT_LAT,
+      lng: Mapping.DEFAULT_LNG
     },
-    zoom: Utils.DEFAULT_ZOOM,
+    zoom: Mapping.DEFAULT_ZOOM,
     updateFetchCalc: updateFetchCalc
   };
 
   const AddressProps = {
     id: Utils.ID_ADDRESS,
     label: 'Address',
-    value: Utils.DEFAULT_ADDR,
+    value: Mapping.DEFAULT_ADDR,
     type: 'text',
     width: '90%',
     updateFetchCalc: updateFetchCalc
@@ -74,7 +75,7 @@ function App()
   const LatitudeProps = {
     id: Utils.ID_LAT,
     label: 'Latitude (Y)',
-    value: Utils.DEFAULT_LAT,
+    value: Mapping.DEFAULT_LAT,
     type: 'number',
     width: '50%',
     updateFetchCalc: updateFetchCalc
@@ -83,7 +84,7 @@ function App()
   const LongitudeProps = {
     id: Utils.ID_LNG,
     label: 'Longitude (X)',
-    value: Utils.DEFAULT_LNG,
+    value: Mapping.DEFAULT_LNG,
     type: 'number',
     width: '50%',
     updateFetchCalc: updateFetchCalc
@@ -103,7 +104,7 @@ function App()
 
   const SliderProps = {
     id: Utils.ID_SIGFIG,
-    value: Utils.DEFAULT_SIGFIG,
+    value: Mapping.DEFAULT_SIGFIG,
     min: 0,
     max: 12,
     updateFetchCalc: updateFetchCalc
