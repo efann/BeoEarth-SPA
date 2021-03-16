@@ -50,6 +50,9 @@ class BaseTextField extends React.Component
       Utils.setGeoCodeMap(this.props.id, lcValue);
       if (this.props.id === Utils.ID_ADDRESS)
       {
+        // This is not accessible in Mapping.foGeocoder.geocode
+        var loThat = this;
+
         Mapping.foGeocoder.geocode(
           {
             'address': Utils.GeoCodeValues.get(Utils.ID_ADDRESS)
@@ -62,20 +65,22 @@ class BaseTextField extends React.Component
               {
                 let lcAddress = taResults[0].formatted_address;
 
+                let loAddress = document.getElementById(Utils.ID_ADDRESS);
                 let loLat = document.getElementById(Utils.ID_LAT);
                 let loLng = document.getElementById(Utils.ID_LNG);
 
                 let lnLat = taResults[0].geometry.location.lat();
                 let lnLng = taResults[0].geometry.location.lng();
 
+                loAddress.value = lcAddress;
                 loLat.value = lnLat;
                 loLng.value = lnLng;
 
                 Utils.setGeoCodeMap(Utils.ID_LAT, lnLat);
                 Utils.setGeoCodeMap(Utils.ID_LNG, lnLng);
 
-                this.updatePushPin();
-                this.state.updateFetchCalc();
+                loThat.updatePushPin();
+                loThat.state.updateFetchCalc();
               }
               else
               {
