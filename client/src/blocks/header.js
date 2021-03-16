@@ -36,7 +36,7 @@ class Header extends React.Component
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
-  handleClose(toEvent)
+  handleClose()
   {
     this.setState({[this.SHOWLOGO]: false});
   }

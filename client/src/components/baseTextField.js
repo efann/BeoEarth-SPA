@@ -8,9 +8,13 @@
 
 import TextField from '@material-ui/core/TextField';
 import React from 'react';
+import {Mapping} from '../common/mapping';
 import {Utils} from '../common/utils';
 
 import '../style/components.css'
+
+// From https://stackoverflow.com/questions/43714895/google-is-not-defined-in-react-app-using-create-react-app
+/* global google */
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
@@ -46,12 +50,26 @@ class BaseTextField extends React.Component
       Utils.setGeoCodeMap(this.props.id, lnValue);
       this.state.updateFetchCalc();
 
+      this.updatePushPin();
+
       this.setState({[this.INPUT_ERROR]: false});
     }
     else
     {
       this.setState({[this.INPUT_ERROR]: true});
     }
+  }
+
+  //----------------------------------------------------------------------------------------------------
+  updatePushPin()
+  {
+    let lnLat = Utils.GeoCodeValues.get(Utils.ID_LAT);
+    let lnLng = Utils.GeoCodeValues.get(Utils.ID_LNG);
+
+    var loLatLng = new google.maps.LatLng(parseFloat(lnLat), parseFloat(lnLng));
+
+    Mapping.foPushPin.setPosition(loLatLng);
+    Mapping.foGoogleMap.setCenter(loLatLng);
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
