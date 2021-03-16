@@ -57,6 +57,7 @@ export const Mapping =
         }
 
       Mapping.foGoogleMap = new google.maps.Map(document.getElementById(Utils.ID_MAP), loOptionsMap);
+      Mapping.foGeocoder = new google.maps.Geocoder();
 
       Mapping.foPushPin = Mapping.createPushPin(Mapping.foGoogleMap);
 

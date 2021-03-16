@@ -44,13 +44,57 @@ class BaseTextField extends React.Component
   // ---------------------------------------------------------------------------------------------------------------------
   handleBlur(toEvent)
   {
-    let lnValue = toEvent.target.value;
-    if (Boolean(lnValue))
+    let lcValue = toEvent.target.value;
+    if (Boolean(lcValue))
     {
-      Utils.setGeoCodeMap(this.props.id, lnValue);
-      this.state.updateFetchCalc();
+      Utils.setGeoCodeMap(this.props.id, lcValue);
+      if (this.props.id === Utils.ID_ADDRESS)
+      {
+        Mapping.foGeocoder.geocode(
+          {
+            'address': Utils.GeoCodeValues.get(Utils.ID_ADDRESS)
+          }, function (taResults, tnStatus)
+          {
+            var lcInfo = '';
+            if (tnStatus == google.maps.GeocoderStatus.OK)
+            {
+              if (taResults[0])
+              {
+                let lcAddress = taResults[0].formatted_address;
 
-      this.updatePushPin();
+                let loLat = document.getElementById(Utils.ID_LAT);
+                let loLng = document.getElementById(Utils.ID_LNG);
+
+                let lnLat = taResults[0].geometry.location.lat();
+                let lnLng = taResults[0].geometry.location.lng();
+
+                loLat.value = lnLat;
+                loLng.value = lnLng;
+
+                Utils.setGeoCodeMap(Utils.ID_LAT, lnLat);
+                Utils.setGeoCodeMap(Utils.ID_LNG, lnLng);
+
+                this.updatePushPin();
+                this.state.updateFetchCalc();
+              }
+              else
+              {
+                lcInfo = 'No results found';
+              }
+            }
+            else
+            {
+              lcInfo = 'Geocoder failed due to: ' + tnStatus;
+            }
+          });
+
+      }
+      else
+      {
+        this.updatePushPin();
+        this.state.updateFetchCalc();
+      }
+
 
       this.setState({[this.INPUT_ERROR]: false});
     }
