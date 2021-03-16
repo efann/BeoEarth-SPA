@@ -47,10 +47,17 @@ CONF_FILE_DEV="000-default.conf"
 CONF_FILE_PROD="beoearth-spa.com-le-ssl.conf"
 CONF_FILE_TEST="beoearth.com-le-ssl.conf"
 
+VAR_FILES_DEV="/var/www/local/public_html/"
+VAR_FILES_PROD="/var/www/beoearth-spa.com/public_html/"
+
 CONF_FILE="${CONF_FILE_DEV}"
+VAR_FILES="${VAR_FILES_DEV}"
 PROD_MODE=false
+# If the CONF_FILE_TEST exists, then we're running on the production server
 if [ -f "${APACHE_SITES_DIR}/${CONF_FILE_TEST}" ]; then
   CONF_FILE="${CONF_FILE_PROD}"
+  VAR_FILES="${VAR_FILES_PROD}"
+
   PROD_MODE=true
 fi
 
@@ -180,5 +187,31 @@ echo "You will get warnings about fsevents, which is only relevant if you're on 
 echo "Don't run npm install -f as npm ask if you know what you're doing (I don't)."
 echo "Reference https://stackoverflow.com/questions/40226745/npm-warn-notsup-skipping-optional-dependency-unsupported-platform-for-fsevents"
 npm install
+
+BUILD_FILES='./build'
+
+echo "Removing ${BUILD_FILES}. . . ."
+rm -rfv "${BUILD_FILES}"
+
+# You only want to remove the files, not the folder itself
+echo "Removing ${VAR_FILES}*. . . ."
+# Read the comments below on the asterisk.
+sudo rm -rfv "${VAR_FILES}"*
+
+npm run build
+
+# Copy the files under build to the VAR_FILES folder
+echo "Running cp -R ${BUILD_FILES}/* ${VAR_FILES}. . . ."
+
+# Weird: the * needs to be outside of the quotes
+# https://stackoverflow.com/questions/34254164/what-is-cp-cannot-stat-error-in-unix-i-get-this-error-when-trying-to-copy-thin/51239548
+sudo cp -R "${BUILD_FILES}"/* "${VAR_FILES}"
+
+echo "Getting the stats for ${VAR_FILES}"
+lcOwner=$(stat -c '%U' "${VAR_FILES}")
+lcGroup=$(stat -c '%G' "${VAR_FILES}")
+
+echo "Running chown -R ${lcOwner}:${lcGroup} ${VAR_FILES}"
+sudo chown -R "${lcOwner}":"${lcGroup}" "${VAR_FILES}"
 
 popd

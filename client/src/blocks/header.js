@@ -12,46 +12,85 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 
 import '../style/header.css';
+import LogoImage from './logoImage';
 
 // ---------------------------------------------------------------------------------------------------------------------
-function Header()
+// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
+class Header extends React.Component
 {
-  return (
-    <header className="fixed-top">
-      <Grid container>
-        <Grid item xs={8}>
-          <div id="block-header">
-            <div>
-              <a href="/">BeoEarth</a>
-            </div>
-            <div id="wiki-image">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/North_America_from_low_orbiting_satellite_Suomi_NPP.jpg/1024px-North_America_from_low_orbiting_satellite_Suomi_NPP.jpg"
-                title="The Blue Marble from https://en.wikipedia.org/wiki/The_Blue_Marble"
-                alt="The Blue Marble from https://en.wikipedia.org/wiki/The_Blue_Marble"/>
-            </div>
-          </div>
-        </Grid>
-        <Grid item xs={4}>
-          <Box display="flex" justifyContent="flex-end" m={1} p={1} bgcolor="background.paper">
-            <Box p={1}>
-              <NavLink exact activeClassName="active" to="/">
-                Home
-              </NavLink>
-            </Box>
-            <Box p={1}>
-              <NavLink activeClassName="active" to="/contact">
-                Contact
-              </NavLink>
-            </Box>
-          </Box>
-        </Grid>
 
-      </Grid>
-    </header>
-  );
+  // ---------------------------------------------------------------------------------------------------------------------
+  constructor(toProps)
+  {
+    super(toProps);
+
+    this.SHOWLOGO = 'showLogo';
+
+    this.state = {
+      showLogo: false
+    }
+
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  handleClose(toEvent)
+  {
+    this.setState({[this.SHOWLOGO]: false});
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  handleClick(toEvent)
+  {
+    if (window.location.pathname === '/')
+    {
+      this.setState({[this.SHOWLOGO]: true});
+
+      toEvent.preventDefault();
+    }
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  render()
+  {
+    return (
+      <header className="fixed-top">
+        <Grid container>
+          <Grid item xs={8}>
+            <div id="block-header">
+              <div>
+                <a href="/" onClick={this.handleClick}>BeoEarth</a>
+              </div>
+            </div>
+          </Grid>
+          <Grid item xs={4}>
+            <Box display="flex" justifyContent="flex-end" m={1} p={1} bgcolor="background.paper">
+              <Box p={1}>
+                <NavLink exact activeClassName="active" to="/">
+                  Home
+                </NavLink>
+              </Box>
+              <Box p={1}>
+                <NavLink activeClassName="active" to="/contact">
+                  Contact
+                </NavLink>
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
+        {this.state[this.SHOWLOGO] ? <LogoImage onClose={this.handleClose}/> : null}
+      </header>
+    );
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
+
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 
 export default Header;

@@ -12,10 +12,14 @@
   <meta charset="utf-8"/>
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico"/>
 
-  <script async src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_MAP_KEY%&libraries=places"></script>
+  <!--
+    Do not use the async as React is expecting google to be initialized.
+    From https://developers.google.com/maps/documentation/javascript/overview#sync
+  -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_MAP_KEY%&libraries=places"></script>
 
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
   <!--
     If you’re planning on using the Material-UI icons at all, also add the Google Web Font link:
   -->

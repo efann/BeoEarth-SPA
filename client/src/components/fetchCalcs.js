@@ -71,7 +71,6 @@ class FetchCalcs extends React.Component
       return;
     }
 
-    console.log(lcURL)
     // From https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
     // Handling errors
     fetch(lcURL)

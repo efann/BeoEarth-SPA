@@ -8,7 +8,6 @@
 
 #ajax-loading
 {
-  z-index: 2000;
   width: 36px;
   height: 36px;
   border-radius: 5px;
@@ -23,5 +22,4 @@
   width: 32px;
   height: auto;
   margin: 2px;
-  position: fixed;
 }
