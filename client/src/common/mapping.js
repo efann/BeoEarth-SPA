@@ -29,18 +29,15 @@ export const Mapping =
     foAutoComplete: null,
 
     // ---------------------------------------------------------------------------------------------------------------------
-    createMapOptions: function ()
+    // toMap is the actual map
+    initializeGoogleMaps: function (toState)
     {
-      return {
-        streetViewControl: true,
-        scrollwheel: false,
-        mapTypeId: 'terrain',
-        mapTypeControl: true,
-        fullscreenControl: false,
-        mapTypeControlOptions: {mapTypeIds: ['terrain', 'satellite', 'hybrid', 'roadmap']},
-      }
-    },
+      Utils.foState = toState;
 
+      Mapping.setupGoogleMaps();
+      Mapping.setupListeners();
+
+    },
     // ---------------------------------------------------------------------------------------------------------------------
     // toMap is the actual map
     // toGoogleMaps is a reference to google.maps.*
@@ -65,6 +62,8 @@ export const Mapping =
       let loInput = document.getElementById(Utils.ID_ADDRESS);
 
       // From https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete
+      // By the way, the autocomplete does not include a zip code. So when calling geoCodeByAddressThread,
+      // zip code gets added, and then geoCodeByAddressThread is called once more.
       Mapping.foAutoComplete = new google.maps.places.Autocomplete(loInput, {});
     },
     // ---------------------------------------------------------------------------------------------------------------------
@@ -96,33 +95,113 @@ export const Mapping =
     {
       google.maps.event.addListener(Mapping.foPushPin, 'dragend', function ()
       {
-        let loPostion = Mapping.foPushPin.getPosition();
-        let lnLat = loPostion.lat();
-        let lnLng = loPostion.lng();
+        Mapping.updateLatLngTextFields(Mapping.foPushPin.getPosition());
+        Mapping.geoCodeByLatLngThread();
+      });
 
-        let loLat = document.getElementById(Utils.ID_LAT);
-        let loLng = document.getElementById(Utils.ID_LNG);
+      Mapping.foAutoComplete.addListener('place_changed', () =>
+      {
+        const loPlace = Mapping.foAutoComplete.getPlace();
 
-        loLat.value = lnLat;
-        loLng.value = lnLng;
+        if (!loPlace.geometry || !loPlace.geometry.location)
+        {
+          // User entered the name of a Place that was not suggested and
+          // pressed the Enter key, or the Place Details request failed.
+          window.alert('No details available for input: \'' + loPlace.name + '\'');
+          return;
+        }
 
-        Utils.setGeoCodeMap(Utils.ID_LAT, lnLat);
-        Utils.setGeoCodeMap(Utils.ID_LNG, lnLng);
-
-        Utils.foState.updateFetchCalc();
+        let lcAddress = loPlace.formatted_address;
+        if (lcAddress !== Utils.GeoCodeValues.get(Utils.ID_ADDRESS))
+        {
+          Utils.setGeoCodeMap(Utils.ID_ADDRESS, lcAddress);
+          Mapping.geoCodeByAddressThread();
+        }
       });
 
     },
+
     // ---------------------------------------------------------------------------------------------------------------------
-    // toMap is the actual map
-    initializeGoogleMaps: function (toState)
+    geoCodeByAddressThread: function ()
     {
-      Utils.foState = toState;
+      Mapping.foGeocoder.geocode(
+        {
+          'address': Utils.GeoCodeValues.get(Utils.ID_ADDRESS)
+        }, function (taResults, tnStatus)
+        {
+          if (tnStatus === google.maps.GeocoderStatus.OK)
+          {
+            if (taResults[0])
+            {
+              let llOKay = ((tnStatus === google.maps.GeocoderStatus.OK) && (taResults[0]));
+              let lcAddress = (llOKay) ? taResults[0].formatted_address : '<unknown address>';
+              let loAddress = document.getElementById(Utils.ID_ADDRESS);
 
-      Mapping.setupGoogleMaps();
-      Mapping.setupListeners();
+              loAddress.value = lcAddress;
 
+              console.log('Address by geocode ' + lcAddress)
+
+              if (llOKay)
+              {
+                Mapping.updateLatLngTextFields(taResults[0].geometry.location);
+                Mapping.updatePushPin();
+
+                Utils.foState.updateFetchCalc();
+              }
+            }
+          }
+        });
+    },
+    // ---------------------------------------------------------------------------------------------------------------------
+    // The text fields for Lat Lng need to already be set.
+    geoCodeByLatLngThread: function ()
+    {
+      let loPostion = Mapping.foPushPin.getPosition();
+
+      Mapping.foGeocoder.geocode(
+        {
+          'latLng': loPostion
+        }, function (taResults, tnStatus)
+        {
+          let llOKay = ((tnStatus === google.maps.GeocoderStatus.OK) && (taResults[0]));
+          let lcAddress = (llOKay) ? taResults[0].formatted_address : '<unknown address>';
+          let loAddress = document.getElementById(Utils.ID_ADDRESS);
+
+          loAddress.value = lcAddress;
+
+          // Run even if the address is unknown.
+          Utils.foState.updateFetchCalc();
+        });
+    },
+
+
+    // ---------------------------------------------------------------------------------------------------------------------
+    updateLatLngTextFields(toPosition)
+    {
+      let loLat = document.getElementById(Utils.ID_LAT);
+      let loLng = document.getElementById(Utils.ID_LNG);
+
+      let lnLat = toPosition.lat();
+      let lnLng = toPosition.lng();
+
+      loLat.value = lnLat;
+      loLng.value = lnLng;
+
+      Utils.setGeoCodeMap(Utils.ID_LAT, lnLat);
+      Utils.setGeoCodeMap(Utils.ID_LNG, lnLng);
+    },
+    // ---------------------------------------------------------------------------------------------------------------------
+    updatePushPin()
+    {
+      let lnLat = Utils.GeoCodeValues.get(Utils.ID_LAT);
+      let lnLng = Utils.GeoCodeValues.get(Utils.ID_LNG);
+
+      var loLatLng = new google.maps.LatLng(parseFloat(lnLat), parseFloat(lnLng));
+
+      Mapping.foPushPin.setPosition(loLatLng);
+      Mapping.foGoogleMap.setCenter(loLatLng);
     }
+
     // ---------------------------------------------------------------------------------------------------------------------
   }
 // ---------------------------------------------------------------------------------------------------------------------

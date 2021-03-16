@@ -64,6 +64,10 @@ fi
 # From https://stackoverflow.com/questions/48546124/what-is-linux-equivalent-of-host-docker-internal
 HOST_IP_ADDRESS=$(hostname -I | awk '{print $1;}')
 
+# Turns out, that I can use localhost rather than the ip address for Apache Web Server.
+# Which makes sense as it's running on the same system and not inside a container.
+HOST_IP_FOR_APACHE='localhost'
+
 # ------------------------------------------------
 # Config
 pushd "${CONFIG_DIR}"
@@ -114,7 +118,7 @@ echo -e "Using ${CONF_FILE} to copy to ${APACHE_SITES_DIR}"
 APACHE_CONF="${APACHE_SITES_DIR}/${CONF_FILE}"
 sudo cp -v "./containers/apache/${CONF_FILE}" "${APACHE_CONF}"
 
-sudo sed -i "s/<host_ip_address>/${HOST_IP_ADDRESS}/g" "${APACHE_CONF}"
+sudo sed -i "s/<host_ip_address>/${HOST_IP_FOR_APACHE}/g" "${APACHE_CONF}"
 sudo sed -i "s/<server_port>/${SERVER_PORT}/g" "${APACHE_CONF}"
 
 sudo a2dissite ${CONF_FILE}

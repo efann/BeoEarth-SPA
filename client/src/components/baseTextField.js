@@ -44,81 +44,32 @@ class BaseTextField extends React.Component
   // ---------------------------------------------------------------------------------------------------------------------
   handleBlur(toEvent)
   {
+    // lcValue is always a string.
     let lcValue = toEvent.target.value;
     if (Boolean(lcValue))
     {
-      Utils.setGeoCodeMap(this.props.id, lcValue);
-      if (this.props.id === Utils.ID_ADDRESS)
+      // Sometimes Utils.GeoCodeValues.get(this.props.id) returns a number, sometimes a string.
+      // So just always return a string.
+      if (lcValue !== Utils.GeoCodeValues.get(this.props.id).toString())
       {
-        // This is not accessible in Mapping.foGeocoder.geocode
-        var loThat = this;
+        Utils.setGeoCodeMap(this.props.id, lcValue);
 
-        Mapping.foGeocoder.geocode(
-          {
-            'address': Utils.GeoCodeValues.get(Utils.ID_ADDRESS)
-          }, function (taResults, tnStatus)
-          {
-            var lcInfo = '';
-            if (tnStatus == google.maps.GeocoderStatus.OK)
-            {
-              if (taResults[0])
-              {
-                let lcAddress = taResults[0].formatted_address;
-
-                let loAddress = document.getElementById(Utils.ID_ADDRESS);
-                let loLat = document.getElementById(Utils.ID_LAT);
-                let loLng = document.getElementById(Utils.ID_LNG);
-
-                let lnLat = taResults[0].geometry.location.lat();
-                let lnLng = taResults[0].geometry.location.lng();
-
-                loAddress.value = lcAddress;
-                loLat.value = lnLat;
-                loLng.value = lnLng;
-
-                Utils.setGeoCodeMap(Utils.ID_LAT, lnLat);
-                Utils.setGeoCodeMap(Utils.ID_LNG, lnLng);
-
-                loThat.updatePushPin();
-                loThat.state.updateFetchCalc();
-              }
-              else
-              {
-                lcInfo = 'No results found';
-              }
-            }
-            else
-            {
-              lcInfo = 'Geocoder failed due to: ' + tnStatus;
-            }
-          });
-
-      }
-      else
-      {
-        this.updatePushPin();
-        this.state.updateFetchCalc();
+        if (this.props.id === Utils.ID_ADDRESS)
+        {
+          Mapping.geoCodeByAddressThread();
+        }
+        else
+        {
+          Mapping.updatePushPin();
+          Mapping.geoCodeByLatLngThread();
+        }
+        this.setState({[this.INPUT_ERROR]: false});
       }
 
-
-      this.setState({[this.INPUT_ERROR]: false});
+      return;
     }
-    else
-    {
-      this.setState({[this.INPUT_ERROR]: true});
-    }
-  }
 
-  //----------------------------------------------------------------------------------------------------
-  updatePushPin()
-  {
-    let lnLat = Utils.GeoCodeValues.get(Utils.ID_LAT);
-    let lnLng = Utils.GeoCodeValues.get(Utils.ID_LNG);
-
-    var loLatLng = new google.maps.LatLng(parseFloat(lnLat), parseFloat(lnLng));
-
-    Mapping.foPushPin.setPosition(loLatLng);
-    Mapping.foGoogleMap.setCenter(loLatLng);
+    this.setState({[this.INPUT_ERROR]: true});
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
@@ -130,7 +81,7 @@ class BaseTextField extends React.Component
         error={this.state[this.INPUT_ERROR]}
         label={this.props.label}
         defaultValue={this.props.value}
-        style={{width: this.props.width, borderColor: 'red'}}
+        style={{width: this.props.width}}
         required
         size="small"
         type={this.props.type}
@@ -145,7 +96,6 @@ class BaseTextField extends React.Component
   }
 
   // ---------------------------------------------------------------------------------------------------------------------
-
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
