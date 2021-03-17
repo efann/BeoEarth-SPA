@@ -24,6 +24,8 @@
 _From https://github.com/nodesource/distributions/blob/master/README.md#debinstall_
 * curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -
 * apt install -y nodejs
+* Update npm \
+  npm install -g npm@latest
 
 ####Install Git
 * apt install git
