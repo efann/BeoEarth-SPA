@@ -12,13 +12,6 @@ import reCaptcha from './blocks/reCaptcha';
 import useStyles from './common/useStyles';
 import {Utils} from './common/utils';
 
-var loadScript = function (tcSrc)
-{
-  let loTag = document.createElement('script');
-  loTag.async = true;
-  loTag.src = tcSrc;
-  document.getElementsByTagName('body')[0].appendChild(loTag);
-}
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -30,10 +23,9 @@ function Contact()
   React.useEffect(() =>
   {
     Utils.setupResizing();
-
+    Utils.loadScript('https://www.google.com/recaptcha/api.js', true);
   }, []);
   // ---------------------------------------------------------------------------------------------------------------------
-  loadScript('https://www.google.com/recaptcha/api.js');
 
   return (
 
