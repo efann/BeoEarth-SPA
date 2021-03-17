@@ -33,3 +33,9 @@ footer
   font-style: italic;
   padding-top: 10px;
 }
+
+.version
+{
+  font-style: italic;
+  font-size: 0.9em;
+}

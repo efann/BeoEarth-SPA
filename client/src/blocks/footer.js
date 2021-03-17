@@ -34,6 +34,12 @@ function Footer()
             Website by&nbsp;<a href="https://www.beowurks.com/" target="_blank" rel="noreferrer">Beowurks</a>
           </div>
         </Grid>
+        <Grid item xs={12}>
+          <div className="version">
+            Version&nbsp;{process.env.REACT_APP_VERSION}
+          </div>
+        </Grid>
+
       </Grid>
     </footer>
 

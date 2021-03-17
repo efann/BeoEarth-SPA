@@ -73,6 +73,11 @@ class Header extends React.Component
                 </NavLink>
               </Box>
               <Box p={1}>
+                <NavLink activeClassName="active" to="/about">
+                  About
+                </NavLink>
+              </Box>
+              <Box p={1}>
                 <NavLink activeClassName="active" to="/contact">
                   Contact
                 </NavLink>

@@ -84,6 +84,9 @@ sed -i "s/<host_ip_address>/${HOST_IP_ADDRESS}/g" "${ENV_FILE}"
 sed -i "s/<server_port>/${SERVER_PORT}/g" "${ENV_FILE}"
 sed -i "s/<postgres_port>/${POSTGRES_PORT}/g" "${ENV_FILE}"
 
+APP_VERSION=$(date +%Y).0.0.$(git rev-list --all --count)
+sed -i "s/<react_app_version>/${APP_VERSION}/g" "${ENV_FILE}"
+
 if [ ${PROD_MODE} = "true" ]; then
   sed -i "s/<react_app_map_key>/${GOOGLE_KEY_PROD}/g" "${ENV_FILE}"
 else

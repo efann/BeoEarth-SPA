@@ -7,7 +7,21 @@
  */
 
 import React from 'react'
+import {Utils} from './common/utils';
 
-const Notfound = () => <h1>Not found</h1>
 
+const Notfound = () =>
+{
+  // ---------------------------------------------------------------------------------------------------------------------
+  React.useEffect(() =>
+  {
+    Utils.setupResizing();
+
+  }, []);
+  // ---------------------------------------------------------------------------------------------------------------------
+
+  <div id={Utils.ID_APP_CONTENT}>
+    <h1>We apologize, but we could not find the requested page</h1>
+  </div>
+}
 export default Notfound

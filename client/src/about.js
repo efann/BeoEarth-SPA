@@ -8,21 +8,10 @@
 
 import Paper from '@material-ui/core/Paper';
 import React from 'react'
-import reCaptcha from './blocks/reCaptcha';
 import useStyles from './common/useStyles';
 import {Utils} from './common/utils';
 
-var loadScript = function (tcSrc)
-{
-  let loTag = document.createElement('script');
-  loTag.async = true;
-  loTag.src = tcSrc;
-  document.getElementsByTagName('body')[0].appendChild(loTag);
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-function Contact()
+function About()
 {
   const classes = useStyles();
 
@@ -33,20 +22,16 @@ function Contact()
 
   }, []);
   // ---------------------------------------------------------------------------------------------------------------------
-  loadScript('https://www.google.com/recaptcha/api.js');
 
   return (
-
     <Paper className={classes.paper}>
       <div id={Utils.ID_APP_CONTENT}>
-        <h1>Contact</h1>
-        <reCaptcha/>
+        <h1>About</h1>
       </div>
     </Paper>
-
   );
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-export default Contact
+export default About

@@ -9,6 +9,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import About from './about';
 import App from './App';
 import Footer from './blocks/footer';
 import Header from './blocks/header';
@@ -25,6 +26,7 @@ const routing = (
       <Header/>
       <Switch>
         <Route exact path="/" component={App}/>
+        <Route path="/about" component={About}/>
         <Route path="/contact" component={Contact}/>
         <Route component={Notfound}/>
       </Switch>

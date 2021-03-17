@@ -8,9 +8,9 @@
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import {makeStyles} from '@material-ui/core/styles';
 import React from 'react';
 import {Mapping} from './common/mapping';
+import useStyles from './common/useStyles';
 
 import {Utils} from './common/utils';
 
@@ -21,18 +21,6 @@ import Map from './components/map';
 import IntegerSlider from './components/slider';
 
 import './style/App.css';
-
-// ---------------------------------------------------------------------------------------------------------------------
-const useStyles = makeStyles((toTheme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: toTheme.spacing(2),
-    textAlign: 'left',
-    color: toTheme.palette.text.secondary,
-  },
-}));
 
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -170,7 +158,7 @@ function App()
   // ---------------------------------------------------------------------------------------------------------------------
 
   return (
-    <div id={Utils.ID_APP} className="App">
+    <div id={Utils.ID_APP_CONTENT}>
       <div className={classes.root}>
         <Grid container>
           <Paper className={classes.paper}>

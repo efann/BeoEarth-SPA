@@ -20,7 +20,7 @@ export const Utils =
     ID_PROJ2: 'cboProjection2',
     ID_SIGFIG: 'sliderSigFigs',
     ID_FETCHCALC: 'fetchCalc',
-    ID_APP: 'geocalc-app',
+    ID_APP_CONTENT: 'beoearth-app-content',
 
     DEFAULT_ZOOM: 14,
     DEFAULT_LAT: 30.268735,
@@ -34,7 +34,7 @@ export const Utils =
     foState: null,
 
     foHeaderTag: null,
-    foAppID: null,
+    foAppContentID: null,
 
     // ---------------------------------------------------------------------------------------------------------------------
     getYear: () => new Date().getFullYear(),
@@ -51,7 +51,7 @@ export const Utils =
     setupResizing: function ()
     {
       Utils.foHeaderTag = document.getElementsByTagName('header').item(0);
-      Utils.foAppID = document.getElementById(Utils.ID_APP);
+      Utils.foAppContentID = document.getElementById(Utils.ID_APP_CONTENT);
 
       Utils.onResizeActions();
       window.addEventListener('resize', Utils.onResizeActions);
@@ -63,7 +63,7 @@ export const Utils =
     onResizeActions: function ()
     {
       let lnHeight = Utils.foHeaderTag.offsetHeight + 1;
-      Utils.foAppID.style.paddingTop = `${lnHeight}px`;
+      Utils.foAppContentID.style.paddingTop = `${lnHeight}px`;
     },
     // ---------------------------------------------------------------------------------------------------------------------
     // From https://gitmemory.com/issue/mui-org/material-ui/18923/567494104,
