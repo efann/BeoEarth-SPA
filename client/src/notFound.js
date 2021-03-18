@@ -11,7 +11,6 @@ import React from 'react'
 import useStyles from './common/useStyles';
 import {Utils} from './common/utils';
 
-
 const NotFound = () =>
 {
   const classes = useStyles();
@@ -25,10 +24,11 @@ const NotFound = () =>
   // ---------------------------------------------------------------------------------------------------------------------
   return (
     <Paper className={classes.paper}>
-    <div id={Utils.ID_APP_CONTENT}>
-      <h1>We apologize, but we could not find the requested page</h1>
-    </div>
+      <div id={Utils.ID_APP_CONTENT}>
+        <h2>We apologize, but we could not find the requested page.</h2>
+      </div>
     </Paper>
   );
 }
+
 export default NotFound

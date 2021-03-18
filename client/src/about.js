@@ -24,11 +24,22 @@ function About()
   // ---------------------------------------------------------------------------------------------------------------------
 
   return (
-    <Paper className={classes.paper}>
-      <div id={Utils.ID_APP_CONTENT}>
-        <h1>About</h1>
-      </div>
-    </Paper>
+    <div id={Utils.ID_APP_CONTENT}>
+      <Paper className={classes.paper}>
+        <h2>About</h2>
+        <p>This application was written with the following frameworks / tools.</p>
+        <ul>
+          <li>React: <a href={'https://reactjs.org/'} target={'_blank'} rel="noreferrer">https://reactjs.org/</a></li>
+          <li>Spring Boot: <a href={'https://spring.io/projects/spring-boot'}
+                              target={'_blank'} rel="noreferrer">https://spring.io/projects/spring-boot</a></li>
+          <li>PostgreSQL: <a href={'https://www.postgresql.org/'} target={'_blank'}
+                             rel="noreferrer">https://www.postgresql.org/</a></li>
+          <li>PostGIS: <a href={'https://postgis.net/'} target={'_blank'} rel="noreferrer">https://postgis.net/</a></li>
+          <li>Docker: <a href={'https://www.docker.com/'} target={'_blank'} rel="noreferrer">https://www.docker.com/</a>
+          </li>
+        </ul>
+      </Paper>
+    </div>
   );
 }
 

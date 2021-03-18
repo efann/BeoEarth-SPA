@@ -60,3 +60,13 @@ li a:focus
 {
   color: black;
 }
+
+h2
+{
+  text-align: center;
+}
+
+li
+{
+  padding: 7px 0;
+}
