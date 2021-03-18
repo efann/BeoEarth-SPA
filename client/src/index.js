@@ -14,7 +14,7 @@ import App from './App';
 import Footer from './blocks/footer';
 import Header from './blocks/header';
 import Contact from './contact';
-import Notfound from './notfound';
+import NotFound from './notFound';
 import reportWebVitals from './reportWebVitals';
 import './style/index.css';
 
@@ -28,7 +28,7 @@ const routing = (
         <Route exact path="/" component={App}/>
         <Route path="/about" component={About}/>
         <Route path="/contact" component={Contact}/>
-        <Route component={Notfound}/>
+        <Route component={NotFound}/>
       </Switch>
       <Footer/>
     </div>

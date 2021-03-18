@@ -6,12 +6,16 @@
  *
  */
 
+import Paper from '@material-ui/core/Paper';
 import React from 'react'
+import useStyles from './common/useStyles';
 import {Utils} from './common/utils';
 
 
-const Notfound = () =>
+const NotFound = () =>
 {
+  const classes = useStyles();
+
   // ---------------------------------------------------------------------------------------------------------------------
   React.useEffect(() =>
   {
@@ -19,9 +23,12 @@ const Notfound = () =>
 
   }, []);
   // ---------------------------------------------------------------------------------------------------------------------
-
-  <div id={Utils.ID_APP_CONTENT}>
-    <h1>We apologize, but we could not find the requested page</h1>
-  </div>
+  return (
+    <Paper className={classes.paper}>
+    <div id={Utils.ID_APP_CONTENT}>
+      <h1>We apologize, but we could not find the requested page</h1>
+    </div>
+    </Paper>
+  );
 }
-export default Notfound
+export default NotFound
