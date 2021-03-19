@@ -8,7 +8,7 @@
 
 import Paper from '@material-ui/core/Paper';
 import React from 'react'
-import GenerateLinkForLists from './blocks/generateLinkForLists';
+import GenerateLinkForLists from './common/generateLinkForLists';
 import useStyles from './common/useStyles';
 import {Utils} from './common/utils';
 
