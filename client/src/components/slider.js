@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/core/Slider';
 import {makeStyles} from '@material-ui/core/styles';
 import React from 'react';
+import GenerateLink from '../common/generateLink';
 
 import {Utils} from '../common/utils';
 
@@ -41,10 +42,10 @@ export default function IntegerSlider(toProps)
     <div className={classes.root}>
       <Grid container>
         <Grid item xs={12}>
-          <a href='https://en.wikipedia.org/wiki/Significant_figures' target='_blank' rel="noreferrer">Sig
-            Figs</a>
+          <GenerateLink TextPrefix={'Sig Figs'}
+                        URL={'https://en.wikipedia.org/wiki/Significant_figures'}
+                        URL_Type={Utils.URL_TYPES.REGULAR}/>
         </Grid>
-
         <Grid item xs={12}>
           <Slider
             id={toProps.id}

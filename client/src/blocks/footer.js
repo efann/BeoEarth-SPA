@@ -8,6 +8,7 @@
 
 import Grid from '@material-ui/core/Grid';
 import React from 'react';
+import GenerateLink from '../common/generateLink';
 import {Utils} from '../common/utils';
 
 import '../style/footer.css';
@@ -31,7 +32,10 @@ function Footer()
 
         <Grid item xs={12}>
           <div className="website">
-            Website by&nbsp;<a href="https://www.beowurks.com/" target="_blank" rel="noreferrer">Beowurks</a>
+            Website by&nbsp;
+            <GenerateLink TextPrefix={'Beowurks'}
+                          URL={'https://www.beowurks.com/'}
+                          URL_Type={Utils.URL_TYPES.REGULAR}/>
           </div>
         </Grid>
         <Grid item xs={12}>

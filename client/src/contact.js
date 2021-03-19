@@ -8,7 +8,7 @@
 
 import Paper from '@material-ui/core/Paper';
 import React from 'react'
-import GenerateLinkForLists from './common/generateLinkForLists';
+import GenerateLink from './common/generateLink';
 import useStyles from './common/useStyles';
 import {Utils} from './common/utils';
 
@@ -32,8 +32,13 @@ function Contact()
         <h2>Contact</h2>
         <p>You may reach me through the following links:</p>
         <ul>
-          <li><GenerateLinkForLists TextPrefix={'Beowurks'} URL={'https://www.beowurks.com/'}/></li>
-          <li><GenerateLinkForLists TextPrefix={'LinkedIn'} URL={'https://www.linkedin.com/in/eddie-fann-17822011/'}/>
+          <li><GenerateLink TextPrefix={'Beowurks'}
+                            URL={'https://www.beowurks.com/'}
+                            URL_Type={Utils.URL_TYPES.LIST}/>
+          </li>
+          <li><GenerateLink TextPrefix={'LinkedIn'}
+                            URL={'https://www.linkedin.com/in/eddie-fann-17822011/'}
+                            URL_Type={Utils.URL_TYPES.LIST}/>
           </li>
         </ul>
       </Paper>

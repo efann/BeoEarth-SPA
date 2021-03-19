@@ -12,6 +12,7 @@ import {CSSTransition} from 'react-transition-group';
 
 import AjaxImage from '../blocks/ajaxImage';
 import ErrorMessage from '../blocks/errorMessage';
+import GenerateLink from '../common/generateLink';
 import {Utils} from '../common/utils';
 
 import '../style/components.css'
@@ -150,8 +151,10 @@ class FetchCalcs extends React.Component
                 <div className="App-intro">
                   <Grid container>
                     <Grid item xs={12}>
-                      <strong>Projection: </strong> <a href={this.state.ProjectionURL}
-                                                       target='_blank' rel="noreferrer">{this.state.ProjectionText}</a>
+                      <strong>Projection:&nbsp;</strong>
+                      <GenerateLink TextPrefix={this.state.ProjectionText}
+                                    URL={this.state.ProjectionURL}
+                                    URL_Type={Utils.URL_TYPES.REGULAR}/>
                     </Grid>
                     <Grid item xs={6}>
                       <strong>Latitude (Y)</strong>
@@ -201,12 +204,14 @@ class FetchCalcs extends React.Component
                       <strong>Projection:</strong>
                     </Grid>
                     <Grid item xs={9}>
-                      <a href={this.state.ProjectionURL} target='_blank'
-                         rel="noreferrer">{this.state.ProjectionText}</a>
+                      <GenerateLink TextPrefix={this.state.ProjectionText}
+                                    URL={this.state.ProjectionURL}
+                                    URL_Type={Utils.URL_TYPES.REGULAR}/>
                     </Grid>
                     <Grid item xs={3}>
-                      <a href={this.state.SRID_URL} target='_blank'
-                         rel="noreferrer">{this.state.SRID_Text}</a>
+                      <GenerateLink TextPrefix={this.state.SRID_Text + ':'}
+                                    URL={this.state.SRID_URL}
+                                    URL_Type={Utils.URL_TYPES.REGULAR}/>
                     </Grid>
                     <Grid item xs={9}>
                       {this.state.SRID}

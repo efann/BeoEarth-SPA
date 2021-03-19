@@ -30,6 +30,11 @@ export const Utils =
 
     STATUS_FETCHCALC: 'status_fetchcalc',
 
+    URL_TYPES: {
+      REGULAR: 1,
+      LIST: 2,
+    },
+
     GeoCodeValues: new Map(),
     foState: null,
 

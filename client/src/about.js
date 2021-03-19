@@ -8,7 +8,7 @@
 
 import Paper from '@material-ui/core/Paper';
 import React from 'react'
-import GenerateLinkForLists from './common/generateLinkForLists';
+import GenerateLink from './common/generateLink';
 import useStyles from './common/useStyles';
 import {Utils} from './common/utils';
 
@@ -31,18 +31,41 @@ function About()
         <h2>About</h2>
         <p>This application was written with the following frameworks / tools.</p>
         <ul>
-          <li><GenerateLinkForLists TextPrefix={'React'} URL={'https://reactjs.org/'}/></li>
+          <li><GenerateLink
+            TextPrefix={'React'}
+            URL={'https://reactjs.org/'}
+            URL_Type={Utils.URL_TYPES.LIST}/>
+          </li>
           <ul>
-            <li><GenerateLinkForLists TextPrefix={'Material-Ui'} URL={'https://material-ui.com/'}/></li>
-            <li><GenerateLinkForLists TextPrefix={'React Awesome Lightbox'}
-                                      URL={'https://www.npmjs.com/package/react-awesome-lightbox'}/>
+            <li><GenerateLink TextPrefix={'Material-Ui'}
+                              URL={'https://material-ui.com/'}
+                              URL_Type={Utils.URL_TYPES.LIST}/>
             </li>
-            <li><GenerateLinkForLists TextPrefix={'React Select'} URL={'https://react-select.com/home'}/></li>
+            <li><GenerateLink TextPrefix={'React Awesome Lightbox'}
+                              URL={'https://www.npmjs.com/package/react-awesome-lightbox'}
+                              URL_Type={Utils.URL_TYPES.LIST}/>
+            </li>
+            <li><GenerateLink TextPrefix={'React Select'}
+                              URL={'https://react-select.com/home'}
+                              URL_Type={Utils.URL_TYPES.LIST}/>
+            </li>
           </ul>
-          <li><GenerateLinkForLists TextPrefix={'Spring Boot'} URL={'https://spring.io/projects/spring-boot'}/></li>
-          <li><GenerateLinkForLists TextPrefix={'PostgreSQL'} URL={'https://www.postgresql.org/'}/></li>
-          <li><GenerateLinkForLists TextPrefix={'PostGIS'} URL={'https://postgis.net/'}/></li>
-          <li><GenerateLinkForLists TextPrefix={'Docker'} URL={'https://www.docker.com/'}/></li>
+          <li><GenerateLink TextPrefix={'Spring Boot'}
+                            URL={'https://spring.io/projects/spring-boot'}
+                            URL_Type={Utils.URL_TYPES.LIST}/>
+          </li>
+          <li><GenerateLink TextPrefix={'PostgreSQL'}
+                            URL={'https://www.postgresql.org/'}
+                            URL_Type={Utils.URL_TYPES.LIST}/>
+          </li>
+          <li><GenerateLink TextPrefix={'PostGIS'}
+                            URL={'https://postgis.net/'}
+                            URL_Type={Utils.URL_TYPES.LIST}/>
+          </li>
+          <li><GenerateLink TextPrefix={'Docker'}
+                            URL={'https://www.docker.com/'}
+                            URL_Type={Utils.URL_TYPES.LIST}/>
+          </li>
         </ul>
       </Paper>
     </div>
