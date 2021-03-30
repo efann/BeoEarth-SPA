@@ -18,6 +18,8 @@ public class Projections
 {
   public static final Projections INSTANCE = new Projections();
 
+  public static final int UTM_KEY = -1;
+
   private final JsonObject foOriginalProjection = new JsonObject();
   private final JsonArray foAllProjections = new JsonArray();
 
@@ -49,7 +51,7 @@ public class Projections
 
     loProjection = new JsonObject();
     loProjection.addProperty("key", "UTM");
-    loProjection.addProperty("projection", -1);
+    loProjection.addProperty("projection", Projections.UTM_KEY);
     loProjection.addProperty("url", "https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system");
 
     this.foAllProjections.add(loProjection);

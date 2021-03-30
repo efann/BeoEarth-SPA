@@ -75,8 +75,8 @@ public class CalculationsController extends BaseDataController
     final var loProjection = new JsonObject();
 
     loProjection.addProperty("SQL", lcSQL);
-    loProjection.addProperty("ProjectionURL", this.getProjectionValue(tnProjection, ProjectionValue.PROJECTION_VALUE_URL));
-    loProjection.addProperty("ProjectionText", this.getProjectionValue(tnProjection, ProjectionValue.PROJECTION_VALUE_TEXT));
+    loProjection.addProperty("ProjectionURL", this.getProjectionValue(Projections.UTM_KEY, ProjectionValue.PROJECTION_VALUE_URL));
+    loProjection.addProperty("ProjectionText", this.getProjectionValue(Projections.UTM_KEY, ProjectionValue.PROJECTION_VALUE_TEXT));
     loProjection.addProperty("SRID_URL", "https://en.wikipedia.org/wiki/Spatial_reference_system#Identifier");
     loProjection.addProperty("SRID_Text", "SRID");
     loProjection.addProperty("LongitudeX", tnLongitudeX);
