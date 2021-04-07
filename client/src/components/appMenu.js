@@ -6,39 +6,27 @@
  *
  */
 
-import React, {Component} from 'react'
-import {Mapping} from '../common/mapping';
-import {Utils} from '../common/utils';
+import React from 'react';
+import {slide as Menu} from 'react-burger-menu';
 
-import '../style/map.css'
+import '../style/appMenu.css';
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
-class DefaultMap extends Component
+class AppMenu extends React.Component
 {
   // ---------------------------------------------------------------------------------------------------------------------
-  constructor(toProps)
-  {
-    super(toProps);
 
-    this.state = {
-      updateFetchCalc: toProps.updateFetchCalc
-    }
-  }
-
-  // ---------------------------------------------------------------------------------------------------------------------
-  componentDidMount()
-  {
-    Mapping.initializeGoogleMaps(this.state);
-  }
-
-  // ---------------------------------------------------------------------------------------------------------------------
   render()
   {
+    // NOTE: You also need to provide styles, see https://github.com/negomi/react-burger-menu#styling
     return (
-      <div id={Utils.ID_MAP}>
-      </div>
+      <Menu {...this.props}>
+        <a id="home" className="menu-item" href="/">Home</a>
+        <a id="about" className="menu-item" href="/about">About</a>
+        <a id="contact" className="menu-item" href="/contact">Contact</a>
+      </Menu>
     );
   }
 
@@ -50,4 +38,4 @@ class DefaultMap extends Component
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 
-export default DefaultMap
+export default AppMenu

@@ -6,10 +6,9 @@
  *
  */
 
-import {Box} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import AppMenu from '../components/appMenu';
 
 import '../style/header.css';
 import LogoImage from './logoImage';
@@ -19,6 +18,8 @@ import LogoImage from './logoImage';
 // ---------------------------------------------------------------------------------------------------------------------
 class Header extends React.Component
 {
+
+  HEADER_ID = 'app-header';
 
   // ---------------------------------------------------------------------------------------------------------------------
   constructor(toProps)
@@ -56,35 +57,19 @@ class Header extends React.Component
   render()
   {
     return (
-      <header className="fixed-top">
-        <Grid container>
-          <Grid item xs={8}>
-            <div id="block-header">
-              <div>
-                <a href="/" onClick={this.handleClick}>BeoEarth</a>
+      <header id={this.HEADER_ID} className="fixed-top">
+        <AppMenu pageWrapId={'page-wrap'} outerContainerId={this.HEADER_ID} right={true}/>
+        <div id={'page-wrap'}>
+          <Grid container>
+            <Grid item xs={8}>
+              <div id="block-header">
+                <div>
+                  <a href="/" onClick={this.handleClick}>BeoEarth</a>
+                </div>
               </div>
-            </div>
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <Box display="flex" justifyContent="flex-end" m={1} p={1} bgcolor="background.paper">
-              <Box p={1}>
-                <NavLink exact activeClassName="active" to="/">
-                  Home
-                </NavLink>
-              </Box>
-              <Box p={1}>
-                <NavLink activeClassName="active" to="/about">
-                  About
-                </NavLink>
-              </Box>
-              <Box p={1}>
-                <NavLink activeClassName="active" to="/contact">
-                  Contact
-                </NavLink>
-              </Box>
-            </Box>
-          </Grid>
-        </Grid>
+        </div>
         {this.state[this.SHOWLOGO] ? <LogoImage onClose={this.handleClose}/> : null}
       </header>
     );

@@ -140,7 +140,7 @@ class FetchCalcs extends React.Component
         if (!Utils.isUTM())
         {
           return (
-            <div id='FetchedData'>
+            <div id="FetchedData">
               <CSSTransition
                 in={true}
                 timeout={100}
@@ -190,7 +190,7 @@ class FetchCalcs extends React.Component
         else
         {
           return (
-            <div id='FetchedData'>
+            <div id="FetchedData">
               <CSSTransition
                 in={true}
                 timeout={100}
@@ -246,7 +246,7 @@ class FetchCalcs extends React.Component
     }
 
     return (
-      <div id='FetchedData'>
+      <div id="FetchedData">
         <AjaxImage/>
       </div>
     );
