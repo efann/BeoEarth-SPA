@@ -86,9 +86,9 @@
 
 .bm-menu-wrap
 {
-  top: 72px;
-  position: absolute;
-  right: 36px;
-  height: 200px;
+  top: 54px;
+  position: absolute !important;
+  right: 18px !important;
+  height: auto !important;
   overflow: hidden;
 }
