@@ -6,8 +6,10 @@
  *
  */
 
+import {Box} from '@material-ui/core';
 import React from 'react';
-import {slide as Menu} from 'react-burger-menu';
+import {HamburgerSpring} from 'react-animated-burgers';
+import {NavLink} from 'react-router-dom';
 
 import '../style/appMenu.css';
 
@@ -16,18 +18,63 @@ import '../style/appMenu.css';
 // ---------------------------------------------------------------------------------------------------------------------
 class AppMenu extends React.Component
 {
+  buttonStyles = {
+    position: 'absolute',
+    right: '18px',
+    top: '9px',
+    zIndex: '10'    // One more than the menu block so that it will slide up & down behind the button.
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  constructor(toProps)
+  {
+    super(toProps);
+
+    this.state = {
+      isActive: false
+    }
+
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------------
+  toggleButton = () =>
+  {
+    this.setState({
+      isActive: !this.state.isActive
+    })
+  }
+
   // ---------------------------------------------------------------------------------------------------------------------
 
   render()
   {
     // NOTE: You also need to provide styles, see https://github.com/negomi/react-burger-menu#styling
     return (
-      <Menu noOverlay  {...this.props}>
-        <a id="home" className="menu-item" href="/">Home</a>
-        <a id="about" className="menu-item" href="/about">About</a>
-        <a id="contact" className="menu-item" href="/contact">Contact</a>
-      </Menu>
-    );
+      <div>
+        <HamburgerSpring isActive={this.state.isActive} toggleButton={this.toggleButton} buttonColor="teal"
+                         barColor="whitesmoke" buttonWidth={24} buttonStyle={this.buttonStyles}/>
+
+        <Box id={'appMenu'} className={this.state.isActive ? 'isActive' : ''} display="flex" flexDirection={'column'}
+             m={1} p={1} bgcolor="background.paper">
+          <Box p={1}>
+            <NavLink exact activeClassName="activeLink" to="/" onClick={this.toggleButton}>
+              Home
+            </NavLink>
+          </Box>
+          <Box p={1}>
+            <NavLink activeClassName="activeLink" to="/about" exact onClick={this.toggleButton}>
+              About
+            </NavLink>
+          </Box>
+          <Box p={1}>
+            <NavLink activeClassName="activeLink" to="/contact" onClick={this.toggleButton}>
+              Contact
+            </NavLink>
+          </Box>
+        </Box>
+      </div>
+    )
+      ;
   }
 
   // ---------------------------------------------------------------------------------------------------------------------

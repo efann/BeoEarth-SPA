@@ -41,6 +41,10 @@ function About()
                               URL={'https://material-ui.com/'}
                               URL_Type={Utils.URL_TYPES.LIST}/>
             </li>
+            <li><GenerateLink TextPrefix={'React Animated Burger'}
+                              URL={'https://www.npmjs.com/package/react-animated-burgers'}
+                              URL_Type={Utils.URL_TYPES.LIST}/>
+            </li>
             <li><GenerateLink TextPrefix={'React Awesome Lightbox'}
                               URL={'https://www.npmjs.com/package/react-awesome-lightbox'}
                               URL_Type={Utils.URL_TYPES.LIST}/>

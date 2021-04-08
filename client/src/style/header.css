@@ -6,20 +6,6 @@
  *
  */
 
-header
-{
-  max-width: 1170px;
-
-  margin-right: auto;
-  margin-left: auto;
-}
-
-header .MuiBox-root-1,
-header .MuiGrid-item
-{
-  padding: 0;
-}
-
 .fixed-top
 {
   position: fixed;
@@ -28,7 +14,18 @@ header .MuiGrid-item
   left: 0;
   z-index: 100;
   background: white;
+
+  margin: 0 auto;
+  padding: 0;
+  max-width: 1170px;
 }
+
+header .MuiBox-root-1,
+header .MuiGrid-item
+{
+  padding: 0;
+}
+
 
 nav,
 #block-header

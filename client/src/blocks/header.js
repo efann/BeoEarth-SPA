@@ -58,18 +58,16 @@ class Header extends React.Component
   {
     return (
       <header id={this.HEADER_ID} className="fixed-top">
-        <AppMenu pageWrapId={'page-wrap'} outerContainerId={this.HEADER_ID} right={true}/>
-        <div id={'page-wrap'}>
-          <Grid container>
-            <Grid item xs={8}>
-              <div id="block-header">
-                <div>
-                  <a href="/" onClick={this.handleClick}>BeoEarth</a>
-                </div>
+        <AppMenu/>
+        <Grid container>
+          <Grid item xs={8}>
+            <div id="block-header">
+              <div>
+                <a href="/" onClick={this.handleClick}>BeoEarth</a>
               </div>
-            </Grid>
+            </div>
           </Grid>
-        </div>
+        </Grid>
         {this.state[this.SHOWLOGO] ? <LogoImage onClose={this.handleClose}/> : null}
       </header>
     );
