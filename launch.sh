@@ -45,7 +45,7 @@ APACHE_SITES_DIR="/etc/apache2/sites-available"
 # Apache files
 CONF_FILE_DEV="000-default.conf"
 CONF_FILE_PROD="beoearth-spa.com-le-ssl.conf"
-CONF_FILE_TEST="beoearth.com-le-ssl.conf"
+CONF_FILE_TEST="fannenterprises.com-le-ssl.conf"
 
 VAR_FILES_DEV="/var/www/local/public_html/"
 VAR_FILES_PROD="/var/www/beoearth-spa.com/public_html/"
