@@ -30,25 +30,25 @@ if [ $# -ne 2 ]; then
   exit
 fi
 
-POSTGRES_USER=$1
-POSTGRES_PASS=$2
+declare -r POSTGRES_USER=$1
+declare -r POSTGRES_PASS=$2
 
-POSTGRES_DBNAME=${POSTGRES_USER}
+declare -r POSTGRES_DBNAME=${POSTGRES_USER}
 
-# Load variables from launch.conf
-source launch.conf
+# Load variables from launch.bash
+source launch.bash || exit 1
 
-CONFIG_DIR="./containers/config"
-ENV_FILE=".env"
-APACHE_SITES_DIR="/etc/apache2/sites-available"
+declare -r CONFIG_DIR="./containers/config"
+declare -r ENV_FILE=".env"
+declare -r APACHE_SITES_DIR="/etc/apache2/sites-available"
 
 # Apache files
-CONF_FILE_DEV="000-default.conf"
-CONF_FILE_PROD="beoearth-spa.com-le-ssl.conf"
-CONF_FILE_TEST="fannenterprises.com-le-ssl.conf"
+declare -r CONF_FILE_DEV="000-default.conf"
+declare -r CONF_FILE_PROD="beoearth-spa.com-le-ssl.conf"
+declare -r CONF_FILE_TEST="fannenterprises.com-le-ssl.conf"
 
-VAR_FILES_DEV="/var/www/local/public_html/"
-VAR_FILES_PROD="/var/www/beoearth-spa.com/public_html/"
+declare -r VAR_FILES_DEV="/var/www/local/public_html/"
+declare -r VAR_FILES_PROD="/var/www/beoearth-spa.com/public_html/"
 
 CONF_FILE="${CONF_FILE_DEV}"
 VAR_FILES="${VAR_FILES_DEV}"
@@ -62,11 +62,11 @@ if [ -f "${APACHE_SITES_DIR}/${CONF_FILE_TEST}" ]; then
 fi
 
 # From https://stackoverflow.com/questions/48546124/what-is-linux-equivalent-of-host-docker-internal
-HOST_IP_ADDRESS=$(hostname -I | awk '{print $1;}')
+declare -r HOST_IP_ADDRESS=$(hostname -I | awk '{print $1;}')
 
 # Turns out, that I can use localhost rather than the ip address for Apache Web Server.
 # Which makes sense as it's running on the same system and not inside a container.
-HOST_IP_FOR_APACHE='localhost'
+declare -r HOST_IP_FOR_APACHE='localhost'
 
 # ------------------------------------------------
 # Config

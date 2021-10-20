@@ -57,3 +57,13 @@ _For the local environment, you will need to enable headers for Apache_
 
 This will fix the CORS issue with localhost:3000. From
 https://stackoverflow.com/questions/29150384/how-to-allow-cross-domain-request-in-apache2/42816351
+
+####Add variables to environment
+From https://mkyong.com/linux/how-to-set-environment-variable-in-ubuntu/
+sudo nano /etc/environment
+Add the lines
+GOOGLE_KEY_DEV="<value>"
+GOOGLE_KEY_PROD="<value>"
+
+Then save and re-login.
+
