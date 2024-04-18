@@ -10,7 +10,7 @@
 * change-java-version 11
 
 #### Install Maven
-*apt purge maven*
+* apt purge maven*
 * wget https://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P /tmp \
   _Download maven 3.6.3_  
 * sudo tar xf /tmp/apache-maven-*.tar.gz -C /opt \
@@ -20,24 +20,24 @@
 * sudo update-alternatives --config mvn \
   _Check if your configuration is ok. You may use your current or the 3.6.3 whenever you wish, running the command below._
 
-####Install NPM
+#### Install NPM
 _From https://github.com/nodesource/distributions/blob/master/README.md#debinstall_
 * curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -
 * apt install -y nodejs
 * Update npm \
   npm install -g npm@latest
 
-####Install Git
+#### Install Git
 * apt install git
 
-####Installing Docker
+#### Installing Docker
 _From https://phoenixnap.com/kb/how-to-install-docker-on-ubuntu-18-04_
 * apt purge docker docker-engine docker.io
 * apt install docker.io
 * systemctl start docker
 * systemctl enable docker
 
-####Installing Docker Compose
+#### Installing Docker Compose
 _Don’t use apt install docker-compose as the package installed won’t be the latest and has issues. For example,
 docker-compose -v_\
 _docker-compose version 1.8.0, build unknown docker-compose version 1.8.0, build unknown_ \
@@ -45,7 +45,7 @@ _For reference: https://docs.docker.com/compose/install/ and click on Linux tab.
 * curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 * chmod +x /usr/local/bin/docker-compose
 
-####Setup for Apache
+#### Setup for Apache
 _You will need to enable reverse proxy for Apache_
 * a2enmod proxy
 * a2enmod proxy_http
@@ -58,7 +58,7 @@ _For the local environment, you will need to enable headers for Apache_
 This will fix the CORS issue with localhost:3000. From
 https://stackoverflow.com/questions/29150384/how-to-allow-cross-domain-request-in-apache2/42816351
 
-####Add variables to environment
+#### Add variables to environment
 From https://mkyong.com/linux/how-to-set-environment-variable-in-ubuntu/ \
 ```
 sudo nano /etc/environment 
