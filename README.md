@@ -1,16 +1,16 @@
 # README.md file for BeoEarth SPA
 
-###Setup for Linode Server
-####Installations
-####Setup Java 11
+### Setup for Linode Server
+#### Installations
+#### Setup Java 11
 * add-apt-repository ppa:openjdk-r/ppa \
   _add the OpenJDK repository if not already done._
 * apt update
 * change-java-version 8
 * change-java-version 11
 
-####Install Maven
-* apt purge maven*
+#### Install Maven
+*apt purge maven*
 * wget https://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P /tmp \
   _Download maven 3.6.3_  
 * sudo tar xf /tmp/apache-maven-*.tar.gz -C /opt \
